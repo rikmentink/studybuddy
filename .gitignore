@@ -1,0 +1,9 @@
+# Maven
+target/
+.mvn/
+
+# Visual Studio Code
+.vscode/
+
+# MacOS
+.DS_Store
