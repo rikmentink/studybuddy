@@ -10,9 +10,7 @@ public class Version {
     @GET
     @Produces("text/plain")
     public String getProjectVersion() {
-        String version = getClass().getPackage().getImplementationVersion();
-        if (version == null) version = "Unknown";
-        
+        String version = "0.1.0";
         return version;
     }
 }
