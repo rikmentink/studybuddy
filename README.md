@@ -1,6 +1,5 @@
 # StudyBuddy - De tool voor een vloeiende studieplanning
-
-Met StudyBuddy wordt het studentenleven een stuk georganiseerder. Deze studieplanner is speciaal ontworpen om studenten te helpen bij het effectief beheren van hun taken, deadlines en voortgang voor verschillende vakken en projecten. Het biedt een naadloze, gebruiksvriendelijke ervaring waardoor je eenvoudig georganiseerd blijft en controle houdt over je schoolwerk
+Met StudyBuddy wordt het studentenleven een stuk georganiseerder. Deze studieplanner is speciaal ontworpen om studenten te helpen bij het effectief beheren van hun taken, deadlines en voortgang voor verschillende vakken en projecten. Het biedt een naadloze, gebruiksvriendelijke ervaring waardoor je eenvoudig georganiseerd blijft en controle houdt over je schoolwerk.
 
 ## Features
 - **Project of vak bijhouden**: de student kan projecten en vakken toevoegen, inclusief relevante informatie zoals een beschrijving en het aantal studiepunten. 

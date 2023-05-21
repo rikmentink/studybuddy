@@ -1,30 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="http://localhost:8080/studybuddy-0.1.0">
-    <title>StudyBuddy</title>
-    <script>
-        const API = "http://localhost:8080/studybuddy-0.1.0/api"
-        fetch(API + "/version")
-            .then(response => response.text())
-            .then(version => {
-                document.getElementById("projectVersion").innerHTML = version;
-            })
-            .catch(error => {
-                console.error("Error fetching version:", error);
-            });
-    </script>
+    <title>Dashboard | StudyBuddy</title>
+    <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
+    <base href="http://localhost:8080/studybuddy-0.1.0/" target="_self">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="assets/img/safari-pinned-tab.svg" color="#ef7c52">
+    <meta name="msapplication-TileColor" content="#ef7c52">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#ef7c52">
+
+    <!-- CSS & JS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script type="application/javascript" src="assets/js/script.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Hello world</h1>
+    <header class="header">
+        <h1>Welcome to StudyBuddy!</h1>
     </header>
     <main>
-        <p>Welcome to StudyBuddy!</p>
-        <p>The project version is <span id="projectVersion"></span></p>
+        <p>Welkom op jouw dashboard. Met de onderstaande links navigeer je eenvoudig naar de verschillende pagina's.</p>
+        <p><a href="/"></a></p>
     </main>
 </body>
 </html>
