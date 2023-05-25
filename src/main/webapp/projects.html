@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecten | StudyBuddy</title>
+    <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
+    <base href="http://localhost:8080/studybuddy-0.1.0/" target="_self">
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+    <link rel="manifest" href="assets/img/site.webmanifest">
+    <link rel="mask-icon" href="assets/img/safari-pinned-tab.svg" color="#ef7c52">
+    <meta name="msapplication-TileColor" content="#ef7c52">
+    <meta name="msapplication-config" content="assets/img/browserconfig.xml">
+    <meta name="theme-color" content="#ef7c52">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Projecten</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Jouw projecten</h2>
+            <p>Hieronder verschijnen jouw projecten (als je die hebt)</p>
+            <div class="project-list" id="projectsContainer" />
+        </section>
+        <section>
+            <h2>Nieuw project</h2>
+            <form id="newProjectForm">
+                <fieldset>
+                    <legend>Projectdetails</legend>
+
+                    <label for="name">Naam</label>
+                    <br />
+                    <input id="name" name="name" type="text" placeholder="Hoe wil je het project noemen?">
+                    <br /><br />
+
+                    <label for="description">Omschrijving <sup>(optioneel)</sup></label>
+                    <br />
+                    <textarea id="description" name="description" rows="3" placeholder="Waar gaat je project over?"></textarea>
+                    <br /><br />
+
+                    <label for="startDate">Startdatum <sup>(optioneel)</sup></label>
+                    <br />
+                    <input id="startDate" name="startDate" type="date" />
+                    <br /><br />
+
+                    <label for="endDate">Einddatum <sup>(optioneel)</sup></label>
+                    <br />
+                    <input id="endDate" name="endDate" type="date" />
+                    <br /><br />
+
+                    <input id="submit" class="btn" type="submit" value="Opslaan">
+                </fieldset>
+            </form>
+        </section>
+    </main>
+
+    <!-- Dynamic templates -->
+    <template id="projectTemplate">
+        <article class="project-card">
+            <figure class="project-card__thumbnail">
+                <img id="image" src="" alt="" />
+            </figure>
+            <div class="project-card__info">
+                <h2 id="title" class="project-card__title" />
+                <p id="description" class="project-card__description" />    
+                <div class="project-card__details">
+                    <span id="date" class="project-card__date" />
+                    <a id="url" class="project-card__link" href="" title="" /> 
+                </div>
+            </div>
+        </article>
+    </template>
+    
+    <!-- JavaScript -->
+    <script type="application/javascript" src="assets/js/script.js"></script>
+    <script type="text/javascript" defer>
+        fetchProjects();
+    </script>
+</body>
+</html>
