@@ -35,47 +35,58 @@
         <section>
             <h2>Nieuw project</h2>
             <form id="newProjectForm">
-                <fieldset>
-                    <legend>Projectdetails</legend>
+                <section>
+                    <p>
+                        <label for="name">Naam</label>
+                        <br />
+                        <input id="name" name="name" type="text" placeholder="Hoe wil je het project noemen?">
+                        <br /><br />
+                    </p>
 
-                    <label for="name">Naam</label>
-                    <br />
-                    <input id="name" name="name" type="text" placeholder="Hoe wil je het project noemen?">
-                    <br /><br />
+                    <p>
+                        <label for="description">Omschrijving <sup>(optioneel)</sup></label>
+                        <br />
+                        <textarea id="description" name="description" rows="3" placeholder="Waar gaat je project over?"></textarea>
+                        <br /><br />    
+                    </p>
 
-                    <label for="description">Omschrijving <sup>(optioneel)</sup></label>
-                    <br />
-                    <textarea id="description" name="description" rows="3" placeholder="Waar gaat je project over?"></textarea>
-                    <br /><br />
+                    <p>
+                        <label for="startDate">Startdatum <sup>(optioneel)</sup></label>
+                        <br />
+                        <input id="startDate" name="startDate" type="date" />
+                        <br /><br />
+                    </p>
 
-                    <label for="startDate">Startdatum <sup>(optioneel)</sup></label>
-                    <br />
-                    <input id="startDate" name="startDate" type="date" />
-                    <br /><br />
+                    <p>
+                        <label for="endDate">Einddatum <sup>(optioneel)</sup></label>
+                        <br />
+                        <input id="endDate" name="endDate" type="date" />
+                        <br /><br />
+                    </p>
+                </section>
 
-                    <label for="endDate">Einddatum <sup>(optioneel)</sup></label>
-                    <br />
-                    <input id="endDate" name="endDate" type="date" />
-                    <br /><br />
-
-                    <input id="submit" class="btn" type="submit" value="Opslaan">
-                </fieldset>
+                <section>
+                    <p>
+                        <input class="btn" type="submit" value="Opslaan">
+                    </p>
+                    <p id="newProjectMessage"></p>
+                </section>
             </form>
         </section>
     </main>
 
     <!-- Dynamic templates -->
-    <template id="projectTemplate">
+    <template id="projectCardTemplate">
         <article class="project-card">
             <figure class="project-card__thumbnail">
                 <img id="image" src="" alt="" />
             </figure>
             <div class="project-card__info">
-                <h2 id="title" class="project-card__title" />
-                <p id="description" class="project-card__description" />    
+                <h2 id="title" class="project-card__title"></h2>
+                <p id="description" class="project-card__description"></p>    
                 <div class="project-card__details">
-                    <span id="date" class="project-card__date" />
-                    <a id="url" class="project-card__link" href="" title="" /> 
+                    <span id="date" class="project-card__date"></span>
+                    <a id="url" class="project-card__link" href="" title=""></a>
                 </div>
             </div>
         </article>
@@ -83,8 +94,5 @@
     
     <!-- JavaScript -->
     <script type="application/javascript" src="assets/js/script.js"></script>
-    <script type="text/javascript" defer>
-        fetchProjects();
-    </script>
 </body>
 </html>
