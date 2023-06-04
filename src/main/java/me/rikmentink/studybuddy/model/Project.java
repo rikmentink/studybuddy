@@ -1,34 +1,48 @@
 package me.rikmentink.studybuddy.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
-import me.rikmentink.studybuddy.handlers.FileHandler;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import me.rikmentink.studybuddy.handler.FileHandler;
 
 public class Project {
-    private static int nextId = 1;
-
     private int id;
-    private int studentId;
     private String name;
     private String description;
-    private String startDate;
-    private String endDate;
+    
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate startDate;
 
-    public Project(int id, int studentId, String name, String description, String startDate, String endDate) {
-        this.id = id;
-        this.studentId = studentId;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate endDate;
+
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
+    @JsonCreator
+    public Project(@JsonProperty("id") int id, 
+                   @JsonProperty("name") String name, 
+                   @JsonProperty("description") String description, 
+                   @JsonProperty("startDate") LocalDate startDate, 
+                   @JsonProperty("endDate") LocalDate endDate) {
+        this(name, description, startDate, endDate);
+        this.id = id;
+    }
+
     public int getId() {
         return this.id;
     }
 
-    public int getStudentId() {
-        return this.studentId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -39,26 +53,22 @@ public class Project {
         return this.description;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return this.endDate;
     }
 
-    public static Project addProject(int studentId, String name, String description, String startDate, String endDate) {
-        Project project = new Project(
-            nextId++,
-            studentId,
-            name,
-            description,
-            startDate,
-            endDate
-        );
-
-        FileHandler.createProject(project);
-
-        return project;
+    public static int generateNewProjectId() {
+        List<Project> projects = FileHandler.getAllProjects();
+        
+        if (projects.isEmpty()) return 1;
+        int maxId = projects.stream()
+                .mapToInt(Project::getId)
+                .max()
+                .orElse(0);
+        return maxId++;
     }
 }

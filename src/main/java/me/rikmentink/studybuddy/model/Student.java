@@ -1,19 +1,26 @@
 package me.rikmentink.studybuddy.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
-import me.rikmentink.studybuddy.handlers.FileHandler;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Student implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
+    private List<Project> projects;
 
-    public Student(int id, String firstName, String lastName) {
+    @JsonCreator
+    public Student(@JsonProperty("id")int id, 
+                   @JsonProperty("firstName") String firstName, 
+                   @JsonProperty("lastName") String lastName, 
+                   @JsonProperty("projects") List<Project> projects) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.projects = projects;
     }
 
     public int getId() {
@@ -28,31 +35,8 @@ public class Student implements Serializable {
         return this.lastName;
     }
 
-    public ArrayList<Project> getProjects() {
-        ArrayList<Project> allProjects = FileHandler.readProjects();
-        ArrayList<Project> projects = new ArrayList<Project>();
-
-        for (Project project : allProjects) {
-            if (project.getStudentId() == this.id) {
-                projects.add(project);
-            }
-        }
-
-        return projects;
-    }
-
-    public static Student getStudentById(int studentId) {
-        ArrayList<Student> students = FileHandler.readStudents();
-        Student student = null;
-
-        for (Student s : students) {
-            if (s.getId() == studentId) {
-                student = s;
-                break;
-            }
-        }
-
-        return student;
+    public List<Project> getProjects() {
+        return this.projects;
     }
 
     @Override
