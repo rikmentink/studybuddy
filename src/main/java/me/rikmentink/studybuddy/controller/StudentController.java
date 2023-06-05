@@ -53,7 +53,6 @@ public class StudentController {
     }
 
     @POST
-    @Path("/{studentId}/projects")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addStudent(@Context UriInfo uri, Student student) {
