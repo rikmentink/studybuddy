@@ -90,7 +90,7 @@ public class FileHandler {
      */
     public static List<Project> getProjects(int studentId) {
         Student student = getStudent(studentId);
-        return student.getProjects();
+        return student != null ? student.getProjects() : new ArrayList<>();
     }
 
     /**
