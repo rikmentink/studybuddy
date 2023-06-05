@@ -78,7 +78,7 @@
         </pluginManagement>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>data</directory>
             </resource>
         </resources>
     </build>
