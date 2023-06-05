@@ -52,7 +52,27 @@ public class StudentController {
         return Response.ok(student).build();
     }
 
-    // TODO: addStudent()
+    @POST
+    @Path("/{studentId}/projects")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addStudent(@Context UriInfo uri, Student student) {
+        student.setId(Student.generateNewStudentId());
+
+        if (!FileHandler.addStudent(student)) {
+            JsonObject errorMessage = Json.createObjectBuilder()
+                .add("error", "Student with ID " + student.getId() + " couldn't be created.")
+                .build();
+
+            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
+        }
+
+        URI location = UriBuilder.fromUri(uri.getBaseUri())
+            .path("students")
+            .path(String.valueOf(student.getId()))
+            .build();
+        return Response.created(location).entity(student).build();
+    }
 
     @GET
     @Path("/{studentId}/projects")

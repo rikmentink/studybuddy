@@ -44,6 +44,23 @@ public class FileHandler {
                 .orElse(null);
     }
 
+    // Adds a new student
+    public static boolean addStudent(Student student) {
+        try {
+            List<Student> students = getAllStudents();
+            students.add(student);
+
+            try (Writer writer = new FileWriter("src/main/resources/data.json")) {
+                objectMapper.writeValue(writer, students);
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     // Reads a student's projects
     public static List<Project> getAllProjects() {
         List<Student> students = getAllStudents();
