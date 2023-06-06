@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:8080/studybuddy-0.1.0/api';
-const URL_PREFIX = '/studybuddy-0.1.0';
+const API_URL = 'http://localhost:8080/studybuddy-1.0.0/api';
+const URL_PREFIX = '/studybuddy-1.0.0';
 
 
 
@@ -14,7 +14,7 @@ function initializeApp() {
     }
 
     document.querySelector('#copyrightYear').textContent = new Date().getFullYear();
-    
+
     console.log('INFO: App has been initialized.');
 }
 
