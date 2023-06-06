@@ -1,18 +1,3 @@
-const API_URL = 'http://localhost:8080/studybuddy-0.1.0/api';
-const URL_PREFIX = '/studybuddy-0.1.0';
-
-// Saves the current user id in the client's session storage.
-function setCurrentUser(userId) {
-    if (!getCurrentUser()) {
-        sessionStorage.setItem('userId', userId.toString());
-    }
-}
-
-// Reads the current user id from the client's session storage.
-function getCurrentUser() {
-    return sessionStorage.getItem('userId');
-}
-
 // Translates data of a given form into clean json.
 function getJsonData(form) {
     let formData = new FormData(form);
@@ -23,19 +8,6 @@ function getJsonData(form) {
     });
     
     return jsonData;
-}
-
-// Lazy loads certain data on different pages.
-function initializeApp() {
-    setCurrentUser(1); // Stores a user in the storage to demonstrate, if none is set.
- 
-    switch (location.pathname) {
-        case `${URL_PREFIX}/projects.html`:
-            getUserProjects();
-            break;
-    }
-
-    console.log('INFO: App has been initialized.');
 }
 
 // Fetches API data from a given url
@@ -89,8 +61,6 @@ function getUserProjects() {
 
 // Creates a new project when the form is submitted
 function handleNewProjectFormSubmit(e) {
-    e.preventDefault();
-
     fetchJson(`${API_URL}/students/${getCurrentUser()}/projects`, {
         method: 'POST',
         body: JSON.stringify(getJsonData(e.target)),
@@ -104,15 +74,3 @@ function handleNewProjectFormSubmit(e) {
             document.querySelector('#newProjectMessage').textContent = 'Something went wrong!';
         });
 }
-
-// Initializes app on DOM load.
-if (document.readyState !== 'loading') {
-    initializeApp();
-} else {
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeApp();
-    });
-}
-
-// Adds event listeners to the forms.
-document.querySelector('#newProjectForm').addEventListener('submit', (e) => handleNewProjectFormSubmit(e));

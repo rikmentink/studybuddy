@@ -1,0 +1,61 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex: 0 0 auto;
+    padding: 1.5rem .75rem;
+    border-right: 1px solid #000;
+}
+
+.sidebar__brand {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sidebar__brand-logo {
+    margin: 0 1rem 0 0;
+}
+
+.sidebar__brand-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.sidebar__navigation {
+    margin-bottom: 1rem;
+}
+
+.sidebar__navigation-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.sidebar__navigation-item {
+    display: inline-flex;
+    margin-bottom: .5rem;
+}
+
+.sidebar__navigation-link {
+    flex: 1 0 auto;
+    padding: .75rem 1rem;
+    background-color: transparent;
+    border-radius: .5rem;
+    color: var(--theme-color-text);
+    font-weight: bold;
+    transition: background-color .3s ease;
+}
+
+.sidebar__navigation-link.active {
+    background-color: rgba(var(--theme-color-primary-rgb), .2);
+}
+
+.sidebar__navigation-link:hover, 
+.sidebar__navigation-link:focus {
+    background-color: var(--theme-color-primary);
+    border-color: transparent;
+}

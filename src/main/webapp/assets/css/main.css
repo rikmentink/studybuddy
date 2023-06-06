@@ -1,0 +1,16 @@
+/* Global base styles */
+@import "base/variables.css";
+@import "base/base.css";
+@import "base/typography.css";
+
+/* Global layout styles */
+@import "layout/header.css";
+@import "layout/footer.css";
+@import "layout/sidebar.css";
+
+/* Page level styles */
+@import "pages/projects.css";
+
+/* Component level styles */
+@import "components/button.css";
+@import "components/modal.css";

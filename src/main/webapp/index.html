@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | StudyBuddy</title>
+    <title>Overzicht | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
     <base href="http://localhost:8080/studybuddy-0.1.0/" target="_self">
 
@@ -20,16 +20,46 @@
     <meta name="theme-color" content="#ef7c52">
 
     <!-- CSS & JS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/main.css">
     <script type="application/javascript" src="assets/js/script.js"></script>
 </head>
 <body>
-    <header class="header">
-        <h1>Welcome to StudyBuddy!</h1>
-    </header>
-    <main>
-        <p>Welkom op jouw dashboard. Met de onderstaande links navigeer je eenvoudig naar de verschillende pagina's.</p>
-        <p><a href="/"></a></p>
-    </main>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="sidebar__brand">
+                <figure class="sidebar__brand-logo">
+                    <img src="assets/img/logo.png" alt="Het logo van StudyBuddy" width="50" height="50" />
+                </figure>
+                <strong class="sidebar__brand-title">StudyBuddy</strong>
+            </div>
+            <nav class="sidebar__navigation">
+                <ul class="sidebar__navigation-list">
+                    <li class="sidebar__navigation-item">
+                        <a href="/" title="Navigeer naar jouw overzicht" class="sidebar__navigation-link active">Overzicht</a>
+                    </li>
+                    <li class="sidebar__navigation-item">
+                        <a href="/projects.html" title="Navigeer naar jouw projecten en vakken" class="sidebar__navigation-link">Projecten en vakken</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="container">
+            <header class="header">
+                <h1 class="header__title">Overzicht</h1>
+                <div class="header__links"></div>
+                <div class="header__actions">Rik Mentink</div>
+            </header>
+            <main class="content">
+                <p>Welkom op jouw overzicht! Deze pagina is nog in ontwikkeling, maar navigeer gerust door de app met het navigatiemenu aan de linkerzijde.</p>
+            </main>
+            <footer class="footer">
+                <p>&copy; <script>document.write(new Date().getFullYear());</script> StudyBuddy.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script type="application/javascript" src="assets/js/dataService.js"></script>
+    <script type="application/javascript" src="assets/js/authService.js"></script>
+    <script type="application/javascript" src="assets/js/app.js"></script>
 </body>
 </html>

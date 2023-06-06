@@ -1,0 +1,6 @@
+.modal {
+    min-width: 500px;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0 8px 2px rgba(0, 0, 0, .1);
+}

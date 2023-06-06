@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projecten | StudyBuddy</title>
+    <title>Projecten en vakken | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
     <base href="http://localhost:8080/studybuddy-0.1.0/" target="_self">
 
@@ -20,79 +20,112 @@
     <meta name="theme-color" content="#ef7c52">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Projecten</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Jouw projecten</h2>
-            <p>Hieronder verschijnen jouw projecten (als je die hebt)</p>
-            <div class="project-list" id="projectsContainer" />
-        </section>
-        <section>
-            <h2>Nieuw project</h2>
-            <form id="newProjectForm">
-                <section>
-                    <p>
-                        <label for="name">Naam</label>
-                        <br />
-                        <input id="name" name="name" type="text" placeholder="Hoe wil je het project noemen?">
-                        <br /><br />
-                    </p>
-
-                    <p>
-                        <label for="description">Omschrijving <sup>(optioneel)</sup></label>
-                        <br />
-                        <textarea id="description" name="description" rows="3" placeholder="Waar gaat je project over?"></textarea>
-                        <br /><br />    
-                    </p>
-
-                    <p>
-                        <label for="startDate">Startdatum <sup>(optioneel)</sup></label>
-                        <br />
-                        <input id="startDate" name="startDate" type="date" />
-                        <br /><br />
-                    </p>
-
-                    <p>
-                        <label for="endDate">Einddatum <sup>(optioneel)</sup></label>
-                        <br />
-                        <input id="endDate" name="endDate" type="date" />
-                        <br /><br />
-                    </p>
-                </section>
-
-                <section>
-                    <p>
-                        <input class="btn" type="submit" value="Opslaan">
-                    </p>
-                    <p id="newProjectMessage"></p>
-                </section>
-            </form>
-        </section>
-    </main>
-
-    <!-- Dynamic templates -->
-    <template id="projectCardTemplate">
-        <article class="project-card">
-            <!-- <figure class="project-card__thumbnail">
-                <img id="image" src="" alt="" />
-            </figure> -->
-            <div class="project-card__info">
-                <h2 id="title" class="project-card__title"></h2>
-                <p id="description" class="project-card__description"></p>    
-                <div class="project-card__details">
-                    <span id="date" class="project-card__date"></span>
-                    <a id="url" class="project-card__link" href="" title=""></a>
-                </div>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="sidebar__brand">
+                <figure class="sidebar__brand-logo">
+                    <img src="assets/img/logo.png" alt="Het logo van StudyBuddy" width="50" height="50" />
+                </figure>
+                <strong class="sidebar__brand-title">StudyBuddy</strong>
             </div>
-        </article>
-    </template>
+            <nav class="sidebar__navigation">
+                <ul class="sidebar__navigation-list">
+                    <li class="sidebar__navigation-item">
+                        <a href="/" title="Navigeer naar jouw overzicht" class="sidebar__navigation-link">Dashboard</a>
+                    </li>
+                    <li class="sidebar__navigation-item">
+                        <a href="#" title="Navigeer naar jouw projecten en vakken" class="sidebar__navigation-link active">Projecten en vakken</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="container">
+            <header class="header">
+                <h1 class="header__title">Projecten en vakken</h1>
+                <div class="header__links"></div>
+                <div class="header__actions">Rik Mentink</div>
+            </header>
+            <main class="content">
+                <section>
+                    <dialog id="newProjectDialog" class="modal">
+                        <form id="newProjectForm">
+                            <section>
+                                <p>
+                                    <label for="name">Naam</label>
+                                    <br />
+                                    <input id="name" name="name" type="text" placeholder="Hoe wil je het project noemen?">
+                                    <br /><br />
+                                </p>
+            
+                                <p>
+                                    <label for="description">Omschrijving <sup>(optioneel)</sup></label>
+                                    <br />
+                                    <textarea id="description" name="description" rows="3" placeholder="Waar gaat je project over?"></textarea>
+                                    <br /><br />    
+                                </p>
+            
+                                <p>
+                                    <label for="startDate">Startdatum <sup>(optioneel)</sup></label>
+                                    <br />
+                                    <input id="startDate" name="startDate" type="date" />
+                                    <br /><br />
+                                </p>
+            
+                                <p>
+                                    <label for="endDate">Einddatum <sup>(optioneel)</sup></label>
+                                    <br />
+                                    <input id="endDate" name="endDate" type="date" />
+                                    <br /><br />
+                                </p>
+                            </section>
+            
+                            <section>
+                                <!-- <p>
+                                    <button class="btn btn--secondary" type="button" id="closeNewProjectDialog">Annuleren</button>
+                                </p> -->
+                                <p>
+                                    <button class="btn btn--primary" type="submit">Opslaan</button>
+                                </p>
+                                <p id="newProjectMessage"></p>
+                            </section>
+                        </form>
+                    </dialog>
+                    <p>
+                        <button id="showNewProjectDialog" role="dialog" class="btn btn--secondary">Nieuw project</button>
+                    </p>
+                </section>
+                <section>
+                    <div class="project-list" id="projectsContainer" />
+                    <template id="projectCardTemplate">
+                        <article class="project-card">
+                            <!-- <figure class="project-card__thumbnail">
+                                <img id="image" src="" alt="" />
+                            </figure> -->
+                            <div class="project-card__info">
+                                <h2 id="title" class="project-card__title"></h2>
+                                <p id="description" class="project-card__description"></p>    
+                                <div class="project-card__details">
+                                    <span id="date" class="project-card__date"></span>
+                                    <a id="url" class="project-card__link" href="" title=""></a>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </section>
+            </main>
+            <footer class="footer">
+                <p>© <span id="copyrightYear"></span> StudyBuddy.</p>
+            </footer>
+        </div>
+    </div>
     
     <!-- JavaScript -->
-    <script type="application/javascript" src="assets/js/script.js"></script>
+    <script type="application/javascript" src="assets/js/service/dataService.js"></script>
+    <script type="application/javascript" src="assets/js/service/authService.js"></script>
+    <script type="application/javascript" src="assets/js/service/eventService.js"></script>
+    <script type="application/javascript" src="assets/js/app.js"></script>
 </body>
 </html>
