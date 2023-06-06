@@ -69,6 +69,6 @@ public class Project {
                 .mapToInt(Project::getId)
                 .max()
                 .orElse(0);
-        return maxId++;
+        return maxId + 1;
     }
 }

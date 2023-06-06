@@ -4,3 +4,16 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 16px;
 }
+
+/* Projects */
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.project-card {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+}

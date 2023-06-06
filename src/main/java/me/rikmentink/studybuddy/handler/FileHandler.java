@@ -19,7 +19,7 @@ import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
 public class FileHandler {
-    private static final String DATA_URL = "data/data.json";
+    private static final String DATA_URL = "/Users/rikmentink/Development/School/Projects/IPASS/studybuddy/data/data.json";
     private static final ObjectMapper objectMapper;
     
     static {
@@ -34,7 +34,7 @@ public class FileHandler {
      */
     public static List<Student> getAllStudents() {
         try {
-            InputStream inputStream = new FileInputStream(new File(DATA_URL));
+            InputStream inputStream = new FileInputStream(new File(DATA_URL)); // TODO: Fix file not found error
             return objectMapper.readValue(inputStream, new TypeReference<List<Student>>(){});
         } catch (IOException e) {
             logError("Failed to read students from data: ", e);
@@ -138,7 +138,7 @@ public class FileHandler {
      * @return True if the data was successfully written, false otherwise.
      */
     private static boolean writeStudentsToFile(List<Student> students) {
-        try (Writer writer = new FileWriter(DATA_URL)) {
+        try (Writer writer = new FileWriter(DATA_URL)) { 
             objectMapper.writeValue(writer, students);
             return true;
         } catch (IOException e) {

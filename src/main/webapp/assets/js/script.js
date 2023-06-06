@@ -44,8 +44,8 @@ function fetchJson(url, options) {
         .then((res) => {
             if (res.status === 204) {
                 return null;
-            } else if (res.ok) {
-                res.json()
+            } else if (res.status === 200) {
+                return res.json();
             } else {
                 throw new Error(`Request failed with status ${res.status}`);
             }

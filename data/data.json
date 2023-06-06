@@ -1,22 +1,17 @@
 [
-    {
+  {
+    "id": 1,
+    "firstName": "Rik",
+    "lastName": "Mentink",
+    "projects": [
+      {
         "id": 1,
-        "firstName": "Rik",
-        "lastName": "Mentink",
-        "projects": [
-            {
-                "id": 1,
-                "name": "Demo project",
-                "description": "For demo purposes",
-                "startDate": "2023-06-04",
-                "endDate": "2023-06-04"
-            }
-        ] 
-    },
-    {
-        "id": 2,
-        "firstName": "Puck",
-        "lastName": "van Ee",
-        "projects": []
-    }
+        "name": "Demo project",
+        "description": "For demo purposes",
+        "startDate": "2023-06-04",
+        "endDate": "2023-06-04"
+      }
+    ]
+  },
+  { "id": 2, "firstName": "Puck", "lastName": "van Ee", "projects": [] }
 ]
