@@ -1,7 +1,4 @@
-const API_URL = 'http://localhost:8080/studybuddy-1.0.0/api';
-const URL_PREFIX = '/studybuddy-1.0.0';
-
-
+import { URL_PREFIX } from './config.js';
 
 // Lazy loads certain data on different pages.
 function initializeApp() {

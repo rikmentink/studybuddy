@@ -27,38 +27,6 @@ function fetchJson(url, options) {
         });
 }
 
-// Fetches project data and places it in the projects container.
-function getUserProjects() {
-    fetchJson(`${API_URL}/students/${getCurrentUser()}/projects`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    })
-        .then((data) => {
-            const projectsContainer = document.querySelector('#projectsContainer');
-
-            if (data.length > 0) {
-                const projectCardTemplate = document.querySelector('#projectCardTemplate');
-
-                data.forEach((project) => {
-                    const projectCard = document.importNode(projectCardTemplate.content, true);
-
-                    // projectCard.querySelector('#image').src =
-                    projectCard.querySelector('#title').textContent       = project.name;
-                    projectCard.querySelector('#description').textContent = project.description;
-                    projectCard.querySelector('#date').textContent        = project.startDate + ' tot ' + project.endDate;
-                    // projectCard.querySelector('#url').href =
-
-                    projectsContainer.appendChild(projectCard);
-                });
-            } else {
-                projectsContainer.textContent = 'Je hebt nog geen projecten. Maak er hieronder een aan!';
-            }
-        })
-        .catch(() => {
-            document.querySelector('#projectsContainer').textContent = 'Something went wrong!';
-        });
-}
-
 // Creates a new project when the form is submitted
 function handleNewProjectFormSubmit(e) {
     fetchJson(`${API_URL}/students/${getCurrentUser()}/projects`, {

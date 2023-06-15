@@ -9,6 +9,7 @@
 @import "layout/sidebar.css";
 
 /* Page level styles */
+@import "pages/auth.css";
 @import "pages/projects.css";
 
 /* Component level styles */

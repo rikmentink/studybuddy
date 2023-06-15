@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projecten en vakken | StudyBuddy</title>
+    <title>Jouw projecten | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
     <base href="http://localhost:8080/studybuddy-1.0.0/" target="_self">
 
@@ -37,14 +37,14 @@
                         <a href="/" title="Navigeer naar jouw overzicht" class="sidebar__navigation-link">Dashboard</a>
                     </li>
                     <li class="sidebar__navigation-item">
-                        <a href="#" title="Navigeer naar jouw projecten en vakken" class="sidebar__navigation-link active">Projecten en vakken</a>
+                        <a href="#" title="Navigeer naar jouw projecten" class="sidebar__navigation-link active">Projecten</a>
                     </li>
                 </ul>
             </nav>
         </aside>
         <div class="container">
             <header class="header">
-                <h1 class="header__title">Projecten en vakken</h1>
+                <h1 class="header__title">Projecten</h1>
                 <div class="header__links"></div>
                 <div class="header__actions">Rik Mentink</div>
             </header>
@@ -101,15 +101,15 @@
                     <div class="project-list" id="projectsContainer" />
                     <template id="projectCardTemplate">
                         <article class="project-card">
-                            <!-- <figure class="project-card__thumbnail">
+                            <figure class="project-card__thumbnail">
                                 <img id="image" src="" alt="" />
-                            </figure> -->
+                            </figure>
                             <div class="project-card__info">
                                 <h2 id="title" class="project-card__title"></h2>
                                 <p id="description" class="project-card__description"></p>    
                                 <div class="project-card__details">
                                     <span id="date" class="project-card__date"></span>
-                                    <a id="url" class="project-card__link" href="" title=""></a>
+                                    <a id="url" class="project-card__link" href="" title="Naar project">Naar project</a>
                                 </div>
                             </div>
                         </article>
@@ -123,9 +123,10 @@
     </div>
     
     <!-- JavaScript -->
-    <script type="application/javascript" src="assets/js/service/dataService.js"></script>
+    <!-- <script type="application/javascript" src="assets/js/service/dataService.js"></script> -->
+    <!-- <script type="application/javascript" src="assets/js/service/eventService.js"></script> -->
     <script type="application/javascript" src="assets/js/service/authService.js"></script>
-    <script type="application/javascript" src="assets/js/service/eventService.js"></script>
-    <script type="application/javascript" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/view/projectListView.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>
