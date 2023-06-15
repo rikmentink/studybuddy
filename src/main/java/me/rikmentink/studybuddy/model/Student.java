@@ -12,16 +12,22 @@ public class Student implements Serializable {
     private int id;
     private String firstName;
     private String lastName;
+    private String email;
+    private String password;
     private List<Project> projects;
 
     @JsonCreator
     public Student(@JsonProperty("id")int id, 
                    @JsonProperty("firstName") String firstName, 
                    @JsonProperty("lastName") String lastName, 
+                   @JsonProperty("email") String email, 
+                   @JsonProperty("password") String password, 
                    @JsonProperty("projects") List<Project> projects) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.password = password;
         this.projects = projects;
     }
 
