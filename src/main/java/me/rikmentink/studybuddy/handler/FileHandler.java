@@ -34,7 +34,7 @@ public class FileHandler {
      */
     public static List<Student> getAllStudents() {
         try {
-            InputStream inputStream = new FileInputStream(new File(DATA_URL)); // TODO: Fix file not found error
+            InputStream inputStream = new FileInputStream(new File(DATA_URL));
             return objectMapper.readValue(inputStream, new TypeReference<List<Student>>(){});
         } catch (IOException e) {
             logError("Failed to read students from data: ", e);

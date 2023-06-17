@@ -1,5 +1,6 @@
 import ProjectService from '../service/projectService.js';
 import Project from '../model/project.js';
+import { formDataToJson } from '../utils/utils.js';
 
 class ProjectListView {
     
@@ -12,6 +13,18 @@ class ProjectListView {
         this.projectCardTemplate = document.querySelector('#projectCardTemplate');
 
         window.addEventListener('DOMContentLoaded', this.renderProjects.bind(this));
+        
+        document.querySelector('#addProjectFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#addProjectForm')
+            this.addProjectFormSubmit(form);
+        });
+        document.querySelector('#showAddProjectFormDialog').addEventListener('click', () => {
+            document.querySelector('#addProjectFormDialog').showModal();
+        });
+        
+        document.querySelector('#closeAddProjectFormDialog').addEventListener('click', () => {
+            document.querySelector('#addProjectFormDialog').close();
+        });
     }
 
     /**
@@ -75,6 +88,34 @@ class ProjectListView {
     static clearProjectList() {
         while (this.projectList.firstChild) {
             this.projectList.firstChild.remove();
+        }
+    }
+
+    /**
+     * Adds a new project when the form is submitted.
+     * 
+     * @param event The triggered event when the form was submitted.
+     */
+    static addProjectFormSubmit(form) {
+        const studentId = sessionStorage.getItem('userId');
+        const data = formDataToJson(form);
+        let message = document.querySelector('#addProjectFormMessage');
+
+        if (data.name) {
+            ProjectService.addProject(studentId, data)
+            .then(() => {
+                message.classList.add('success');
+                message.textContent = 'Project successfully added!';
+                e.target.reset();
+            })
+            .catch(() => {
+                message.classList.add('error');
+                message.textContent = 'Something went wrong!';
+            });
+        } else {
+            document.querySelector('#addProjectForm #name').classList.add('error');
+            message.classList.add('error');
+            message = 'Please enter a valid name!';
         }
     }
 }

@@ -47,6 +47,14 @@ public class Student implements Serializable {
         return this.lastName;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
     public List<Project> getProjects() {
         return this.projects;
     }

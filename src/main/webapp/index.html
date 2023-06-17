@@ -21,7 +21,6 @@
 
     <!-- CSS & JS -->
     <link rel="stylesheet" href="assets/css/main.css">
-    <script type="application/javascript" src="assets/js/script.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -53,13 +52,12 @@
                 <p>Welkom op jouw overzicht! Deze pagina is nog in ontwikkeling, maar navigeer gerust door de app met het navigatiemenu aan de linkerzijde.</p>
             </main>
             <footer class="footer">
-                <p>&copy; <script>document.write(new Date().getFullYear());</script> StudyBuddy.</p>
+                <p>© <span id="copyrightYear"></span> StudyBuddy.</p>
             </footer>
         </div>
     </div>
 
-    <script type="application/javascript" src="assets/js/dataService.js"></script>
-    <script type="application/javascript" src="assets/js/authService.js"></script>
-    <script type="application/javascript" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/service/authService.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

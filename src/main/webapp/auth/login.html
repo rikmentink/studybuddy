@@ -7,6 +7,7 @@
     <title>Inloggen | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
     <base href="http://localhost:8080/studybuddy-1.0.0/" target="_self">
+    <link rel="canonical" href="">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -21,24 +22,48 @@
 
     <!-- CSS & JS -->
     <link rel="stylesheet" href="assets/css/main.css">
-    <script type="application/javascript" src="assets/js/script.js"></script>
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
             <main class="auth-page">
                 <div class="auth-form">
-                    <p>Hier moet het login formulier komen</p>
+                    <form id="loginForm">
+                        <section>
+                            <p>
+                                <label for="email">E-mailadres</label>
+                                <br />
+                                <input id="email" name="email" type="email">
+                                <br /><br />
+                            </p>
+                            
+                            <p>
+                                <label for="password">Wachtwoord</label>
+                                <br />
+                                <input id="password" name="password" type="password">
+                                <br /><br />
+                            </p>
+        
+                        </section>
+        
+                        <section>
+                            <p>
+                                <button class="btn btn--primary" type="button" id="loginFormSubmit">Inloggen</button>
+                                <a href="./register.html" title="Maak hier een account aan.">Ik heb nog geen account</a>
+                            </p>/
+                            <p id="loginFormMessage"></p>
+                        </section>
+                    </form>
                 </div>
             </main>
             <footer class="footer">
-                <p>&copy; <script>document.write(new Date().getFullYear());</script> StudyBuddy.</p>
+                <p>© <span id="copyrightYear"></span> StudyBuddy.</p>
             </footer>
         </div>
     </div>
 
-    <script type="application/javascript" src="assets/js/dataService.js"></script>
-    <script type="application/javascript" src="assets/js/authService.js"></script>
-    <script type="application/javascript" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/service/authService.js"></script>
+    <script type="module" src="assets/js/view/loginView.js"></script>
+    <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

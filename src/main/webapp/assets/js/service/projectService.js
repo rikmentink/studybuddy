@@ -22,4 +22,22 @@ export default class ProjectService {
             return new Error(err);
         });
     }
+
+    static addProject(studentId, project) {
+        return fetch(`${API_URL}/students/${studentId}/projects`, {
+            method: 'POST',
+            body: project,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (!res.ok) {
+                return new Error(res.status);
+            }
+
+            return res.json();
+        }).catch(err => {
+            return new Error(err);
+        });
+    }
 }

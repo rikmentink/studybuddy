@@ -50,8 +50,8 @@
             </header>
             <main class="content">
                 <section>
-                    <dialog id="newProjectDialog" class="modal">
-                        <form id="newProjectForm">
+                    <dialog id="addProjectFormDialog" class="modal">
+                        <form id="addProjectForm">
                             <section>
                                 <p>
                                     <label for="name">Naam</label>
@@ -83,18 +83,16 @@
                             </section>
             
                             <section>
-                                <!-- <p>
-                                    <button class="btn btn--secondary" type="button" id="closeNewProjectDialog">Annuleren</button>
-                                </p> -->
                                 <p>
-                                    <button class="btn btn--primary" type="submit">Opslaan</button>
+                                    <button class="btn btn--primary" type="button" id="addProjectFormSubmit">Opslaan</button>
+                                    <button class="btn btn--secondary" type="button" id="closeAddProjectFormDialog">Annuleren</button>
                                 </p>
-                                <p id="newProjectMessage"></p>
+                                <p id="addProjectFormMessage"></p>
                             </section>
                         </form>
                     </dialog>
                     <p>
-                        <button id="showNewProjectDialog" role="dialog" class="btn btn--secondary">Nieuw project</button>
+                        <button id="showAddProjectFormDialog" role="dialog" class="btn btn--secondary">Nieuw project</button>
                     </p>
                 </section>
                 <section>
@@ -125,7 +123,7 @@
     <!-- JavaScript -->
     <!-- <script type="application/javascript" src="assets/js/service/dataService.js"></script> -->
     <!-- <script type="application/javascript" src="assets/js/service/eventService.js"></script> -->
-    <script type="application/javascript" src="assets/js/service/authService.js"></script>
+    <script type="module" src="assets/js/service/authService.js"></script>
     <script type="module" src="assets/js/view/projectListView.js"></script>
     <script type="module" src="assets/js/app.js"></script>
 </body>
