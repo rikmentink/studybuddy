@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
@@ -100,8 +101,8 @@ public class FileHandler {
      * @param projectId The ID of the project to retrieve.
      * @return The Project object matching the provided IDs, or null if not found.
      */
-    public static Project getProject(int studentId, int projectId) {
-        List<Project> projects = getStudent(studentId).getProjects();
+    public static Project getProject(int projectId) {
+        List<Project> projects = getAllProjects();
         return projects.stream()
                 .filter(project -> project.getId() == projectId)
                 .findFirst()
@@ -130,6 +131,35 @@ public class FileHandler {
         
         return false;
     }
+
+    /**
+     * Retrieves all objectives from all projects from all students.
+     * 
+     * @return List of Objective objects representing all the objectives.
+     */
+    public static List<Objective> getAllObjectives() {
+        List<Project> project = getAllProjects();
+        return project.stream()
+                .flatMap(foundProject -> foundProject.getObjectives().stream())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Retrieves a specific objective based on its identifier.
+     * 
+     * @param objectiveId The ID of the objective to retrieve.
+     * @return The Objective object matching the provided ID, or null if not 
+     *         found.
+     */
+    public static Objective getObjective(int objectiveId) {
+        List<Objective> objectives = getAllObjectives();
+        return objectives.stream()
+                .filter(objective -> objective.getId() == objectiveId)
+                .findFirst()
+                .orElse(null);
+    }
+
+    // TODO: Create addObjective() method.
 
     /**
      * Writes the given list of students to the data file.

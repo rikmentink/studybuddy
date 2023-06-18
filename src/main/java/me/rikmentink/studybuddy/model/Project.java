@@ -1,6 +1,7 @@
 package me.rikmentink.studybuddy.model;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,6 +14,7 @@ public class Project {
     private int id;
     private String name;
     private String description;
+    private List<Objective> objectives; 
     
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
@@ -59,6 +61,10 @@ public class Project {
 
     public LocalDate getEndDate() {
         return this.endDate;
+    }
+
+    public List<Objective> getObjectives() {
+        return this.objectives;
     }
 
     public static List<Project> getAllProjects() {

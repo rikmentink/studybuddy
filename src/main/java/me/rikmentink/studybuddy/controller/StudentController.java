@@ -87,8 +87,8 @@ public class StudentController {
     @GET
     @Path("/{studentId}/projects/{projectId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProjects(@PathParam("studentId") int studentId, @PathParam("projectId") int projectId) {
-        Project project = FileHandler.getProject(studentId, projectId);
+    public Response getProject(@PathParam("projectId") int projectId) {
+        Project project = FileHandler.getProject(projectId);
 
         if (project == null) {
             JsonObject errorMessage = Json.createObjectBuilder()

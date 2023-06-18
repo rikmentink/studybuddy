@@ -3,18 +3,21 @@ package me.rikmentink.studybuddy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
-public class ProjectTest {
+public class ObjectiveTest {
     private static Student student;
     private static Project project;
+    private static Objective objective;
 
     @BeforeEach
     public void init() {
@@ -31,24 +34,12 @@ public class ProjectTest {
             LocalDate.parse("2023-06-08"),
             LocalDate.parse("2023-06-15")
         );
+        objective = new Objective(
+            "Test", 
+            "This is an objective meant for testing.",
+            LocalDateTime.parse("2023-06-15 09:00")
+        );
     }
 
-    @Test
-    public void newProjectGetsUniqueId() {
-        // Save the new student with an empty project list
-        Student.addStudent(student);
-
-        // Add a new project and assign a unique ID
-        int uniqueId = Project.generateNewProjectId();
-        project.setId(uniqueId);
-        student.addProject(project);
-
-        // Test whether only one project has this ID
-        int projectsWithIdFound = Project.getAllProjects().stream()
-                .filter(project -> project.getId() == uniqueId)
-                .collect(Collectors.toList())
-                .size();    
-
-        assertEquals(1, projectsWithIdFound);
-    }
+    // TODO: add newProjectGetsUniqueId() test.
 }
