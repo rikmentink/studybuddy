@@ -16,6 +16,14 @@ public class Student implements Serializable {
     private String password;
     private List<Project> projects;
 
+    public Student(String firstName, String lastName, String email, String password, List<Project> projects) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.projects = projects;
+    }
+
     @JsonCreator
     public Student(@JsonProperty("id")int id, 
                    @JsonProperty("firstName") String firstName, 
@@ -23,12 +31,8 @@ public class Student implements Serializable {
                    @JsonProperty("email") String email, 
                    @JsonProperty("password") String password, 
                    @JsonProperty("projects") List<Project> projects) {
+        this(firstName, lastName, email, password, projects);
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.projects = projects;
     }
 
     public int getId() {
@@ -59,7 +63,24 @@ public class Student implements Serializable {
         return this.projects;
     }
 
-    public static int generateNewStudentId() {
+    public boolean addProject(Project project) {
+        return Project.addProject(this.id, project);
+    }
+
+    public static List<Student> getAllStudents() {
+        return FileHandler.getAllStudents();
+    }
+
+    public static Student getStudent(int studentId) {
+        return FileHandler.getStudent(studentId);
+    } 
+
+    public static boolean addStudent(Student student) {
+        student.setId(generateNewStudentId());
+        return FileHandler.addStudent(student);
+    }
+
+    private static int generateNewStudentId() {
         List<Student> students = FileHandler.getAllStudents();
         
         if (students.isEmpty()) return 1;
@@ -67,7 +88,7 @@ public class Student implements Serializable {
                 .mapToInt(Student::getId)
                 .max()
                 .orElse(0);
-        return maxId++;
+        return maxId + 1;
     }
 
     @Override

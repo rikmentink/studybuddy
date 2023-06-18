@@ -56,8 +56,6 @@ public class StudentController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addStudent(@Context UriInfo uri, Student student) {
-        student.setId(Student.generateNewStudentId());
-
         if (!FileHandler.addStudent(student)) {
             JsonObject errorMessage = Json.createObjectBuilder()
                 .add("error", "Student with ID " + student.getId() + " couldn't be created.")

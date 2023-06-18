@@ -61,6 +61,14 @@ public class Project {
         return this.endDate;
     }
 
+    public static List<Project> getAllProjects() {
+        return FileHandler.getAllProjects();
+    }
+
+    public static boolean addProject(int studentId, Project project) {
+        return FileHandler.addProject(studentId, project);
+    }
+
     public static int generateNewProjectId() {
         List<Project> projects = FileHandler.getAllProjects();
         
