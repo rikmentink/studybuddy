@@ -2,9 +2,8 @@ package me.rikmentink.studybuddy.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -43,10 +42,9 @@ public class StudentController {
         Student student = FileHandler.getStudent(studentId);
 
         if (student == null) {
-            JsonObject errorMessage = Json.createObjectBuilder()
-                    .add("error", "Student with ID " + studentId + " not found.")
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Student with ID " + studentId + " not found."))
                     .build();
-            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
         }
 
         return Response.ok(student).build();
@@ -57,11 +55,9 @@ public class StudentController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addStudent(@Context UriInfo uri, Student student) {
         if (!FileHandler.addStudent(student)) {
-            JsonObject errorMessage = Json.createObjectBuilder()
-                .add("error", "Student with ID " + student.getId() + " couldn't be created.")
-                .build();
-
-            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Student with ID " + student.getId() + " couldn't be created."))
+                    .build();
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())
@@ -91,10 +87,9 @@ public class StudentController {
         Project project = FileHandler.getProject(projectId);
 
         if (project == null) {
-            JsonObject errorMessage = Json.createObjectBuilder()
-                    .add("error", "Project with ID " + projectId + " not found.")
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
                     .build();
-            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
         }
 
         return Response.ok(project).build();
@@ -108,11 +103,9 @@ public class StudentController {
         project.setId(Project.generateNewProjectId());
 
         if (!FileHandler.addProject(studentId, project)) {
-            JsonObject errorMessage = Json.createObjectBuilder()
-                .add("error", "Student with ID " + studentId + " not found.")
-                .build();
-
-            return Response.status(Response.Status.NOT_FOUND).entity(errorMessage).build();
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Student with ID " + studentId + " not found."))
+                    .build();
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())

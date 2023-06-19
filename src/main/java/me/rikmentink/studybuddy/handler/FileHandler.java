@@ -22,7 +22,7 @@ import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
 public class FileHandler {
-    private static final String DATA_URL = "data/data.json";
+    private static final String DATA_URL = "/home/data.json";
     private static final ObjectMapper objectMapper;
     
     static {

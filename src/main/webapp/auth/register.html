@@ -4,29 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inloggen | StudyBuddy</title>
+    <title>Registreren | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="/assets/img/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
-    <link rel="manifest" href="/assets/img/site.webmanifest">
-    <link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#ef7c52">
+    <link rel="shortcut icon" href="/studybuddy-1.0.0/assets/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/studybuddy-1.0.0/assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/studybuddy-1.0.0/assets/img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/studybuddy-1.0.0/assets/img/apple-touch-icon.png">
+    <link rel="manifest" href="/studybuddy-1.0.0/assets/img/site.webmanifest">
+    <link rel="mask-icon" href="/studybuddy-1.0.0/assets/img/safari-pinned-tab.svg" color="#ef7c52">
     <meta name="msapplication-TileColor" content="#ef7c52">
-    <meta name="msapplication-config" content="/assets/img/browserconfig.xml">
+    <meta name="msapplication-config" content="/studybuddy-1.0.0/assets/img/browserconfig.xml">
     <meta name="theme-color" content="#ef7c52">
 
     <!-- CSS & JS -->
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/studybuddy-1.0.0/assets/css/main.css">
 </head>
 <body>
     <div class="wrapper">
         <div class="container">
             <main class="auth-page">
                 <div class="auth-form">
-                    <p>Hier moet het registratie formulier komen</p>
+                    <form id="registerForm">
+                        <section>
+                            <div class="form-group">
+                                <div class="form-field">
+                                    <label class="form-field__label" for="firstname">Voornaam</label>
+                                    <input class="form-field__input" id="firstname" name="firstname" type="text">
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-field__label" for="lastname">Achternaam</label>
+                                    <input class="form-field__input" id="lastname" name="lastname" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label class="form-field__label" for="email">E-mailadres</label>
+                                <input class="form-field__input" id="email" name="email" type="email">
+                            </div>
+                            
+                            <div class="form-field">
+                                <label class="form-field__label" for="password">Wachtwoord</label>
+                                <input class="form-field__input" id="password" name="password" type="password">
+                            </div>
+                        </section>
+        
+                        <section>
+                            <p>
+                                <button class="btn btn--primary" type="button" id="registerFormSubmit">Registreren</button>
+                                <a href="./login.html" title="Maak hier een account aan.">Ik heb al een account</a>
+                            </p>/
+                            <p id="registerFormMessage"></p>
+                        </section>
+                    </form>
                 </div>
             </main>
             <footer class="footer">
@@ -35,8 +66,8 @@
         </div>
     </div>
 
-    <script type="application/javascript" src="/assets/js/dataService.js"></script>
-    <script type="application/javascript" src="/assets/js/authService.js"></script>
-    <script type="application/javascript" src="/assets/js/app.js"></script>
+    <script type="module" src="/studybuddy-1.0.0/assets/js/service/authService.js"></script>
+    <script type="module" src="/studybuddy-1.0.0/assets/js/view/registerView.js"></script>
+    <script type="module" src="/studybuddy-1.0.0/assets/js/app.js"></script>
 </body>
 </html>
