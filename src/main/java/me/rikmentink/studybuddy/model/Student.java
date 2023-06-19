@@ -75,9 +75,13 @@ public class Student implements Serializable {
         return FileHandler.getStudent(studentId);
     } 
 
-    public static boolean addStudent(Student student) {
+    public static int addStudent(Student student) {
         student.setId(generateNewStudentId());
-        return FileHandler.addStudent(student);
+        if (FileHandler.addStudent(student)) {
+            return student.getId();
+        } else {
+            return -1;
+        }
     }
 
     private static int generateNewStudentId() {

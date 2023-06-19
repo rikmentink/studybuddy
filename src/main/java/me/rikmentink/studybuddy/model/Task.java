@@ -9,4 +9,8 @@ public class Task extends Objective {
         super(id, name, description, deadline);
         this.completed = completed;
     }
+
+    public boolean getCompleted() {
+        return this.completed;
+    }
 }

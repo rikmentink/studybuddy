@@ -1,23 +1,23 @@
 import AuthService from '../service/authService.js';
 import { formDataToJson } from '../utils/utils.js';
 
-class LoginView {
+class RegisterView {
     
     static init() {
-        document.querySelector('#loginFormSubmit').addEventListener('click', () => {
-            const form = document.querySelector('#loginForm')
-            this.loginFormSubmit(form);
+        document.querySelector('#registerFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#registerForm')
+            this.registerFormSubmit(form);
         })
     }
 
-    static loginFormSubmit(form) {
+    static registerFormSubmit(form) {
         const data = formDataToJson(form);
-        let message = document.querySelector('#loginFormMessage');
+        let message = document.querySelector('#registerFormMessage');
 
-        if (data.email && data.password) {
-            AuthService.login(data)
+        if (data.firstname && data.lastname && data.email && data.password) {
+            AuthService.register(data)
             .then(res => {
-                console.log(`Student with id ${res.userId} logged in.`);
+                console.log(`Student with id ${res.userId} was registered.`);
                 // window.location.href = `${URL_PREFIX}`;
             })
             .catch(e => {
@@ -27,10 +27,10 @@ class LoginView {
             })
         } else {
             message.classList.add('error');
-            message.textContent = 'Please enter a valid e-mail and password!';
+            message.textContent = 'Please fill all fields correctly!';
         }
     }
 }
 
 // Initialize the page when its loaded.
-LoginView.init();
+RegisterView.init();

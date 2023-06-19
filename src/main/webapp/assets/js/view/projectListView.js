@@ -33,7 +33,7 @@ class ProjectListView {
      * each of them and renders them onto the page.
      */
     static renderProjects() {
-        studentId = AuthService.getCurrentUser();
+        const studentId = AuthService.getCurrentUser();
 
         ProjectService.getProjects(studentId)
             .then(projects => {
@@ -98,7 +98,7 @@ class ProjectListView {
      * @param event The triggered event when the form was submitted.
      */
     static addProjectFormSubmit(form) {
-        const studentId = sessionStorage.getItem('userId');
+        const studentId = AuthService.getCurrentUser();
         const data = formDataToJson(form);
         let message = document.querySelector('#addProjectFormMessage');
 
@@ -114,7 +114,6 @@ class ProjectListView {
                 message.textContent = 'Something went wrong!';
             });
         } else {
-            document.querySelector('#addProjectForm #name').classList.add('error');
             message.classList.add('error');
             message = 'Please enter a valid name!';
         }

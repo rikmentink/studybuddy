@@ -15,7 +15,26 @@ export default class AuthService {
             }
             return res.json();
         }).then(data => {
-            console.log(data);
+            this.saveUserToStorage(data.token, data.userId);
+            return data;
+        }) .catch(err => {
+            return new Error(err);
+        });
+    }
+
+    static register(data) {
+        return fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (!res.ok) {
+                return new Error(res.status);
+            }
+            return res.json();
+        }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
         }) .catch(err => {
@@ -30,9 +49,9 @@ export default class AuthService {
 
     static requiresAuthentication() {
         const restrictedPages = [
-            `${URL_PREFIX}/auth/login.html`, 
-            `${URL_PREFIX}/auth/register.html`, 
-            `${URL_PREFIX}/auth/forgot-password.html`
+            `/${URL_PREFIX}/auth/login.html`, 
+            `/${URL_PREFIX}/auth/register.html`, 
+            `/${URL_PREFIX}/auth/forgot-password.html`
         ];
         const currentPage = window.location.pathname;
         return !restrictedPages.includes(currentPage);
@@ -45,9 +64,9 @@ export default class AuthService {
 
     static performAuthenticationCheck() {
         if (this.requiresAuthentication() && !this.isAuthenticated()) {
-            window.location.href = `${URL_PREFIX}/auth/login.html`;
+            window.location.href = `/${URL_PREFIX}/auth/login.html`;
         } else if (!this.requiresAuthentication() && this.isAuthenticated()) {
-            window.location.href = `${URL_PREFIX}`;
+            window.location.href = `/${URL_PREFIX}`;
         }
     }
 
