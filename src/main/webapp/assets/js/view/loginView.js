@@ -19,7 +19,7 @@ class LoginView {
             AuthService.login(data)
             .then(res => {
                 console.log(`Student with id ${res.userId} logged in.`);
-                // window.location.href = `/${URL_PREFIX}/`;
+                // window.location.href = `${URL_PREFIX}`;
             })
             .catch(e => {
                 console.error(`Student login failed: ${e}`)

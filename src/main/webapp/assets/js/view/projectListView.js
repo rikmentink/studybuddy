@@ -1,3 +1,4 @@
+import AuthService from '../service/authService.js';
 import ProjectService from '../service/projectService.js';
 import Project from '../model/project.js';
 import { formDataToJson } from '../utils/utils.js';
@@ -32,7 +33,7 @@ class ProjectListView {
      * each of them and renders them onto the page.
      */
     static renderProjects() {
-        const studentId = sessionStorage.getItem('userId');
+        studentId = AuthService.getCurrentUser();
 
         ProjectService.getProjects(studentId)
             .then(projects => {

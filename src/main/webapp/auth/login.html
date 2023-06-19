@@ -6,22 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inloggen | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
-    <base href="http://localhost:8080/studybuddy-1.0.0/" target="_self">
-    <link rel="canonical" href="">
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
-    <link rel="manifest" href="assets/img/site.webmanifest">
-    <link rel="mask-icon" href="assets/img/safari-pinned-tab.svg" color="#ef7c52">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+    <link rel="manifest" href="/assets/img/site.webmanifest">
+    <link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#ef7c52">
     <meta name="msapplication-TileColor" content="#ef7c52">
-    <meta name="msapplication-config" content="assets/img/browserconfig.xml">
+    <meta name="msapplication-config" content="/assets/img/browserconfig.xml">
     <meta name="theme-color" content="#ef7c52">
 
     <!-- CSS & JS -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
     <div class="wrapper">
@@ -30,19 +28,15 @@
                 <div class="auth-form">
                     <form id="loginForm">
                         <section>
-                            <p>
-                                <label for="email">E-mailadres</label>
-                                <br />
-                                <input id="email" name="email" type="email">
-                                <br /><br />
-                            </p>
+                            <div class="form-field">
+                                <label class="form-field__label" for="email">E-mailadres</label>
+                                <input class="form-field__input" id="email" name="email" type="email">
+                            </div>
                             
-                            <p>
-                                <label for="password">Wachtwoord</label>
-                                <br />
-                                <input id="password" name="password" type="password">
-                                <br /><br />
-                            </p>
+                            <div class="form-field">
+                                <label class="form-field__label" for="password">Wachtwoord</label>
+                                <input class="form-field__input" id="password" name="password" type="password">
+                            </div>
         
                         </section>
         
@@ -62,8 +56,8 @@
         </div>
     </div>
 
-    <script type="module" src="assets/js/service/authService.js"></script>
-    <script type="module" src="assets/js/view/loginView.js"></script>
-    <script type="module" src="assets/js/app.js"></script>
+    <script type="module" src="/assets/js/service/authService.js"></script>
+    <script type="module" src="/assets/js/view/loginView.js"></script>
+    <script type="module" src="/assets/js/app.js"></script>
 </body>
 </html>

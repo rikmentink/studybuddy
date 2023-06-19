@@ -1,5 +1,5 @@
-const URL_PREFIX = `studybuddy-1.0.0`;
-const API_URL = `http://localhost:8080/${URL_PREFIX}/api`;
+const URL_PREFIX = ``;
+const API_URL = `/api`;
 
 export {
     URL_PREFIX,

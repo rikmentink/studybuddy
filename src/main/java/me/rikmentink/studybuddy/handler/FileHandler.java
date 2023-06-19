@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +22,20 @@ import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
 public class FileHandler {
-    private static final String DATA_URL = "/Users/rikmentink/Development/School/Projects/IPASS/studybuddy/data/data.json";
+    private static final String DATA_URL = "data/data.json";
     private static final ObjectMapper objectMapper;
     
     static {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+
+        if (!Files.exists(Path.of(DATA_URL))) {
+            try {
+                Files.createFile(Path.of(DATA_URL));
+            } catch (IOException e) {
+                logError("Failed to create new data file: ", e);
+            }
+        }
     }
 
     /**
