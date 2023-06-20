@@ -2,7 +2,6 @@ package me.rikmentink.studybuddy.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

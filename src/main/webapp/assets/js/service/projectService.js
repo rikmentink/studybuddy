@@ -26,7 +26,7 @@ export default class ProjectService {
     static addProject(studentId, project) {
         return fetch(`${API_URL}/students/${studentId}/projects`, {
             method: 'POST',
-            body: project,
+            body: JSON.stringify(project),
             headers: {
                 'Content-Type': 'application/json'
             }
