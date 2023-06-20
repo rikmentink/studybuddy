@@ -14,6 +14,7 @@ public class Project {
     private String name;
     private String description;
     private List<Objective> objectives; 
+    private Student owner;
     
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
@@ -50,20 +51,44 @@ public class Project {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDescription() {
         return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDate getStartDate() {
         return this.startDate;
     }
 
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public LocalDate getEndDate() {
         return this.endDate;
     }
 
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
     public List<Objective> getObjectives() {
         return this.objectives;
+    }
+
+    public Student getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(Student owner) {
+        this.owner = owner;
     }
 
     public static List<Project> getAllProjects() {
@@ -72,6 +97,10 @@ public class Project {
 
     public static boolean addProject(int studentId, Project project) {
         return FileHandler.addProject(studentId, project);
+    }
+
+    public static boolean updateProject(int projectId, Project updatedProject) {
+        return FileHandler.updateProject(projectId, updatedProject);
     }
 
     public static int generateNewProjectId() {

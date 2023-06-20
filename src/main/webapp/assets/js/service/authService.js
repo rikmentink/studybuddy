@@ -49,9 +49,9 @@ export default class AuthService {
 
     static requiresAuthentication() {
         const restrictedPages = [
-            `/${URL_PREFIX}/auth/login.html`, 
-            `/${URL_PREFIX}/auth/register.html`, 
-            `/${URL_PREFIX}/auth/forgot-password.html`
+            `${URL_PREFIX}/auth/login.html`, 
+            `${URL_PREFIX}/auth/register.html`, 
+            `${URL_PREFIX}/auth/forgot-password.html`
         ];
         const currentPage = window.location.pathname;
         return !restrictedPages.includes(currentPage);
@@ -64,9 +64,9 @@ export default class AuthService {
 
     static performAuthenticationCheck() {
         if (this.requiresAuthentication() && !this.isAuthenticated()) {
-            window.location.href = `/${URL_PREFIX}/auth/login.html`;
+            window.location.href = `${URL_PREFIX}/auth/login.html`;
         } else if (!this.requiresAuthentication() && this.isAuthenticated()) {
-            window.location.href = `/${URL_PREFIX}`;
+            window.location.href = `${URL_PREFIX}`;
         }
     }
 
