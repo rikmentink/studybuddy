@@ -1,14 +1,10 @@
 package me.rikmentink.studybuddy;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
