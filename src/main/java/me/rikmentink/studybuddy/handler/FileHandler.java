@@ -143,6 +143,45 @@ public class FileHandler {
     }
 
     /**
+     * TODO: Document function.
+     * 
+     * @param projectId
+     * @param updatedProject
+     * @return
+     */
+    public static boolean updateProject(int projectId, Project updatedProject) {
+        List<Student> students = getAllStudents();
+        
+        students.stream()
+            .flatMap(student -> student.getProjects().stream())
+            .filter(project -> project.getId() == projectId)
+            .findFirst()
+            .ifPresent(project -> {
+                project.setName(updatedProject.getName());
+                project.setDescription(updatedProject.getDescription());
+                project.setStartDate(updatedProject.getStartDate());
+                project.setEndDate(updatedProject.getEndDate());
+            });
+
+        return writeStudentsToFile(students);
+    } 
+
+    /**
+     * TODO: Document function.
+     * 
+     * @param projectId
+     * @return
+     */
+    public static boolean deleteProject(int projectId) {
+        List<Student> students = getAllStudents();
+        
+        students.forEach(student -> student.getProjects()
+                .removeIf(project -> project.getId() == projectId));
+
+        return writeStudentsToFile(students);
+    } 
+
+    /**
      * Retrieves all objectives from all projects from all students.
      * 
      * @return List of Objective objects representing all the objectives.
