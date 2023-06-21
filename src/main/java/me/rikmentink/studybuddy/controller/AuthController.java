@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import me.rikmentink.studybuddy.handler.FileHandler;
 import me.rikmentink.studybuddy.model.Student;
 
 @Path("/auth")
@@ -96,7 +95,7 @@ public class AuthController {
      * @return Returns whether a match of email and password was found in data.
      */
     private Student authenticate(String email, String password) {
-        List<Student> users = FileHandler.getAllStudents();
+        List<Student> users = Student.getAllStudents();
 
         return users.stream()
             .filter(user -> {

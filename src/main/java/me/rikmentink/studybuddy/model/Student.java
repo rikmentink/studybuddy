@@ -1,6 +1,7 @@
 package me.rikmentink.studybuddy.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -63,29 +64,62 @@ public class Student implements Serializable {
         return this.projects;
     }
 
-    public boolean addProject(Project project) {
-        return Project.addProject(this.id, project);
-    }
-
+    /**
+     * Reads all students from the data file.
+     * 
+     * @return List of Student objects representing all students.
+     */
     public static List<Student> getAllStudents() {
-        return FileHandler.getAllStudents();
+        return FileHandler.readData();
     }
 
+    /**
+     * Retrieves a specific student based on the student ID.
+     * 
+     * @param studentId The ID of the student to retrieve.
+     * @return The Student object matching the provided ID, or null if not found.
+     */
     public static Student getStudent(int studentId) {
-        return FileHandler.getStudent(studentId);
-    } 
+        List<Student> students = getAllStudents();
+        return students.stream()
+                .filter(student -> student.getId() == studentId)
+                .findFirst()
+                .orElse(null);
+    }
 
+    /**
+     * Adds a new student to the list of students.
+     * 
+     * @param student The Student object to add.
+     * @return The unique identifier if the student was successfully added, -1 
+     * otherwise.
+     */
     public static int addStudent(Student student) {
         student.setId(generateNewStudentId());
-        if (FileHandler.addStudent(student)) {
+
+        List<Student> students = getAllStudents();
+        students.add(student);
+        
+        if (FileHandler.writeData(students)) {
             return student.getId();
         } else {
             return -1;
         }
     }
 
+    /**
+     * Retrieves all projects of a specific student based on the student ID.
+     * 
+     * @param studentId The ID of the student whose projects to retrieve.
+     * @return List of Project objects representing the projects of the student.
+     */
+    public static List<Project> getProjects(int studentId) {
+        Student student = getStudent(studentId);
+        return student != null ? student.getProjects() : new ArrayList<>();
+    }
+    
     private static int generateNewStudentId() {
-        List<Student> students = FileHandler.getAllStudents();
+        List<Student> students = getAllStudents();
         
         if (students.isEmpty()) return 1;
         int maxId = students.stream()

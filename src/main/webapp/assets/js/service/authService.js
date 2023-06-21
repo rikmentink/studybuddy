@@ -17,7 +17,7 @@ export default class AuthService {
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
-        }) .catch(err => {
+        }).catch(err => {
             return new Error(err);
         });
     }
@@ -37,15 +37,25 @@ export default class AuthService {
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
-        }) .catch(err => {
+        }).catch(err => {
             return new Error(err);
         });
+    }
+
+    static logout() {
+        this.removeUserFromStorage();
+        window.location.href = `${URL_PREFIX}/auth/login.html`;
     }
 
     static saveUserToStorage(token, userId) {
         sessionStorage.setItem('token', token);
         sessionStorage.setItem('user', userId);
     }
+
+    static removeUserFromStorage() {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
+    } 
 
     static requiresAuthentication() {
         const restrictedPages = [

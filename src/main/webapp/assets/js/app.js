@@ -12,3 +12,13 @@ if (document.readyState !== 'loading') {
         initializeApp();
     });
 }
+
+document.querySelector('.js-user-dropdown-toggle').addEventListener('click', (e) => {
+    const dropdown = document.querySelector('.js-user-dropdown');
+
+    if (dropdown.classList.contains('show')) {
+        dropdown.classList.remove('show');
+    } else {
+        dropdown.classList.add('show');
+    }
+});

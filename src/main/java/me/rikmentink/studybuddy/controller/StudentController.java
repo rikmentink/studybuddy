@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import me.rikmentink.studybuddy.handler.FileHandler;
 import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
 
@@ -26,7 +25,7 @@ public class StudentController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudents() {
-        List<Student> students = FileHandler.getAllStudents();
+        List<Student> students = Student.getAllStudents();
 
         if (students.size() == 0) {
             return Response.noContent().build();
@@ -39,7 +38,7 @@ public class StudentController {
     @Path("/{studentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudent(@PathParam("studentId") int studentId) {
-        Student student = FileHandler.getStudent(studentId);
+        Student student = Student.getStudent(studentId);
 
         if (student == null) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -54,8 +53,8 @@ public class StudentController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addStudent(@Context UriInfo uri, Student student) {
-        if (!FileHandler.addStudent(student)) {
-            return Response.status(Response.Status.NOT_FOUND)
+        if (Student.addStudent(student) == -1) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(new SimpleEntry<>("message", "Student with ID " + student.getId() + " couldn't be created."))
                     .build();
         }
@@ -71,7 +70,7 @@ public class StudentController {
     @Path("/{studentId}/projects")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProjects(@PathParam("studentId") int studentId) {
-        List<Project> projects = FileHandler.getProjects(studentId);
+        List<Project> projects = Student.getProjects(studentId);
 
         if (projects.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).entity(projects).build();
@@ -87,7 +86,7 @@ public class StudentController {
     public Response addProject(@Context UriInfo uri, @PathParam("studentId") int studentId, Project project) {
         project.setId(Project.generateNewProjectId());
 
-        if (!FileHandler.addProject(studentId, project)) {
+        if (!Project.addProject(studentId, project)) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Student with ID " + studentId + " not found."))
                     .build();
