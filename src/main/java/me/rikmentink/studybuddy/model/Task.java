@@ -5,12 +5,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import me.rikmentink.studybuddy.handler.FileHandler;
 
 public class Task extends Objective {
     private boolean completed;
 
-    public Task(int id, String name, String description, LocalDateTime deadline, String note, boolean completed) {
+    public Task(String name, String description, LocalDateTime deadline, String note, boolean completed) {
+        super(name, description, deadline, note);
+        this.completed = completed;
+    }
+
+    public Task(@JsonProperty("id") int id, 
+                     @JsonProperty("name") String name, 
+                     @JsonProperty("description") String description, 
+                     @JsonProperty("deadline") LocalDateTime deadline,
+                     @JsonProperty("note") String note,
+                     @JsonProperty("completed") boolean completed) {
         super(id, name, description, deadline, note);
         this.completed = completed;
     }
