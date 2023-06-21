@@ -15,15 +15,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import me.rikmentink.studybuddy.Main;
 import me.rikmentink.studybuddy.model.Student;
 
 public class FileHandler {
-    private static final String DATA_URL = "/Users/rikmentink/Development/School/Projects/IPASS/studybuddy/data/data.json";
+    private static String DATA_URL = "/home/data.json";
     private static final ObjectMapper objectMapper;
     
     static {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+
+        if (Main.DEBUG_MODE) {
+            DATA_URL = "/Users/rikmentink/Development/School/Projects/IPASS/studybuddy/data/data.json";
+        }
 
         if (!Files.exists(Path.of(DATA_URL))) {
             try {
