@@ -29,7 +29,8 @@ public class ProjectTest {
             "Test", 
             "This is a project meant for testing.",
             LocalDate.parse("2023-06-08"),
-            LocalDate.parse("2023-06-15")
+            LocalDate.parse("2023-06-15"),
+            new ArrayList<>()
         );
     }
 
