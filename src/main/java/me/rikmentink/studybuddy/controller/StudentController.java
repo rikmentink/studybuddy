@@ -70,7 +70,7 @@ public class StudentController {
     @Path("/{studentId}/projects")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProjects(@PathParam("studentId") int studentId) {
-        List<Project> projects = Student.getProjects(studentId);
+        List<Project> projects = Student.getStudent(studentId).getProjects();
 
         if (projects.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).entity(projects).build();

@@ -1,6 +1,7 @@
 package me.rikmentink.studybuddy.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,7 +17,6 @@ public class Project {
     private String name;
     private String description;
     private List<Objective> objectives; 
-    private Student owner;
     
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
@@ -24,11 +24,12 @@ public class Project {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate endDate;
 
-    public Project(String name, String description, LocalDate startDate, LocalDate endDate) {
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, List<Objective> objectives) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.objectives = objectives;
     }
 
     @JsonCreator
@@ -36,8 +37,9 @@ public class Project {
                    @JsonProperty("name") String name, 
                    @JsonProperty("description") String description, 
                    @JsonProperty("startDate") LocalDate startDate, 
-                   @JsonProperty("endDate") LocalDate endDate) {
-        this(name, description, startDate, endDate);
+                   @JsonProperty("endDate") LocalDate endDate,
+                   @JsonProperty("objectives") List<Objective> objectives) {
+        this(name, description, startDate, endDate, objectives);
         this.id = id;
     }
 
@@ -82,15 +84,7 @@ public class Project {
     }
 
     public List<Objective> getObjectives() {
-        return this.objectives;
-    }
-
-    public Student getOwner() {
-        return this.owner;
-    }
-
-    public void setOwner(Student owner) {
-        this.owner = owner;
+        return this.objectives != null ? this.objectives : new ArrayList<>();
     }
 
     /**

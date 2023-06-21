@@ -18,7 +18,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.rikmentink.studybuddy.model.Student;
 
 public class FileHandler {
-    private static final String DATA_URL = "/home/data.json";
+    private static final String DATA_URL = "/Users/rikmentink/Development/School/Projects/IPASS/studybuddy/data/data.json";
     private static final ObjectMapper objectMapper;
     
     static {

@@ -61,7 +61,7 @@ public class Student implements Serializable {
     }
 
     public List<Project> getProjects() {
-        return this.projects;
+        return this.projects != null ? this.projects : new ArrayList<>();
     }
 
     public boolean addProject(Project project) {
@@ -109,17 +109,6 @@ public class Student implements Serializable {
         } else {
             return -1;
         }
-    }
-
-    /**
-     * Retrieves all projects of a specific student based on the student ID.
-     * 
-     * @param studentId The ID of the student whose projects to retrieve.
-     * @return List of Project objects representing the projects of the student.
-     */
-    public static List<Project> getProjects(int studentId) {
-        Student student = getStudent(studentId);
-        return student != null ? student.getProjects() : new ArrayList<>();
     }
     
     private static int generateNewStudentId() {

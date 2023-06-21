@@ -31,7 +31,7 @@ export default class ProjectService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (!res.ok) {
+            if (res.status != 201) {
                 return new Error(res.status);
             }
 
