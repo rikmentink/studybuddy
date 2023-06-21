@@ -119,8 +119,6 @@ public class ProjectController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addObjective(@Context UriInfo uri, @PathParam("projectId") int projectId, Objective objective) {
-        objective.setId(Objective.generateNewObjectiveId());
-
         if (!Objective.addObjective(projectId, objective)) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
@@ -160,8 +158,6 @@ public class ProjectController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addTask(@Context UriInfo uri, @PathParam("projectId") int projectId, Task task) {
-        task.setId(Task.generateNewTaskId());
-
         if (!Task.addTask(projectId, task)) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))

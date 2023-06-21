@@ -110,6 +110,8 @@ public class Objective {
      * @return True if the objective was successfully added, false otherwise.
      */
     public static boolean addObjective(int projectId, Objective objective) {
+        objective.setId(generateNewObjectiveId());
+        
         List<Student> students = Student.getAllStudents();
         Optional<Student> optionalStudent = students.stream()
                 .filter(student -> student.getProjects().stream()

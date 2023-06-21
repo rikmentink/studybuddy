@@ -14,12 +14,26 @@ export default class ProjectService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                return new Error(res.status);
+                throw new Error(res.status);
             }
 
             return res.json();
         }).catch(err => {
-            return new Error(err);
+            return err;
+        });
+    }
+
+    static getProject(projectId) {
+        return fetch(`${API_URL}/projects/${projectId}`, {
+            method: 'GET',
+        }).then(res => {
+            if (!res.ok) {
+                throw new Error(res.status);
+            }
+
+            return res.json();
+        }).catch(err => {
+            return err;
         });
     }
 
@@ -31,13 +45,13 @@ export default class ProjectService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status != 201) {
-                return new Error(res.status);
+            if (res.status !== 201) {
+                throw new Error(res.status);
             }
 
             return res.json();
         }).catch(err => {
-            return new Error(err);
+            return err;
         });
     }
 }

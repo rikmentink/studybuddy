@@ -11,14 +11,14 @@ export default class AuthService {
             }
         }).then(res => {
             if (!res.ok) {
-                return new Error(res.status);
+                throw new Error(res.status);
             }
             return res.json();
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
         }).catch(err => {
-            return new Error(err);
+            return err;
         });
     }
 
@@ -31,14 +31,14 @@ export default class AuthService {
             }
         }).then(res => {
             if (!res.ok) {
-                return new Error(res.status);
+                throw new Error(res.status);
             }
             return res.json();
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
         }).catch(err => {
-            return new Error(err);
+            return err;
         });
     }
 
@@ -69,7 +69,7 @@ export default class AuthService {
 
     static isAuthenticated() {
         const token = sessionStorage.getItem('token');
-        return token !== null && token !== undefined;
+        return token !== null && token !== 'undefined';
     }
 
     static performAuthenticationCheck() {

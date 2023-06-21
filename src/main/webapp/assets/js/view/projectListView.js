@@ -2,6 +2,7 @@ import AuthService from '../service/authService.js';
 import ProjectService from '../service/projectService.js';
 import Project from '../model/project.js';
 import { formDataToJson } from '../utils/utils.js';
+import { URL_PREFIX } from '../config.js';
 
 class ProjectListView {
     
@@ -67,7 +68,7 @@ class ProjectListView {
 
         // projectCard.querySelector('#image').src = 
         projectCard.querySelector('#title').textContent       = project.name;
-        projectCard.querySelector('#url').href = `#project-${project.id}`
+        projectCard.querySelector('#url').href = `${URL_PREFIX}/project.html?project=${project.id}`
 
         if (project.description) {
             projectCard.querySelector('#description').textContent = project.description;

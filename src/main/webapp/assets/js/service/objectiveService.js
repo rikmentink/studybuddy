@@ -14,30 +14,30 @@ export default class ObjectiveService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                return new Error(res.status);
+                throw new Error(res.status);
             }
 
             return res.json();
         }).catch(err => {
-            return new Error(err);
+            return err;
         });
     }
 
     static addObjective(projectId, objective) {
-        return fetch(`${API_URL}/projects/${projectId}/objectives${endpoint}`, {
+        return fetch(`${API_URL}/projects/${projectId}/objectives`, {
             method: 'POST',
             body: JSON.stringify(objective),
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status != 201) {
-                return new Error(res.status);
+            if (res.status !== 201) {
+                throw new Error(res.status);
             }
 
             return res.json();
         }).catch(err => {
-            return new Error(err);
+            return err;
         });
     }
 }
