@@ -92,6 +92,20 @@ public class Student implements Serializable {
     }
 
     /**
+     * Retrieves a specific student based on the student email.
+     * 
+     * @param studentId The ID of the student to retrieve.
+     * @return The Student object matching the provided ID, or null if not found.
+     */
+    public static Student getStudentByEmail(String email) {
+        List<Student> students = getAllStudents();
+        return students.stream()
+                .filter(student -> student.getEmail() == email)
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * Adds a new student to the list of students.
      * 
      * @param student The Student object to add.

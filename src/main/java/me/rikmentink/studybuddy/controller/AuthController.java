@@ -22,7 +22,7 @@ import me.rikmentink.studybuddy.model.Student;
 
 @Path("/auth")
 public class AuthController {
-    private static final Key key = MacProvider.generateKey();
+    public static final Key key = MacProvider.generateKey();
 
     /**
      * Handles a login request by authenticating the user's email and password.
