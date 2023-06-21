@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import me.rikmentink.studybuddy.handler.FileHandler;
 import me.rikmentink.studybuddy.model.Project;
 
 @Path("/projects")
@@ -21,8 +20,8 @@ public class ProjectController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProjects(@PathParam("studentId") int studentId) {
-        List<Project> projects = FileHandler.getAllProjects();
+    public Response getProjects() {
+        List<Project> projects = Project.getAllProjects();
 
         if (projects.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).entity(projects).build();
@@ -35,7 +34,7 @@ public class ProjectController {
     @Path("/{projectId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProject(@PathParam("projectId") int projectId) {
-        Project project = FileHandler.getProject(projectId);
+        Project project = Project.getProject(projectId);
 
         if (project == null) {
             return Response.status(Response.Status.NOT_FOUND)
@@ -72,7 +71,7 @@ public class ProjectController {
     @Path("/{projectId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteProject(@PathParam("projectId") int projectId) {
-        boolean status = FileHandler.deleteProject(projectId);
+        boolean status = Project.deleteProject(projectId);
 
         if (getProject(projectId) == null) {
             return Response.status(Response.Status.NOT_FOUND)

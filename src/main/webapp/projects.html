@@ -44,8 +44,23 @@
         <div class="container">
             <header class="header">
                 <h1 class="header__title">Projecten</h1>
-                <div class="header__links"></div>
-                <div class="header__actions">Rik Mentink</div>
+                <!-- <div class="header__links">
+                    <a class="header__links-item" href="?projectFilter=all">Alle</a>
+                    <a class="header__links-item" href="?projectFilter=active">Actief</a>
+                    <a class="header__links-item" href="?projectFilter=completed">Voltooid</a>
+                </div> -->
+                <div class="header__user">
+                    <span class="header__user-name">Rik Mentink</span>
+                    <button class="header__user-toggle btn js-user-dropdown-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>
+                    <div class="header__user-dropdown js-user-dropdown">
+                        <a href="#">Mijn account</a>
+                        <a href="/auth/logout.html">Uitloggen</a>
+                    </div>
+                </div>
             </header>
             <main class="content">
                 <section>

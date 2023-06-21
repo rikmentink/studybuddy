@@ -49,5 +49,5 @@ a:not([class]) {
 
 .content {
     flex: 1 1 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
 }
