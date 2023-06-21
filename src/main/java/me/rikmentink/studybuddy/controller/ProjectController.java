@@ -95,11 +95,17 @@ public class ProjectController {
     }
 
     @GET
-    @Path("/{projectId}/projects")
+    @Path("/{projectId}/objectives")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObjectives(@PathParam("projectId") int projectId) {
-        List<Objective> objectives = Project.getProject(projectId).getObjectives();
+        Project project = Project.getProject(projectId);
+        if (project == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
+                    .build();
+        }
 
+        List<Objective> objectives = project.getObjectives();
         if (objectives.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
