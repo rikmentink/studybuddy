@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+    overflow-x: auto;
+    vertical-align: middle;
+    border-spacing: 0;
+}
+
+table > thead th {
+    padding: .75rem .5rem;
+    background-color: var(--theme-color-primary);
+}
+
+table > tbody td {
+    padding: .25rem 0;
+    font-size: 15px;
+    text-align: center;
+}

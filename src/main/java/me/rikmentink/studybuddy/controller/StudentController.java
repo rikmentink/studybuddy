@@ -84,8 +84,6 @@ public class StudentController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addProject(@Context UriInfo uri, @PathParam("studentId") int studentId, Project project) {
-        project.setId(Project.generateNewProjectId());
-
         if (!Project.addProject(studentId, project)) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Student with ID " + studentId + " not found."))

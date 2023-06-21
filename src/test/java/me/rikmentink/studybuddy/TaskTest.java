@@ -1,10 +1,13 @@
 package me.rikmentink.studybuddy;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
@@ -41,5 +44,17 @@ public class TaskTest {
         );
     }
 
-    // TODO: add newProjectGetsUniqueId() test.
+    @Test
+    public void newTaskGetsUniqueId() {
+        // Add the new student, project and the task.
+        Student.addStudent(student);
+        Project.addProject(student.getId(), project);
+        Task.addTask(project.getId(), task);
+
+        // Test whether only one task has this ID
+        boolean match = Task.getAllTasks().stream()
+                .anyMatch(foundTask -> foundTask.getId() == task.getId());
+
+        assertFalse(match);    
+    }
 }

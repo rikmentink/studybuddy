@@ -1,5 +1,6 @@
 import ObjectiveService from '../service/objectiveService.js';
-import Objective from '../model/objective.js';
+import ProjectService from '../service/projectService.js';
+import TaskService from '../service/taskService.js';
 import { formDataToJson } from '../utils/utils.js';
 
 class ProjectView {
@@ -9,12 +10,18 @@ class ProjectView {
      * the page is loaded.
      */
     static init() {
+        this.projectId = (new URL(document.location)).searchParams.get('project');
+
+        if (this.projectId == null || ProjectService.getProject(this.projectId) == null) {
+            window.location.href = '/projects.html'
+        }
+
         this.objectiveList = document.querySelector('#objectiveList');
         this.objectiveRowTemplate = document.querySelector('#objectiveRowTemplate');
         this.taskList = document.querySelector('#taskList');
         this.taskRowTemplate = document.querySelector('#taskRowTemplate');
 
-        window.addEventListener('DOMContentLoaded', this.renderObjectives.bind(this));
+        window.addEventListener('DOMContentLoaded', this.renderData.bind(this));
         
         document.querySelector('#addObjectiveFormSubmit').addEventListener('click', () => {
             const form = document.querySelector('#addObjectiveForm')
@@ -43,29 +50,32 @@ class ProjectView {
      * The function fetches objectives for a specific projects, creates row 
      * entries for each of them and renders them onto the page.
      */
-    static renderObjectives() {
-        const projectId = 1 // TODO: Find the saved project id, maybe from query param?
+    static renderData() {
+        ProjectService.getProject(this.projectId)
+            .then(project => {
+                document.querySelector('.js-project-name').textContent = project.name;
+            })
 
-        TaskService.getTasks(projectId)
+        TaskService.getTasks(this.projectId)
             .then(tasks => {
                 if (tasks.length > 0) {
-                    this.clearObjectiveList();
+                    this.clearTaskList();
 
                     tasks.forEach(task => {
-                        const taskRow = this.createObjectiveRow(task);
+                        const taskRow = this.createTaskRow(task);
                         this.taskList.appendChild(taskRow);
                     });
                 } else {
                     const message = document.createElement('p');
                     message.textContent = 'Je hebt nog geen taken, maak er een aan!';
-                    this.taskList.appendChild(message);
+                    document.querySelector('#taskContainer').replaceWith(message);
                 }
             })
             .catch(err => {
                 console.error("Error while fetching tasks:", err);
             });
 
-        ObjectiveService.getObjectives(projectId)
+        ObjectiveService.getObjectives(this.projectId)
             .then(objectives => {
                 if (objectives.length > 0) {
                     this.clearObjectiveList();
@@ -77,12 +87,37 @@ class ProjectView {
                 } else {
                     const message = document.createElement('p');
                     message.textContent = 'Je hebt nog geen deadlines, maak er een aan!';
-                    this.objectiveList.appendChild(message);
+                    document.querySelector('#objectiveContainer').replaceWith(message);
                 }
             })
             .catch(err => {
                 console.error("Error while fetching objectives:", err);
             });
+    }
+
+    /**
+     * The function creates a row for an task by cloning a template and 
+     * populating it with task information.
+     * 
+     * @param {Task} task - Contains the task object to create a row for.
+     * @returns {Node} The code for the row representing the task.
+     */
+    static createTaskRow(objective) {
+        const taskRow = this.taskRowTemplate.content.cloneNode(true);
+
+        taskRow.querySelector('#name').textContent = objective.name;
+
+        if (objective.description) {
+            taskRow.querySelector('#description').textContent = objective.description;
+        }
+        if (objective.deadline) {
+            taskRow.querySelector('#deadline').textContent = objective.deadline;
+        }
+        if (objective.completed) {
+            taskRow.querySelector('#completed').checked = objective.completed;
+        }
+
+        return taskRow;
     }
 
     /**
@@ -96,27 +131,32 @@ class ProjectView {
         const objectiveRow = this.objectiveRowTemplate.content.cloneNode(true);
 
         objectiveRow.querySelector('#name').textContent = objective.name;
-        objectiveRow.querySelector('#description').textContent = objective.description;
 
+        if (objective.description) {
+            objectiveRow.querySelector('#description').textContent = objective.description;
+        }
         if (objective.deadline) {
             objectiveRow.querySelector('#deadline').textContent = objective.deadline;
-        }
-        if (objective.completed) {
-            objectiveRow.querySelector('#completed').checked = objective.completed;
         }
 
         return objectiveRow;
     }
 
-   /**
-    * Clears the objective and task lists by removing all their child elements.
+    /**
+    * Clears the task list by removing all its child elements.
+    */
+    static clearTaskList() {
+        while (this.taskList.firstChild) {
+            this.taskList.firstChild.remove();
+        }
+    }
+
+    /**
+    * Clears the objective list by removing all its child elements.
     */
     static clearObjectiveList() {
         while (this.objectiveList.firstChild) {
             this.objectiveList.firstChild.remove();
-        }
-        while (this.taskList.firstChild) {
-            this.taskList.firstChild.remove();
         }
     }
 
@@ -126,12 +166,14 @@ class ProjectView {
      * @param event The triggered event when the form was submitted.
      */
     static addTaskFormSubmit(form) {
-        const projectId = 1 // TODO: (dubbel) project id vinden
         const data = formDataToJson(form);
         let message = document.querySelector('#addTaskFormMessage');
 
         if (data.name) {
-            TaskService.addObjective(projectId, data)
+            if (data.deadline) {
+                data.deadline = data.deadline.split('T').join(' ');
+            }
+            TaskService.addTask(this.projectId, data)
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Task successfully added!';
@@ -153,12 +195,14 @@ class ProjectView {
      * @param event The triggered event when the form was submitted.
      */
     static addObjectiveFormSubmit(form) {
-        const projectId = 1 // TODO: (dubbel) project id vinden
         const data = formDataToJson(form);
         let message = document.querySelector('#addObjectiveFormMessage');
 
         if (data.name) {
-            ObjectiveService.addObjective(projectId, data)
+            if (data.deadline) {
+                data.deadline = data.deadline.split('T').join(' ');
+            }
+            ObjectiveService.addObjective(this.projectId, data)
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Objective successfully added!';

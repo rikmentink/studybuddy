@@ -129,6 +129,8 @@ public class Project {
      * @return True if the project was successfully added, false otherwise.
      */
     public static boolean addProject(int studentId, Project project) {
+        project.setId(generateNewProjectId());
+        
         List<Student> students = Student.getAllStudents();
         Optional<Student> optionalStudent = students.stream()
                 .filter(student -> student.getId() == studentId)

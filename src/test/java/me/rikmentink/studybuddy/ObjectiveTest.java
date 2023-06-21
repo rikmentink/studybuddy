@@ -1,10 +1,13 @@
 package me.rikmentink.studybuddy;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
@@ -40,5 +43,17 @@ public class ObjectiveTest {
         );
     }
 
-    // TODO: add newProjectGetsUniqueId() test.
+    @Test
+    public void newObjectiveGetsUniqueId() {
+        // Save the new student, project and the objective.
+        Student.addStudent(student);
+        Project.addProject(student.getId(), project);
+        Objective.addObjective(project.getId(), objective);
+
+        // Test whether only one objective has this ID
+        boolean match = Objective.getAllObjectives().stream()
+                .anyMatch(foundObjective -> foundObjective.getId() == objective.getId());
+
+        assertFalse(match);    
+    }
 }

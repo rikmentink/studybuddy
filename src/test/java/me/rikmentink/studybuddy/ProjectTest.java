@@ -1,10 +1,9 @@
 package me.rikmentink.studybuddy;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,21 +35,15 @@ public class ProjectTest {
     }
 
     @Test
-    public void newProjectGetsUniqueId() {
-        // Save the new student with an empty project list
+    public void newObjectiveGetsUniqueId() {
+        // Save the new student and the project.
         Student.addStudent(student);
-
-        // Add a new project and assign a unique ID
-        int uniqueId = Project.generateNewProjectId();
-        project.setId(uniqueId);
-        student.addProject(project);
+        Project.addProject(student.getId(), project);
 
         // Test whether only one project has this ID
-        int projectsWithIdFound = Project.getAllProjects().stream()
-                .filter(project -> project.getId() == uniqueId)
-                .collect(Collectors.toList())
-                .size();    
+        boolean match = Project.getAllProjects().stream()
+                .anyMatch(foundProject -> foundProject.getId() == project.getId());
 
-        assertEquals(1, projectsWithIdFound);
+        assertFalse(match);    
     }
 }

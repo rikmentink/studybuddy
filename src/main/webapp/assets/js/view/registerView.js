@@ -1,5 +1,6 @@
 import AuthService from '../service/authService.js';
 import { formDataToJson } from '../utils/utils.js';
+import { URL_PREFIX } from '../config.js';
 
 class RegisterView {
     
@@ -18,10 +19,10 @@ class RegisterView {
             AuthService.register(data)
             .then(res => {
                 console.log(`Student with id ${res.userId} was registered.`);
-                // window.location.href = `${URL_PREFIX}`;
+                window.location.href = `${URL_PREFIX}/`;
             })
             .catch(e => {
-                console.error(`Student login failed: ${e}`)
+                console.error(`Student register failed: ${e}`)
                 message.classList.add('error');
                 message.textContent = 'Something went wrong!';
             })

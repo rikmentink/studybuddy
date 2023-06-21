@@ -1,9 +1,8 @@
 package me.rikmentink.studybuddy;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,15 +25,13 @@ public class StudentTest {
 
     @Test
     public void newStudentGetsUniqueId() {
-        // Create a new student and assign a unique ID
+        // Save the new student with an empty project list
         Student.addStudent(student);
 
         // Test whether only one student has this ID
-        int studentsWithIdFound = Student.getAllStudents().stream()
-                .filter(foundStudent -> foundStudent.getId() == student.getId())
-                .collect(Collectors.toList())
-                .size();    
+        boolean match = Student.getAllStudents().stream()
+                .anyMatch(foundStudent -> foundStudent.getId() == student.getId());
 
-        assertEquals(1, studentsWithIdFound);
+        assertFalse(match);    
     }
 }

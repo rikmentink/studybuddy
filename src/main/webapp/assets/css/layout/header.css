@@ -11,6 +11,15 @@
     margin: 0;
 }
 
+.header__title > span {
+    font-weight: normal;
+}
+
+.header__title-separator {
+    margin: 0 1rem;
+    border-left: 2px solid #ddd;
+}
+
 .header__user {
     display: flex;
     justify-content: flex-end;
