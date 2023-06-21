@@ -1,18 +1,24 @@
 package me.rikmentink.studybuddy.controller;
 
+import java.net.URI;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
+import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
 
 @Path("/projects")
@@ -86,5 +92,40 @@ public class ProjectController {
         }
 
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{projectId}/projects")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getObjectives(@PathParam("projectId") int projectId) {
+        List<Objective> objectives = Project.getProject(projectId).getObjectives();
+
+        if (objectives.size() == 0) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+
+        return Response.ok(objectives).build();
+    }
+
+    @POST
+    @Path("/{projectId}/objectives")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addObjective(@Context UriInfo uri, @PathParam("projectId") int projectId, Objective objective) {
+        objective.setId(Objective.generateNewObjectiveId());
+
+        if (!Objective.addObjective(projectId, objective)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
+                    .build();
+        }
+
+        URI location = UriBuilder.fromUri(uri.getBaseUri())
+            .path("projects")
+            .path(String.valueOf(projectId))
+            .path("objectives")
+            .path(String.valueOf(objective.getId()))
+            .build();
+        return Response.created(location).entity(objective).build();
     }
 }
