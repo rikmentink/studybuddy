@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 
-import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
 import me.rikmentink.studybuddy.model.Student;
+import me.rikmentink.studybuddy.model.Task;
 
-public class ObjectiveTest {
+public class TaskTest {
     private static Student student;
     private static Project project;
-    private static Objective objective;
+    private static Task task;
 
     @BeforeEach
     public void init() {
@@ -32,11 +32,12 @@ public class ObjectiveTest {
             new ArrayList<>(),
             new ArrayList<>()
         );
-        objective = new Objective(
+        task = new Task(
             "Test", 
-            "This is an objective meant for testing.",
+            "This is a task meant for testing.",
             LocalDateTime.parse("2023-06-15 09:00"),
-            "Test notes"
+            "Test notes",
+            false
         );
     }
 
