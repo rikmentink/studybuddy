@@ -167,17 +167,6 @@ public class Project {
         return FileHandler.writeData(students);
     } 
 
-    public static int generateNewProjectId() {
-        List<Project> projects = getAllProjects();
-        
-        if (projects.isEmpty()) return 1;
-        int maxId = projects.stream()
-                .mapToInt(Project::getId)
-                .max()
-                .orElse(0);
-        return maxId + 1;
-    }
-
     /**
      * TODO: Document function.
      * 
@@ -192,4 +181,15 @@ public class Project {
 
         return FileHandler.writeData(students);
     } 
+
+    public static int generateNewProjectId() {
+        List<Project> projects = getAllProjects();
+        
+        if (projects.isEmpty()) return 1;
+        int maxId = projects.stream()
+                .mapToInt(Project::getId)
+                .max()
+                .orElse(0);
+        return maxId + 1;
+    }
 }

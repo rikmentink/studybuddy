@@ -13,9 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import me.rikmentink.studybuddy.handler.FileHandler;
 import me.rikmentink.studybuddy.model.Objective;
-import me.rikmentink.studybuddy.model.Project;
 
 @Path("/objectives")
 public class ObjectiveController {
