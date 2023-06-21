@@ -93,16 +93,46 @@
                         </form>
                     </dialog>
                     <p>
-                        <button id="showAddObjectiveFormDialog" role="dialog" class="btn btn--secondary">Nieuwe opdracht</button>
+                        <button id="showAddTaskFormDialog" role="dialog" class="btn btn--secondary">Nieuwe opdracht</button>
+                        <button id="showAddObjectiveFormDialog" role="dialog" class="btn btn--secondary">Nieuwe deadline</button>
                     </p>
                 </section>
                 <section>
+                    <h2>Taken</h2>
                     <table>
                         <thead>
                             <tr>
                                 <th>Naam</th>
+                                <th>Omschrijving</th> <!-- TODO: Truncate description -->
                                 <th>Deadline</th>
                                 <th>Voltooid</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskList"></tbody>
+                    </table>
+                    <template id="taskRowTemplate">
+                        <tr>
+                            <td id="name"></td>
+                            <td id="description"></td>
+                            <td id="deadline"></td>
+                            <td>
+                                <input type="checkbox" id="completed">
+                            </td>
+                            <td>
+                                <button id="viewTask">></button>
+                            </td>
+                        </tr>
+                    </template>
+                </section>
+                <section>
+                    <h2>Deadlines</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Naam</th>
+                                <th>Omschrijving</th> <!-- TODO: Truncate description -->
+                                <th>Deadline</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -111,10 +141,8 @@
                     <template id="objectiveRowTemplate">
                         <tr>
                             <td id="name"></td>
+                            <td id="description"></td>
                             <td id="deadline"></td>
-                            <td>
-                                <input type="checkbox" id="completed">
-                            </td>
                             <td>
                                 <button id="viewObjective">></button>
                             </td>

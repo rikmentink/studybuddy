@@ -11,6 +11,8 @@ class ProjectView {
     static init() {
         this.objectiveList = document.querySelector('#objectiveList');
         this.objectiveRowTemplate = document.querySelector('#objectiveRowTemplate');
+        this.taskList = document.querySelector('#taskList');
+        this.taskRowTemplate = document.querySelector('#taskRowTemplate');
 
         window.addEventListener('DOMContentLoaded', this.renderObjectives.bind(this));
         
@@ -21,9 +23,19 @@ class ProjectView {
         document.querySelector('#showAddObjectiveFormDialog').addEventListener('click', () => {
             document.querySelector('#addObjectiveFormDialog').showModal();
         });
-        
         document.querySelector('#closeAddObjectiveFormDialog').addEventListener('click', () => {
             document.querySelector('#addObjectiveFormDialog').close();
+        });
+
+        document.querySelector('#addTaskFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#addTaskForm')
+            this.addTaskFormSubmit(form);
+        });
+        document.querySelector('#showAddTaskFormDialog').addEventListener('click', () => {
+            document.querySelector('#addTaskFormDialog').showModal();
+        });
+        document.querySelector('#closeAddTaskFormDialog').addEventListener('click', () => {
+            document.querySelector('#addTaskFormDialog').close();
         });
     }
 
@@ -33,6 +45,25 @@ class ProjectView {
      */
     static renderObjectives() {
         const projectId = 1 // TODO: Find the saved project id, maybe from query param?
+
+        TaskService.getTasks(projectId)
+            .then(tasks => {
+                if (tasks.length > 0) {
+                    this.clearObjectiveList();
+
+                    tasks.forEach(task => {
+                        const taskRow = this.createObjectiveRow(task);
+                        this.taskList.appendChild(taskRow);
+                    });
+                } else {
+                    const message = document.createElement('p');
+                    message.textContent = 'Je hebt nog geen taken, maak er een aan!';
+                    this.taskList.appendChild(message);
+                }
+            })
+            .catch(err => {
+                console.error("Error while fetching tasks:", err);
+            });
 
         ObjectiveService.getObjectives(projectId)
             .then(objectives => {
@@ -45,7 +76,7 @@ class ProjectView {
                     });
                 } else {
                     const message = document.createElement('p');
-                    message.textContent = 'Je hebt nog geen taken, maak er een aan!';
+                    message.textContent = 'Je hebt nog geen deadlines, maak er een aan!';
                     this.objectiveList.appendChild(message);
                 }
             })
@@ -65,22 +96,54 @@ class ProjectView {
         const objectiveRow = this.objectiveRowTemplate.content.cloneNode(true);
 
         objectiveRow.querySelector('#name').textContent = objective.name;
-        // objectiveRow.querySelector('#completed').textContent = objective.completed;
+        objectiveRow.querySelector('#description').textContent = objective.description;
 
         if (objective.deadline) {
             objectiveRow.querySelector('#deadline').textContent = objective.deadline;
         }
-        // TODO: Als opdracht taak is, vul checkbox in.
+        if (objective.completed) {
+            objectiveRow.querySelector('#completed').checked = objective.completed;
+        }
 
         return objectiveRow;
     }
 
    /**
-    * Clears the objective list by removing all its child elements.
+    * Clears the objective and task lists by removing all their child elements.
     */
     static clearObjectiveList() {
         while (this.objectiveList.firstChild) {
             this.objectiveList.firstChild.remove();
+        }
+        while (this.taskList.firstChild) {
+            this.taskList.firstChild.remove();
+        }
+    }
+
+    /**
+     * Adds a new task when the form is submitted.
+     * 
+     * @param event The triggered event when the form was submitted.
+     */
+    static addTaskFormSubmit(form) {
+        const projectId = 1 // TODO: (dubbel) project id vinden
+        const data = formDataToJson(form);
+        let message = document.querySelector('#addTaskFormMessage');
+
+        if (data.name) {
+            TaskService.addObjective(projectId, data)
+            .then(() => {
+                message.classList.add('success');
+                message.textContent = 'Task successfully added!';
+                e.target.reset();
+            })
+            .catch(() => {
+                message.classList.add('error');
+                message.textContent = 'Something went wrong!';
+            });
+        } else {
+            message.classList.add('error');
+            message = 'Please enter a valid name!';
         }
     }
 

@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 
 import me.rikmentink.studybuddy.model.Objective;
 import me.rikmentink.studybuddy.model.Project;
+import me.rikmentink.studybuddy.model.Task;
 
 @Path("/projects")
 public class ProjectController {
@@ -133,5 +134,46 @@ public class ProjectController {
             .path(String.valueOf(objective.getId()))
             .build();
         return Response.created(location).entity(objective).build();
+    }
+
+    @GET
+    @Path("/{projectId}/tasks")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTasks(@PathParam("projectId") int projectId) {
+        Project project = Project.getProject(projectId);
+        if (project == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
+                    .build();
+        }
+
+        List<Task> tasks = project.getTasks();
+        if (tasks.size() == 0) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+
+        return Response.ok(tasks).build();
+    }
+
+    @POST
+    @Path("/{projectId}/tasks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addTask(@Context UriInfo uri, @PathParam("projectId") int projectId, Task task) {
+        task.setId(Task.generateNewTaskId());
+
+        if (!Task.addTask(projectId, task)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(new SimpleEntry<>("message", "Project with ID " + projectId + " not found."))
+                    .build();
+        }
+
+        URI location = UriBuilder.fromUri(uri.getBaseUri())
+            .path("projects")
+            .path(String.valueOf(projectId))
+            .path("tasks")
+            .path(String.valueOf(task.getId()))
+            .build();
+        return Response.created(location).entity(task).build();
     }
 }

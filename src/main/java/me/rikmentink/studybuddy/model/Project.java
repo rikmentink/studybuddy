@@ -17,6 +17,7 @@ public class Project {
     private String name;
     private String description;
     private List<Objective> objectives; 
+    private List<Task> tasks; 
     
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
@@ -24,12 +25,13 @@ public class Project {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate endDate;
 
-    public Project(String name, String description, LocalDate startDate, LocalDate endDate, List<Objective> objectives) {
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, List<Objective> objectives, List<Task> tasks) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.objectives = objectives;
+        this.tasks = tasks;
     }
 
     @JsonCreator
@@ -38,8 +40,9 @@ public class Project {
                    @JsonProperty("description") String description, 
                    @JsonProperty("startDate") LocalDate startDate, 
                    @JsonProperty("endDate") LocalDate endDate,
-                   @JsonProperty("objectives") List<Objective> objectives) {
-        this(name, description, startDate, endDate, objectives);
+                   @JsonProperty("objectives") List<Objective> objectives,
+                   @JsonProperty("tasks") List<Task> tasks) {
+        this(name, description, startDate, endDate, objectives, tasks);
         this.id = id;
     }
 
@@ -85,6 +88,10 @@ public class Project {
 
     public List<Objective> getObjectives() {
         return this.objectives != null ? this.objectives : new ArrayList<>();
+    }
+
+    public List<Task> getTasks() {
+        return this.tasks != null ? this.tasks : new ArrayList<>();
     }
 
     /**
