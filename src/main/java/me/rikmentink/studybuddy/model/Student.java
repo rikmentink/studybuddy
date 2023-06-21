@@ -64,6 +64,10 @@ public class Student implements Serializable {
         return this.projects;
     }
 
+    public boolean addProject(Project project) {
+        return Project.addProject(this.id, project);
+    }
+
     /**
      * Reads all students from the data file.
      * 
