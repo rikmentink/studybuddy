@@ -10,7 +10,7 @@ class ProjectView {
      * the page is loaded.
      */
     static init() {
-        this.objectiveList = document.querySelector('#objectivesContainer');
+        this.objectiveList = document.querySelector('#objectiveList');
         this.objectiveRowTemplate = document.querySelector('#objectiveRowTemplate');
 
         window.addEventListener('DOMContentLoaded', this.renderObjectives.bind(this));
