@@ -69,6 +69,7 @@ public class Task extends Objective {
      * @return True if the task was successfully added, false otherwise.
      */
     public static boolean addTask(int projectId, Task task) {
+        task.setId(generateNewTaskId());
         List<Student> students = Student.getAllStudents();
         Optional<Student> optionalStudent = students.stream()
                 .filter(student -> student.getProjects().stream()
@@ -100,12 +101,12 @@ public class Task extends Objective {
      * @param updatedTask
      * @return
      */
-    public static boolean updateTask(int taskId, Objective updatedTask) {
+    public static boolean updateTask(int taskId, Task updatedTask) {
         List<Student> students = Student.getAllStudents();
         
         students.stream()
             .flatMap(student -> student.getProjects().stream())
-            .filter(project -> project.getObjectives().stream()
+            .filter(project -> project.getTasks().stream()
                     .anyMatch(task -> task.getId() == taskId))
             .findFirst()
             .ifPresent(project -> {
@@ -118,6 +119,7 @@ public class Task extends Objective {
                         task.setDescription(updatedTask.getDescription());
                         task.setDeadline(updatedTask.getDeadline());
                         task.setNote(updatedTask.getNote());
+                        task.setCompleted(updatedTask.getCompleted());
                     });
             });
 

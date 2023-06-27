@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test project | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
-    <base href="/" target="_self">
+    <base href="/studybuddy-1.1.0/" target="_self">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -34,7 +34,7 @@
             <nav class="sidebar__navigation">
                 <ul class="sidebar__navigation-list">
                     <li class="sidebar__navigation-item">
-                        <a href="/" title="Navigeer naar jouw overzicht" class="sidebar__navigation-link">Overzicht</a>
+                        <a href="index.html" title="Navigeer naar jouw overzicht" class="sidebar__navigation-link">Overzicht</a>
                     </li>
                     <li class="sidebar__navigation-item">
                         <a href="projects.html" title="Navigeer naar jouw projecten" class="sidebar__navigation-link">Projecten</a>
@@ -54,7 +54,7 @@
                     </button>
                     <div class="header__user-dropdown js-user-dropdown">
                         <a href="#">Mijn account</a>
-                        <a href="/auth/logout.html">Uitloggen</a>
+                        <a href="auth/logout.html">Uitloggen</a>
                     </div>
                 </div>
             </header>
@@ -65,12 +65,12 @@
                             <section>
                                 <div class="form-field">
                                     <label class="form-field__label" for="name">Naam</label>
-                                    <input class="form-field__input" id="name" name="name" type="text" placeholder="Hoe wil je de opdracht noemen?">
+                                    <input class="form-field__input" id="name" name="name" type="text" placeholder="Hoe wil je de taak noemen?">
                                 </div>
             
                                 <div class="form-field">
                                     <label class="form-field__label" for="description">Omschrijving <sup>(optioneel)</sup></label>
-                                    <textarea class="form-field__input" id="description" name="description" rows="3" placeholder="Waar gaat je opdracht over?"></textarea>
+                                    <textarea class="form-field__input" id="description" name="description" rows="3" placeholder="Waar gaat de taak over?"></textarea>
                                 </div>
             
                                 <div class="form-group">
@@ -97,12 +97,12 @@
                             <section>
                                 <div class="form-field">
                                     <label class="form-field__label" for="name">Naam</label>
-                                    <input class="form-field__input" id="name" name="name" type="text" placeholder="Hoe wil je de opdracht noemen?">
+                                    <input class="form-field__input" id="name" name="name" type="text" placeholder="Hoe wil je de taak noemen?">
                                 </div>
             
                                 <div class="form-field">
                                     <label class="form-field__label" for="description">Omschrijving <sup>(optioneel)</sup></label>
-                                    <textarea class="form-field__input" id="description" name="description" rows="3" placeholder="Waar gaat je opdracht over?"></textarea>
+                                    <textarea class="form-field__input" id="description" name="description" rows="3" placeholder="Waar gaat de taak over?"></textarea>
                                 </div>
             
                                 <div class="form-group">
@@ -185,7 +185,7 @@
                         </form>
                     </dialog>
                     <p>
-                        <button id="showAddTaskFormDialog" role="dialog" class="btn btn--secondary">Nieuwe opdracht</button>
+                        <button id="showAddTaskFormDialog" role="dialog" class="btn btn--secondary">Nieuwe taak</button>
                         <button id="showAddObjectiveFormDialog" role="dialog" class="btn btn--secondary">Nieuwe deadline</button>
                     </p>
                 </section>
@@ -209,14 +209,18 @@
                             <td id="name"></td>
                             <td id="description"></td>
                             <td id="deadline"></td>
-                            <td>
-                                <input type="checkbox" id="completed">
+                            <td width="80px;">
+                                <input type="checkbox" id="completed" class="js-complete-task">
                             </td>
-                            <td>
-                                <button class="js-update-task"></button>
+                            <td width="50px;">
+                                <button class="btn js-update-task">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+                                </button>
                             </td>
-                            <td>
-                                <button class="js-delete-task"></button>
+                            <td width="50px;">
+                                <button class="btn js-delete-task">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                                </button>
                             </td>
                         </tr>
                     </template>
@@ -240,11 +244,15 @@
                             <td id="name"></td>
                             <td id="description"></td>
                             <td id="deadline"></td>
-                            <td>
-                                <button class="js-update-objective"></button>
+                            <td width="50px;">
+                                <button class="btn js-update-objective">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+                                </button>
                             </td>
-                            <td>
-                                <button class="js-delete-objective"></button>
+                            <td width="50px;">
+                                <button class="btn js-delete-objective">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                                </button>
                             </td>
                         </tr>
                     </template>

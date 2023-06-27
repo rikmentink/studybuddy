@@ -85,23 +85,11 @@ class ProjectView {
                         const taskRow = this.createTaskRow(task);
                         this.taskList.appendChild(taskRow);
 
-                        // taskRow.querySelector('.js-update-task').addEventListener('click', (e) => {
-                        //     const taskId = taskRow.querySelector('.task-row').getAttribute('data-id');
-                
-                        //     this.initTaskForm(taskId);
-                        //     document.querySelector('#updateTaskFormDialog').showModal();
-                        // });
+                        const taskRowElement = document.querySelector(`.task-row[data-id='${task.id}']`);
 
-                        // taskRow.querySelector('.js-delete-task').addEventListener('click', () => {
-                        //     const taskId = taskRow.querySelector('.task-row').getAttribute('data-id');
-
-                        //     TaskService.deleteTask(taskId)
-                        //         .catch(err => {
-                        //             console.error("Error while deleting task:", err);
-                        //         });
-
-                        //     window.location.reload();
-                        // });
+                        taskRowElement.querySelector('.js-complete-task').addEventListener('change', this.handleCompleteTask(task));
+                        taskRowElement.querySelector('.js-update-task').addEventListener('click', this.handleUpdateTask(task.id).bind(this));
+                        taskRowElement.querySelector('.js-delete-task').addEventListener('click', this.handleDeleteTask(task.id).bind(this));
                     });
                 } else {
                     const message = document.createElement('p');
@@ -122,23 +110,10 @@ class ProjectView {
                         const objectiveRow = this.createObjectiveRow(objective);
                         this.objectiveList.appendChild(objectiveRow);
 
-                        // objectiveRow.querySelector('.js-update-objective').addEventListener('click', () => {
-                        //     const objectiveId = objectiveRow.querySelector('.objective-row').getAttribute('data-id');
-                
-                        //     this.initObjectiveForm(objectiveId);
-                        //     document.querySelector('#updateObjectiveFormDialog').showModal();
-                        // });
+                        const objectiveRowElement = document.querySelector(`.objective-row[data-id='${objective.id}']`);
 
-                        // objectiveRow.querySelector('.js-delete-objective').addEventListener('click', () => {
-                        //     const objectiveId = objectiveRow.querySelector('.objective-row').getAttribute('data-id');
-
-                        //     ObjectiveService.deleteObjective(objectiveId)
-                        //         .catch(err => {
-                        //             console.error("Error while deleting objective:", err);
-                        //         });
-
-                        //     window.location.reload();
-                        // });
+                        objectiveRowElement.querySelector('.js-update-objective').addEventListener('click', this.handleUpdateObjective(objective.id).bind(this));
+                        objectiveRowElement.querySelector('.js-delete-objective').addEventListener('click', this.handleDeleteObjective(objective.id).bind(this));
                     });
                 } else {
                     const message = document.createElement('p');
@@ -364,6 +339,49 @@ class ProjectView {
             message.classList.add('error');
             message = 'Please enter a valid name!';
         }
+    }
+
+    static handleCompleteTask(task) {
+        return function(e) {
+            task.completed = e.currentTarget.checked;
+            TaskService.updateTask(task.id, task);
+        };
+    }
+
+    static handleUpdateTask(taskId) {
+        return function() {
+            this.initTaskForm(taskId);
+            document.querySelector('#updateTaskFormDialog').showModal();
+        };
+    }
+
+    static handleDeleteTask(taskId) {
+        return function() {
+            TaskService.deleteTask(taskId)
+                .catch(err => {
+                    console.error("Error while deleting task:", err);
+                }).finally(() => {
+                    this.renderData();
+                });
+        };
+    }
+
+    static handleUpdateObjective(objectiveId) {
+        return function() {
+            this.initObjectiveForm(objectiveId);
+            document.querySelector('#updateObjectiveFormDialog').showModal();
+        };
+    }
+
+    static handleDeleteObjective(objectiveId) {
+        return function() {
+            ObjectiveService.deleteObjective(objectiveId)
+                .catch(err => {
+                    console.error("Error while deleting objective:", err);
+                }).finally(() => {
+                    this.renderData();
+                });
+        };
     }
 }
 

@@ -1,5 +1,5 @@
-const URL_PREFIX = ``;
-const API_URL = `/api`;
+const URL_PREFIX = `/studybuddy-1.1.0`;
+const API_URL = `/studybuddy-1.1.0/api`;
 
 export {
     URL_PREFIX,

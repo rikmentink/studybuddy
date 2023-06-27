@@ -50,13 +50,13 @@ public class TaskController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateTask(@PathParam("taskId") int taskId, Task task) {
-        boolean taskUpdated = Task.updateTask(taskId, task);
-
         if (getTask(taskId) == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Task with ID " + taskId + " not found."))
                     .build();
         }
+
+        boolean taskUpdated = Task.updateTask(taskId, task);
 
         if (!taskUpdated) {
             return Response.status(Response.Status.EXPECTATION_FAILED)
@@ -71,13 +71,13 @@ public class TaskController {
     @Path("/{taskId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteTask(@PathParam("taskId") int taskId) {
-        boolean status = Task.deleteTask(taskId);
-
         if (getTask(taskId) == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Task with ID " + taskId + " not found."))
                     .build();
         }
+
+        boolean status = Task.deleteTask(taskId);
 
         if (!status) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

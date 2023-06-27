@@ -50,13 +50,13 @@ public class ObjectiveController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateObjective(@PathParam("objectiveId") int objectiveId, Objective objective) {
-        boolean objectiveUpdated = Objective.updateObjective(objectiveId, objective);
-
         if (getObjective(objectiveId) == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Objective with ID " + objectiveId + " not found."))
                     .build();
         }
+
+        boolean objectiveUpdated = Objective.updateObjective(objectiveId, objective);
 
         if (!objectiveUpdated) {
             return Response.status(Response.Status.EXPECTATION_FAILED)
@@ -71,13 +71,13 @@ public class ObjectiveController {
     @Path("/{objectiveId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteObjective(@PathParam("objectiveId") int objectiveId) {
-        boolean status = Objective.deleteObjective(objectiveId);
-
         if (getObjective(objectiveId) == null) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity(new SimpleEntry<>("message", "Objective with ID " + objectiveId + " not found."))
                     .build();
         }
+
+        boolean status = Objective.deleteObjective(objectiveId);
 
         if (!status) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

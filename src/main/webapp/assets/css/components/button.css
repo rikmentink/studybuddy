@@ -3,6 +3,7 @@
     border: none;
     border-radius: .5rem;
     box-shadow: none;
+    background-color: #fff;
     outline: none;
     font-weight: bold;
     transition: opacity .3s ease;
