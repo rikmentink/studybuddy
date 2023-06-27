@@ -23,8 +23,9 @@ class ProjectView {
 
         window.addEventListener('DOMContentLoaded', this.renderData.bind(this));
         
+        // Event listeners for add objective form
         document.querySelector('#addObjectiveFormSubmit').addEventListener('click', () => {
-            const form = document.querySelector('#addObjectiveForm')
+            const form = document.querySelector('#addObjectiveForm');
             this.addObjectiveFormSubmit(form);
         });
         document.querySelector('#showAddObjectiveFormDialog').addEventListener('click', () => {
@@ -34,8 +35,9 @@ class ProjectView {
             document.querySelector('#addObjectiveFormDialog').close();
         });
 
+        // Event listeners for add task form
         document.querySelector('#addTaskFormSubmit').addEventListener('click', () => {
-            const form = document.querySelector('#addTaskForm')
+            const form = document.querySelector('#addTaskForm');
             this.addTaskFormSubmit(form);
         });
         document.querySelector('#showAddTaskFormDialog').addEventListener('click', () => {
@@ -43,6 +45,24 @@ class ProjectView {
         });
         document.querySelector('#closeAddTaskFormDialog').addEventListener('click', () => {
             document.querySelector('#addTaskFormDialog').close();
+        });
+
+        // Event listeners for update objective form
+        document.querySelector('#updateObjectiveFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#updateObjectiveForm');
+            this.updateObjectiveFormSubmit(form);
+        });
+        document.querySelector('#closeUpdateObjectiveFormDialog').addEventListener('click', () => {
+            document.querySelector('#updateObjectiveFormDialog').close();
+        });
+
+        // Event listeners for update task form
+        document.querySelector('#updateTaskFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#updateTaskForm');
+            this.addTaskFormSubmit(form);
+        });
+        document.querySelector('#closeUpdateTaskFormDialog').addEventListener('click', () => {
+            document.querySelector('#updateTaskFormDialog').close();
         });
     }
 
@@ -64,6 +84,24 @@ class ProjectView {
                     tasks.forEach(task => {
                         const taskRow = this.createTaskRow(task);
                         this.taskList.appendChild(taskRow);
+
+                        // taskRow.querySelector('.js-update-task').addEventListener('click', (e) => {
+                        //     const taskId = taskRow.querySelector('.task-row').getAttribute('data-id');
+                
+                        //     this.initTaskForm(taskId);
+                        //     document.querySelector('#updateTaskFormDialog').showModal();
+                        // });
+
+                        // taskRow.querySelector('.js-delete-task').addEventListener('click', () => {
+                        //     const taskId = taskRow.querySelector('.task-row').getAttribute('data-id');
+
+                        //     TaskService.deleteTask(taskId)
+                        //         .catch(err => {
+                        //             console.error("Error while deleting task:", err);
+                        //         });
+
+                        //     window.location.reload();
+                        // });
                     });
                 } else {
                     const message = document.createElement('p');
@@ -83,6 +121,24 @@ class ProjectView {
                     objectives.forEach(objective => {
                         const objectiveRow = this.createObjectiveRow(objective);
                         this.objectiveList.appendChild(objectiveRow);
+
+                        // objectiveRow.querySelector('.js-update-objective').addEventListener('click', () => {
+                        //     const objectiveId = objectiveRow.querySelector('.objective-row').getAttribute('data-id');
+                
+                        //     this.initObjectiveForm(objectiveId);
+                        //     document.querySelector('#updateObjectiveFormDialog').showModal();
+                        // });
+
+                        // objectiveRow.querySelector('.js-delete-objective').addEventListener('click', () => {
+                        //     const objectiveId = objectiveRow.querySelector('.objective-row').getAttribute('data-id');
+
+                        //     ObjectiveService.deleteObjective(objectiveId)
+                        //         .catch(err => {
+                        //             console.error("Error while deleting objective:", err);
+                        //         });
+
+                        //     window.location.reload();
+                        // });
                     });
                 } else {
                     const message = document.createElement('p');
@@ -102,19 +158,20 @@ class ProjectView {
      * @param {Task} task - Contains the task object to create a row for.
      * @returns {Node} The code for the row representing the task.
      */
-    static createTaskRow(objective) {
+    static createTaskRow(task) {
         const taskRow = this.taskRowTemplate.content.cloneNode(true);
 
-        taskRow.querySelector('#name').textContent = objective.name;
+        taskRow.querySelector('.task-row').setAttribute('data-id', task.id)
+        taskRow.querySelector('#name').textContent = task.name;
 
-        if (objective.description) {
-            taskRow.querySelector('#description').textContent = objective.description;
+        if (task.description) {
+            taskRow.querySelector('#description').textContent = task.description;
         }
-        if (objective.deadline) {
-            taskRow.querySelector('#deadline').textContent = objective.deadline;
+        if (task.deadline) {
+            taskRow.querySelector('#deadline').textContent = task.deadline;
         }
-        if (objective.completed) {
-            taskRow.querySelector('#completed').checked = objective.completed;
+        if (task.completed) {
+            taskRow.querySelector('#completed').checked = task.completed;
         }
 
         return taskRow;
@@ -130,6 +187,7 @@ class ProjectView {
     static createObjectiveRow(objective) {
         const objectiveRow = this.objectiveRowTemplate.content.cloneNode(true);
 
+        objectiveRow.querySelector('.objective-row').setAttribute('data-id', objective.id)
         objectiveRow.querySelector('#name').textContent = objective.name;
 
         if (objective.description) {
@@ -206,6 +264,96 @@ class ProjectView {
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Objective successfully added!';
+                e.target.reset();
+            })
+            .catch(() => {
+                message.classList.add('error');
+                message.textContent = 'Something went wrong!';
+            });
+        } else {
+            message.classList.add('error');
+            message = 'Please enter a valid name!';
+        }
+    }
+
+    /**
+     * Initializes the update task form by filling in all the existing data.
+     * 
+     * @param taskId The identifier of the task to be updated.
+     */
+    static initTaskForm(taskId) {
+        const form = document.querySelector('#updateTaskForm');
+        const task = TaskService.getTask(taskId);
+
+        form.querySelector('#name').value = task.name;
+        form.querySelector('#completed').checked = task.completed;
+
+        if (task.description) form.querySelector('#description').value = task.description;
+        if (task.deadline) form.querySelector('#deadline').value = task.deadline;
+    }
+
+    /**
+     * Initializes the update objective form by filling in all the existing 
+     * data.
+     * 
+     * @param objectiveId The identifier of the objective to be updated.
+     */
+    static initObjectiveForm(objectiveId) {
+        const form = document.querySelector('#updateObjectiveForm');
+        const objective = ObjectiveService.getObjective(objectiveId);
+
+        form.querySelector('#name').value = objective.name;
+
+        if (objective.description) form.querySelector('#description').value = objective.description;
+        if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+    }
+
+    /**
+     * Updates an existing task when the form is submitted.
+     * 
+     * @param event The triggered event when the form was submitted.
+     */
+    static updateTaskFormSubmit(form) {
+        const data = formDataToJson(form);
+        let message = document.querySelector('#updateTaskFormMessage');
+
+        if (data.name) {
+            if (data.deadline) {
+                data.deadline = data.deadline.split('T').join(' ');
+            }
+            TaskService.updateTask(data.id, data)
+            .then(() => {
+                message.classList.add('success');
+                message.textContent = 'Task successfully updated!';
+                e.target.reset();
+            })
+            .catch(() => {
+                message.classList.add('error');
+                message.textContent = 'Something went wrong!';
+            });
+        } else {
+            message.classList.add('error');
+            message = 'Please enter a valid name!';
+        }
+    }
+
+    /**
+     * Updates an existing objective when the form is submitted.
+     * 
+     * @param event The triggered event when the form was submitted.
+     */
+    static updateObjectiveFormSubmit(form) {
+        const data = formDataToJson(form);
+        let message = document.querySelector('#updateObjectiveFormMessage');
+
+        if (data.name) {
+            if (data.deadline) {
+                data.deadline = data.deadline.split('T').join(' ');
+            }
+            ObjectiveService.updateObjective(data.id, data)
+            .then(() => {
+                message.classList.add('success');
+                message.textContent = 'Objective successfully updated!';
                 e.target.reset();
             })
             .catch(() => {
