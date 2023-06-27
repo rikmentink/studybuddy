@@ -16,8 +16,15 @@ export default class TaskService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
+        }).then(data => {
+            return data.map(taskData => new Task(
+                taskData.id,
+                taskData.name,
+                taskData.description,
+                taskData.note,
+                taskData.completed,
+            ));
         }).catch(err => {
             return err;
         });
@@ -36,9 +43,14 @@ export default class TaskService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
+        }).then(data => new Task(
+                data.id,
+                data.name,
+                data.description,
+                data.note,
+                data.completed
+        )).catch(err => {
             return err;
         });
     }
@@ -56,7 +68,13 @@ export default class TaskService {
             }
 
             return res.json();
-        }).catch(err => {
+        }).then(data => new Task(
+            data.id,
+            data.name,
+            data.description,
+            data.note,
+            data.completed
+        )).catch(err => {
             return err;
         });
     }

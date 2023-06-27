@@ -203,6 +203,7 @@ class ProjectView {
         let message = document.querySelector('#addTaskFormMessage');
 
         if (data.name) {
+            data.completed = false;
             if (data.deadline) {
                 data.deadline = data.deadline.split('T').join(' ');
             }
