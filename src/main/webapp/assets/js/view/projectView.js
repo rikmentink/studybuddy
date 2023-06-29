@@ -11,17 +11,40 @@ class ProjectView {
      */
     static init() {
         this.projectId = (new URL(document.location)).searchParams.get('project');
+        if (this.projectId == null) window.location.href = 'projects.html';
 
-        if (this.projectId == null || ProjectService.getProject(this.projectId) == null) {
-            window.location.href = '/projects.html'
-        }
-
+        ProjectService.getProject(this.projectId).then(project => {
+            document.title = document.title.replace('Project', project.name);
+            document.querySelector('.js-project-description').textContent = project.description;
+            document.querySelector('.js-project-date').textContent = project.startDate + ' t/m ' + project.endDate;
+        }).catch(err => {
+            console.error(err);
+            window.location.href = 'projects.html';
+        });
+        
         this.objectiveList = document.querySelector('#objectiveList');
         this.objectiveRowTemplate = document.querySelector('#objectiveRowTemplate');
         this.taskList = document.querySelector('#taskList');
         this.taskRowTemplate = document.querySelector('#taskRowTemplate');
 
         window.addEventListener('DOMContentLoaded', this.renderData.bind(this));
+
+        // Event listeners for project actions
+        document.querySelector('#updateProjectFormSubmit').addEventListener('click', () => {
+            const form = document.querySelector('#updateProjectForm');
+            this.updateProjectFormSubmit(form);
+        });
+        document.querySelector('.js-update-project').addEventListener('click', () => {
+            this.initProjectForm(this.projectId);
+            document.querySelector('#updateProjectFormDialog').showModal();
+        });
+        document.querySelector('#closeUpdateProjectFormDialog').addEventListener('click', () => {
+            document.querySelector('#updateProjectFormDialog').close();
+        });
+        document.querySelector('.js-delete-project').addEventListener('click', () => {
+            this.deleteProject(this.projectId);
+            window.location.href = 'projects.html'
+        })
         
         // Event listeners for add objective form
         document.querySelector('#addObjectiveFormSubmit').addEventListener('click', () => {
@@ -59,7 +82,7 @@ class ProjectView {
         // Event listeners for update task form
         document.querySelector('#updateTaskFormSubmit').addEventListener('click', () => {
             const form = document.querySelector('#updateTaskForm');
-            this.addTaskFormSubmit(form);
+            this.updateTaskFormSubmit(form);
         });
         document.querySelector('#closeUpdateTaskFormDialog').addEventListener('click', () => {
             document.querySelector('#updateTaskFormDialog').close();
@@ -211,7 +234,6 @@ class ProjectView {
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Task successfully added!';
-                e.target.reset();
             })
             .catch(() => {
                 message.classList.add('error');
@@ -240,7 +262,6 @@ class ProjectView {
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Objective successfully added!';
-                e.target.reset();
             })
             .catch(() => {
                 message.classList.add('error');
@@ -259,13 +280,15 @@ class ProjectView {
      */
     static initTaskForm(taskId) {
         const form = document.querySelector('#updateTaskForm');
-        const task = TaskService.getTask(taskId);
+        
+        TaskService.getTask(taskId)
+        .then(task => {
+            form.dataset.id = task.id;
+            form.querySelector('#name').value = task.name;
 
-        form.querySelector('#name').value = task.name;
-        form.querySelector('#completed').checked = task.completed;
-
-        if (task.description) form.querySelector('#description').value = task.description;
-        if (task.deadline) form.querySelector('#deadline').value = task.deadline;
+            if (task.description) form.querySelector('#description').value = task.description;
+            if (task.deadline) form.querySelector('#deadline').value = task.deadline;
+        });
     }
 
     /**
@@ -276,12 +299,15 @@ class ProjectView {
      */
     static initObjectiveForm(objectiveId) {
         const form = document.querySelector('#updateObjectiveForm');
-        const objective = ObjectiveService.getObjective(objectiveId);
+        
+        ObjectiveService.getObjective(objectiveId)
+        .then(objective => {
+            form.dataset.id = objective.id;
+            form.querySelector('#name').value = objective.name;
 
-        form.querySelector('#name').value = objective.name;
-
-        if (objective.description) form.querySelector('#description').value = objective.description;
-        if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+            if (objective.description) form.querySelector('#description').value = objective.description;
+            if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+        });
     }
 
     /**
@@ -292,18 +318,19 @@ class ProjectView {
     static updateTaskFormSubmit(form) {
         const data = formDataToJson(form);
         let message = document.querySelector('#updateTaskFormMessage');
+        let taskId = document.querySelector('#updateTaskForm').dataset.id;
 
         if (data.name) {
             if (data.deadline) {
                 data.deadline = data.deadline.split('T').join(' ');
             }
-            TaskService.updateTask(data.id, data)
+            TaskService.updateTask(taskId, data)
             .then(() => {
-                message.classList.add('success');
-                message.textContent = 'Task successfully updated!';
-                e.target.reset();
+                document.querySelector('#updateTaskFormDialog').close();
+                this.renderData();
             })
-            .catch(() => {
+            .catch(err => {
+                console.log(err)
                 message.classList.add('error');
                 message.textContent = 'Something went wrong!';
             });
@@ -321,16 +348,16 @@ class ProjectView {
     static updateObjectiveFormSubmit(form) {
         const data = formDataToJson(form);
         let message = document.querySelector('#updateObjectiveFormMessage');
+        let objectiveId = document.querySelector('#updateObjectiveForm').dataset.id;
 
         if (data.name) {
             if (data.deadline) {
                 data.deadline = data.deadline.split('T').join(' ');
             }
-            ObjectiveService.updateObjective(data.id, data)
+            ObjectiveService.updateObjective(objectiveId, data)
             .then(() => {
-                message.classList.add('success');
-                message.textContent = 'Objective successfully updated!';
-                e.target.reset();
+                document.querySelector('#updateObjectiveFormDialog').close();
+                this.renderData();
             })
             .catch(() => {
                 message.classList.add('error');
@@ -340,6 +367,63 @@ class ProjectView {
             message.classList.add('error');
             message = 'Please enter a valid name!';
         }
+    }
+
+    /**
+     * Initializes the update project form by filling in all the existing data.
+     * 
+     * @param projectId The identifier of the project to be updated.
+     */
+    static initProjectForm(projectId) {
+        const form = document.querySelector('#updateProjectForm');
+        
+        ProjectService.getProject(projectId)
+        .then(project => {
+            form.dataset.id = project.id;
+            form.querySelector('#name').value = project.name;
+
+            if (project.description) form.querySelector('#description').value = project.description;
+            if (project.startDate) form.querySelector('#startDate').value = project.startDate;
+            if (project.endDate) form.querySelector('#endDate').value = project.endDate;
+        });
+    }
+
+    /**
+     * Updates an existing project when the form is submitted.
+     * 
+     * @param event The triggered event when the form was submitted.
+     */
+    static updateProjectFormSubmit(form) {
+        const data = formDataToJson(form);
+        let message = document.querySelector('#updateProjectFormMessage');
+        let projectId = document.querySelector('#updateProjectForm').dataset.id;
+
+        if (data.name) {
+            if (data.deadline) {
+                data.deadline = data.deadline.split('T').join(' ');
+            }
+            ProjectService.updateProject(projectId, data)
+            .then(() => {
+                document.querySelector('#updateProjectFormDialog').close();
+                window.location.reload();
+            })
+            .catch(() => {
+                message.classList.add('error');
+                message.textContent = 'Something went wrong!';
+            });
+        } else {
+            message.classList.add('error');
+            message = 'Please enter a valid name!';
+        }
+    }
+
+    /**
+     * Deletes an existing project when the button is pressed.
+     * 
+     * @param projectId The identifier of the project to be deleted.
+     */
+    static deleteProject(projectId) {
+        ProjectService.deleteProject(projectId);
     }
 
     static handleCompleteTask(task) {

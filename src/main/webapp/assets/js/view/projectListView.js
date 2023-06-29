@@ -108,7 +108,7 @@ class ProjectListView {
             .then(() => {
                 message.classList.add('success');
                 message.textContent = 'Project successfully added!';
-                e.target.reset();
+                form.reset();
             })
             .catch(() => {
                 message.classList.add('error');

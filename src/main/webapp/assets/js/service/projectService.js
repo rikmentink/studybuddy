@@ -16,10 +16,15 @@ export default class ProjectService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
-            return err;
+        }).then(data => {
+            return data.map(project => new Project(
+                project.id,
+                project.name,
+                project.description,
+                project.startDate,
+                project.endDate
+            ))
         });
     }
 
@@ -30,11 +35,14 @@ export default class ProjectService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
-            return err;
-        });
+        }).then(data => new Project(
+            data.id,
+            data.name,
+            data.description,
+            data.startDate,
+            data.endDate
+        ));
     }
 
     static addProject(studentId, project) {
@@ -48,10 +56,48 @@ export default class ProjectService {
             if (res.status !== 201) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
-            return err;
+        }).then(data => new Project(
+            data.id,
+            data.name,
+            data.description,
+            data.startDate,
+            data.endDate
+        ));
+    }
+
+    static updateProject(projectId, project) {
+        return fetch(`${API_URL}/projects/${projectId}`, {
+            method: 'PUT',
+            body: JSON.stringify(project),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.status !== 200) {
+                throw new Error(res.status);
+            }
+            return res.json();
+        }).then(data => new Project(
+            data.id,
+            data.name,
+            data.description,
+            data.startDate,
+            data.endDate
+        ));
+    }
+
+    static deleteProject(projectId) {
+        return fetch(`${API_URL}/projects/${projectId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(res => {
+            if (res.status !== 200) {
+                throw new Error(res.status);
+            }
+            return res;
         });
     }
 }

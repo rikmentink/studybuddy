@@ -22,8 +22,9 @@ export default class TaskService {
                 taskData.id,
                 taskData.name,
                 taskData.description,
+                taskData.deadline,
                 taskData.note,
-                taskData.completed,
+                taskData.completed
             ));
         }).catch(err => {
             return err;
@@ -48,6 +49,7 @@ export default class TaskService {
                 data.id,
                 data.name,
                 data.description,
+                data.deadline,
                 data.note,
                 data.completed
         )).catch(err => {
@@ -72,6 +74,7 @@ export default class TaskService {
             data.id,
             data.name,
             data.description,
+            data.deadline,
             data.note,
             data.completed
         )).catch(err => {
@@ -90,9 +93,15 @@ export default class TaskService {
             if (res.status !== 200) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
+        }).then(data => new Task(
+            data.id,
+            data.name,
+            data.description,
+            data.deadline,
+            data.note,
+            data.completed
+        )).catch(err => {
             return err;
         });
     }

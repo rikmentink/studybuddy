@@ -11,6 +11,18 @@
     margin: 0;
 }
 
+.header__title--detailed {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header__dates {
+    margin: 0;
+    color: #7a7a7a;
+    font-size: 14px;
+}
+
 .header__title > span {
     font-weight: normal;
 }
@@ -51,4 +63,17 @@
 
 .header__user-dropdown.show {
     display: block;
+}
+
+.header__actions {
+    display: flex;
+    align-items: center;
+}
+
+.header__actions .btn svg path {
+    fill: #7a7a7a;
+}
+
+.header__description {
+    margin-bottom: 0;
 }

@@ -16,8 +16,15 @@ export default class ObjectiveService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
+        }).then(data => {
+            return data.map(objectiveData => new Objective(
+                objectiveData.id,
+                objectiveData.name,
+                objectiveData.description,
+                objectiveData.deadline,
+                objectiveData.note
+            ));
         }).catch(err => {
             return err;
         });
@@ -36,9 +43,14 @@ export default class ObjectiveService {
             if (!res.ok) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
+        }).then(data => new Objective(
+            data.id,
+            data.name,
+            data.description,
+            data.deadline,
+            data.notes
+        )).catch(err => {
             return err;
         });
     }
@@ -54,9 +66,14 @@ export default class ObjectiveService {
             if (res.status !== 201) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
+        }).then(data => new Objective(
+            data.id,
+            data.name,
+            data.description,
+            data.deadline,
+            data.note
+        )).catch(err => {
             return err;
         });
     }
@@ -72,9 +89,14 @@ export default class ObjectiveService {
             if (res.status !== 200) {
                 throw new Error(res.status);
             }
-
             return res.json();
-        }).catch(err => {
+        }).then(data => new Objective(
+            data.id,
+            data.name,
+            data.description,
+            data.deadline,
+            data.note
+        )).catch(err => {
             return err;
         });
     }

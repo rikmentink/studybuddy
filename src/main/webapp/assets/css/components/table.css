@@ -15,3 +15,7 @@ table > tbody td {
     font-size: 15px;
     text-align: center;
 }
+
+table > tbody td button svg path {
+    fill: #7a7a7a;
+}
