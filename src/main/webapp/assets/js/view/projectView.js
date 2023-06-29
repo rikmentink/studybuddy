@@ -87,6 +87,11 @@ class ProjectView {
         document.querySelector('#closeUpdateTaskFormDialog').addEventListener('click', () => {
             document.querySelector('#updateTaskFormDialog').close();
         });
+
+        // TODO: Event listeners for viewing detailed task or objective
+        // TODO: Add view detail button to front-end
+        // TODO: Create task and objective detail templates
+        // TODO: Remove description from table view
     }
 
     /**

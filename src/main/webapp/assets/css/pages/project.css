@@ -1,0 +1,18 @@
+.project-data {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr;
+    gap: 1rem;
+}
+
+.project-data__list {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.project-data__detail {
+    grid-column-start: 4;
+    grid-column-end: 6;
+    border: 1px solid #000;
+    padding: 1.5rem;
+}

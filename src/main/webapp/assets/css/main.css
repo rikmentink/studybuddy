@@ -10,6 +10,7 @@
 
 /* Page level styles */
 @import "pages/auth.css";
+@import "pages/project.css";
 @import "pages/projects.css";
 
 /* Component level styles */
