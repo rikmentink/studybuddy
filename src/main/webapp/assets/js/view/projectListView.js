@@ -106,9 +106,7 @@ class ProjectListView {
         if (data.name) {
             ProjectService.addProject(studentId, data)
             .then(() => {
-                message.classList.add('success');
-                message.textContent = 'Project successfully added!';
-                form.reset();
+                window.location.reload();
             })
             .catch(() => {
                 message.classList.add('error');
