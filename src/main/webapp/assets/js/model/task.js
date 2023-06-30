@@ -7,15 +7,13 @@ export default class Objective {
      * @param {string} name - The name of the task.
      * @param {string} [description] The description of the task.
      * @param {date} [deadline] - The deadline of the task.
-     * @param {string} [note] - The notes for the task.
      * @param {boolean} [completed] - Whether the task is completed.
      */
-    constructor(id, name, description, deadline, note, completed) {
+    constructor(id, name, description, deadline, completed) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.deadline = deadline;
-        this.note = note;
         this.completed = completed;
     }
 }

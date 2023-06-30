@@ -23,7 +23,6 @@ export default class TaskService {
                 taskData.name,
                 taskData.description,
                 taskData.deadline,
-                taskData.note,
                 taskData.completed
             ));
         }).catch(err => {
@@ -50,7 +49,6 @@ export default class TaskService {
                 data.name,
                 data.description,
                 data.deadline,
-                data.note,
                 data.completed
         )).catch(err => {
             return err;
@@ -75,7 +73,6 @@ export default class TaskService {
             data.name,
             data.description,
             data.deadline,
-            data.note,
             data.completed
         )).catch(err => {
             return err;
@@ -99,7 +96,6 @@ export default class TaskService {
             data.name,
             data.description,
             data.deadline,
-            data.note,
             data.completed
         )).catch(err => {
             return err;

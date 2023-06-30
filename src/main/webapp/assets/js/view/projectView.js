@@ -88,8 +88,6 @@ class ProjectView {
             document.querySelector('#updateTaskFormDialog').close();
         });
 
-        // TODO: Event listeners for viewing detailed task or objective
-        // TODO: Add view detail button to front-end
         // TODO: Create task and objective detail templates
         // TODO: Remove description from table view
     }
@@ -118,6 +116,7 @@ class ProjectView {
                         taskRowElement.querySelector('.js-complete-task').addEventListener('change', this.handleCompleteTask(task));
                         taskRowElement.querySelector('.js-update-task').addEventListener('click', this.handleUpdateTask(task.id).bind(this));
                         taskRowElement.querySelector('.js-delete-task').addEventListener('click', this.handleDeleteTask(task.id).bind(this));
+                        taskRowElement.querySelector('.js-view-task').addEventListener('click', this.handleViewTask(task.id).bind(this));
                     });
                 } else {
                     const message = document.createElement('p');
@@ -142,6 +141,7 @@ class ProjectView {
 
                         objectiveRowElement.querySelector('.js-update-objective').addEventListener('click', this.handleUpdateObjective(objective.id).bind(this));
                         objectiveRowElement.querySelector('.js-delete-objective').addEventListener('click', this.handleDeleteObjective(objective.id).bind(this));
+                        objectiveRowElement.querySelector('.js-view-objective').addEventListener('click', this.handleViewObjective(objective.id).bind(this));
                     });
                 } else {
                     const message = document.createElement('p');
@@ -316,6 +316,23 @@ class ProjectView {
     }
 
     /**
+     * Initializes the objective details by filling in all the data.
+     * 
+     * @param objectiveId The identifier of the objective to be updated.
+     */
+    static initObjectiveDetails(objectiveId) {
+        const form = document.querySelector('#taskAndObjectiveDetails');
+        
+        ObjectiveService.getObjective(objectiveId)
+        .then(objective => {
+            form.querySelector('#name').value = objective.name;
+
+            if (objective.description) form.querySelector('#description').value = objective.description;
+            if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+        });
+    }
+
+    /**
      * Updates an existing task when the form is submitted.
      * 
      * @param event The triggered event when the form was submitted.
@@ -454,6 +471,12 @@ class ProjectView {
                     this.renderData();
                 });
         };
+    }
+
+    static handleViewTask(taskId) {
+        return function() {
+            this.initTaskDetails(taskId);
+        }
     }
 
     static handleUpdateObjective(objectiveId) {

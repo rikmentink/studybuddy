@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
-    <base href="/" target="_self">
+    <base href="/studybuddy-1.1.0/" target="_self">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -273,6 +273,11 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                                         </button>
                                     </td>
+                                    <td width="50px;">
+                                        <button class="btn js-view-task">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+                                        </button>
+                                    </td>
                                 </tr>
                             </template>
                         </section>
@@ -305,11 +310,21 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                                         </button>
                                     </td>
+                                    <td width="50px;">
+                                        <button class="btn js-view-objective">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="1.25em" viewBox="0 0 320 512"><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+                                        </button>
+                                    </td>
                                 </tr>
                             </template>
                         </section>
                     </div>
-                    <div class="project-data__detail"></div>
+                    <div class="project-data__detail" id="taskAndObjectiveDetails" style="display: none;">
+                        <h2 id="name"></h2>
+                        <p id="description"></p>
+                        <p><strong>Deadline:</strong> <span id="deadline"></span></p>
+                        <p><strong>Status:</strong> <span id="status"></span></p>
+                    </div>
                     <template id="taskDetailTemplate">
                         
                     </template>

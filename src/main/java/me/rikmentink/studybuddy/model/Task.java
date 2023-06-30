@@ -12,8 +12,8 @@ import me.rikmentink.studybuddy.handler.FileHandler;
 public class Task extends Objective {
     private boolean completed;
 
-    public Task(String name, String description, LocalDateTime deadline, String note, boolean completed) {
-        super(name, description, deadline, note);
+    public Task(String name, String description, LocalDateTime deadline, boolean completed) {
+        super(name, description, deadline);
         this.completed = completed;
     }
 
@@ -21,9 +21,8 @@ public class Task extends Objective {
                      @JsonProperty("name") String name, 
                      @JsonProperty("description") String description, 
                      @JsonProperty("deadline") LocalDateTime deadline,
-                     @JsonProperty("note") String note,
                      @JsonProperty("completed") boolean completed) {
-        super(id, name, description, deadline, note);
+        super(id, name, description, deadline);
         this.completed = completed;
     }
 
@@ -118,7 +117,6 @@ public class Task extends Objective {
                         task.setName(updatedTask.getName());
                         task.setDescription(updatedTask.getDescription());
                         task.setDeadline(updatedTask.getDeadline());
-                        task.setNote(updatedTask.getNote());
                         task.setCompleted(updatedTask.getCompleted());
                     });
             });

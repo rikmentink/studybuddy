@@ -14,24 +14,21 @@ public class Objective {
     private int id;
     private String name;
     private String description;
-    private String note;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime deadline;
 
-    public Objective(String name, String description, LocalDateTime deadline, String note) {
+    public Objective(String name, String description, LocalDateTime deadline) {
         this.name = name;
         this.description = description;
         this.deadline = deadline;
-        this.note = note;
     }
 
     public Objective(@JsonProperty("id") int id, 
                      @JsonProperty("name") String name, 
                      @JsonProperty("description") String description, 
-                     @JsonProperty("deadline") LocalDateTime deadline,
-                     @JsonProperty("note") String note) {
-        this(name, description, deadline, note);
+                     @JsonProperty("deadline") LocalDateTime deadline) {
+        this(name, description, deadline);
         this.id = id;
     }
 
@@ -65,14 +62,6 @@ public class Objective {
 
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
-    }
-
-    public String getNote() {
-        return this.note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     /**
@@ -160,7 +149,6 @@ public class Objective {
                         objective.setName(updatedObjective.getName());
                         objective.setDescription(updatedObjective.getDescription());
                         objective.setDeadline(updatedObjective.getDeadline());
-                        objective.setNote(updatedObjective.getNote());
                     });
             });
 
