@@ -87,9 +87,6 @@ class ProjectView {
         document.querySelector('#closeUpdateTaskFormDialog').addEventListener('click', () => {
             document.querySelector('#updateTaskFormDialog').close();
         });
-
-        // TODO: Create task and objective detail templates
-        // TODO: Remove description from table view
     }
 
     /**
@@ -167,9 +164,6 @@ class ProjectView {
         taskRow.querySelector('.task-row').setAttribute('data-id', task.id)
         taskRow.querySelector('#name').textContent = task.name;
 
-        if (task.description) {
-            taskRow.querySelector('#description').textContent = task.description;
-        }
         if (task.deadline) {
             taskRow.querySelector('#deadline').textContent = task.deadline;
         }
@@ -193,9 +187,6 @@ class ProjectView {
         objectiveRow.querySelector('.objective-row').setAttribute('data-id', objective.id)
         objectiveRow.querySelector('#name').textContent = objective.name;
 
-        if (objective.description) {
-            objectiveRow.querySelector('#description').textContent = objective.description;
-        }
         if (objective.deadline) {
             objectiveRow.querySelector('#deadline').textContent = objective.deadline;
         }
@@ -237,8 +228,8 @@ class ProjectView {
             }
             TaskService.addTask(this.projectId, data)
             .then(() => {
-                message.classList.add('success');
-                message.textContent = 'Task successfully added!';
+                document.querySelector('#addTaskFormDialog').close();
+                this.renderData();
             })
             .catch(() => {
                 message.classList.add('error');
@@ -265,8 +256,8 @@ class ProjectView {
             }
             ObjectiveService.addObjective(this.projectId, data)
             .then(() => {
-                message.classList.add('success');
-                message.textContent = 'Objective successfully added!';
+                document.querySelector('#addObjectiveFormDialog').close();
+                this.renderData();
             })
             .catch(() => {
                 message.classList.add('error');
@@ -320,15 +311,32 @@ class ProjectView {
      * 
      * @param objectiveId The identifier of the objective to be updated.
      */
-    static initObjectiveDetails(objectiveId) {
+    static initTaskOrObjectiveDetails(objectiveId) {
         const form = document.querySelector('#taskAndObjectiveDetails');
         
         ObjectiveService.getObjective(objectiveId)
         .then(objective => {
             form.querySelector('#name').value = objective.name;
 
-            if (objective.description) form.querySelector('#description').value = objective.description;
-            if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+            if (objective.description) {
+                form.querySelector('#description').value = objective.description;
+            } else {
+                form.querySelector('#description').style.display = 'none';
+            }
+
+            if (objective.deadline) {
+                form.querySelector('#deadline').value = objective.deadline;
+            } else {
+                form.querySelector('#deadline').parentElement.style.display = 'none';
+            }
+
+            if (objective.completed != null) {
+                form.querySelector('#status').value = objective.completed ? 'Voltooid' : 'Niet voltooid';
+            } else {
+                form.querySelector('#status').parentElement.style.display = 'none';
+            }
+
+            form.style.display = 'block';
         });
     }
 
@@ -475,7 +483,7 @@ class ProjectView {
 
     static handleViewTask(taskId) {
         return function() {
-            this.initTaskDetails(taskId);
+            this.initTaskOrObjectiveDetails(taskId);
         }
     }
 
@@ -495,6 +503,12 @@ class ProjectView {
                     this.renderData();
                 });
         };
+    }
+
+    static handleViewObjective(objectiveId) {
+        return function() {
+            this.initTaskOrObjectiveDetails(objectiveId);
+        }
     }
 }
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project | StudyBuddy</title>
     <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
-    <base href="/studybuddy-1.1.0/" target="_self">
+    <base href="/" target="_self">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -246,7 +246,6 @@
                                 <thead>
                                     <tr>
                                         <th>Naam</th>
-                                        <th>Omschrijving</th>
                                         <th>Deadline</th>
                                         <th>Voltooid</th>
                                         <th></th>
@@ -258,7 +257,6 @@
                             <template id="taskRowTemplate">
                                 <tr class="task-row" data-id="">
                                     <td id="name"></td>
-                                    <td id="description"></td>
                                     <td id="deadline"></td>
                                     <td width="80px;">
                                         <input type="checkbox" id="completed" class="js-complete-task">
@@ -287,8 +285,7 @@
                                 <thead>
                                     <tr>
                                         <th>Naam</th>
-                                        <th>Description</th>
-                                        <th>Deadline</th>
+                                        <th>Datum</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -298,7 +295,6 @@
                             <template id="objectiveRowTemplate">
                                 <tr class="objective-row" data-id="">
                                     <td id="name"></td>
-                                    <td id="description"></td>
                                     <td id="deadline"></td>
                                     <td width="50px;">
                                         <button class="btn js-update-objective">
@@ -325,12 +321,6 @@
                         <p><strong>Deadline:</strong> <span id="deadline"></span></p>
                         <p><strong>Status:</strong> <span id="status"></span></p>
                     </div>
-                    <template id="taskDetailTemplate">
-                        
-                    </template>
-                    <template id="objectiveDetailTemplate">
-
-                    </template>
                 </div>
             </main>
             <footer class="footer">
