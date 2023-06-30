@@ -39,7 +39,6 @@ public class TaskTest {
             "Test", 
             "This is a task meant for testing.",
             LocalDateTime.parse("2023-06-15 09:00"),
-            "Test notes",
             false
         );
     }

@@ -38,8 +38,7 @@ public class ObjectiveTest {
         objective = new Objective(
             "Test", 
             "This is an objective meant for testing.",
-            LocalDateTime.parse("2023-06-15 09:00"),
-            "Test notes"
+            LocalDateTime.parse("2023-06-15 09:00")
         );
     }
 
