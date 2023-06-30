@@ -22,6 +22,7 @@ export default class ObjectiveService {
                 objectiveData.id,
                 objectiveData.name,
                 objectiveData.description,
+                objectiveData.expectedTime,
                 objectiveData.deadline
             ));
         }).catch(err => {
@@ -47,6 +48,7 @@ export default class ObjectiveService {
             data.id,
             data.name,
             data.description,
+            data.expectedTime,
             data.deadline
         )).catch(err => {
             return err;
@@ -69,6 +71,7 @@ export default class ObjectiveService {
             data.id,
             data.name,
             data.description,
+            data.expectedTime,
             data.deadline
         )).catch(err => {
             return err;
@@ -91,6 +94,7 @@ export default class ObjectiveService {
             data.id,
             data.name,
             data.description,
+            data.expectedTime,
             data.deadline
         )).catch(err => {
             return err;

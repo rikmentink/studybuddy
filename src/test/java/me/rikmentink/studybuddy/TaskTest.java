@@ -38,6 +38,7 @@ public class TaskTest {
         task = new Task(
             "Test", 
             "This is a task meant for testing.",
+            1,
             LocalDateTime.parse("2023-06-15 09:00"),
             false
         );

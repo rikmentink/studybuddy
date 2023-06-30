@@ -288,6 +288,40 @@ class ProjectView {
     }
 
     /**
+     * Initializes the task details by filling in all the data.
+     * 
+     * @param taskId The identifier of the task to be updated.
+     */
+    static initTaskDetails(taskId) {
+        const form = document.querySelector('#taskAndObjectiveDetails');
+        
+        TaskService.getTask(taskId)
+        .then(task => {
+            form.querySelector('#name').textContent = task.name;
+
+            if (task.description) {
+                form.querySelector('#description').textContent = task.description;
+            } else {
+                form.querySelector('#description').style.display = 'none';
+            }
+
+            if (task.deadline) {
+                form.querySelector('#deadline').textContent = task.deadline;
+            } else {
+                form.querySelector('#deadline').parentElement.style.display = 'none';
+            }
+
+            if (task.completed != null) {
+                form.querySelector('#status').textContent = task.completed ? 'Voltooid' : 'Niet voltooid';
+            } else {
+                form.querySelector('#status').parentElement.style.display = 'none';
+            }
+
+            form.style.display = 'block';
+        });
+    }
+
+    /**
      * Initializes the update objective form by filling in all the existing 
      * data.
      * 
@@ -311,31 +345,26 @@ class ProjectView {
      * 
      * @param objectiveId The identifier of the objective to be updated.
      */
-    static initTaskOrObjectiveDetails(objectiveId) {
+    static initObjectiveDetails(objectiveId) {
         const form = document.querySelector('#taskAndObjectiveDetails');
         
         ObjectiveService.getObjective(objectiveId)
         .then(objective => {
-            form.querySelector('#name').value = objective.name;
+            form.querySelector('#name').textContent = objective.name;
 
             if (objective.description) {
-                form.querySelector('#description').value = objective.description;
+                form.querySelector('#description').textContent = objective.description;
             } else {
                 form.querySelector('#description').style.display = 'none';
             }
 
             if (objective.deadline) {
-                form.querySelector('#deadline').value = objective.deadline;
+                form.querySelector('#deadline').textContent = objective.deadline;
             } else {
                 form.querySelector('#deadline').parentElement.style.display = 'none';
             }
 
-            if (objective.completed != null) {
-                form.querySelector('#status').value = objective.completed ? 'Voltooid' : 'Niet voltooid';
-            } else {
-                form.querySelector('#status').parentElement.style.display = 'none';
-            }
-
+            form.querySelector('#status').parentElement.style.display = 'none';
             form.style.display = 'block';
         });
     }
@@ -483,7 +512,7 @@ class ProjectView {
 
     static handleViewTask(taskId) {
         return function() {
-            this.initTaskOrObjectiveDetails(taskId);
+            this.initTaskDetails(taskId);
         }
     }
 
@@ -507,7 +536,7 @@ class ProjectView {
 
     static handleViewObjective(objectiveId) {
         return function() {
-            this.initTaskOrObjectiveDetails(objectiveId);
+            this.initObjectiveDetails(objectiveId);
         }
     }
 }
