@@ -163,10 +163,18 @@ class ProjectView {
 
         taskRow.querySelector('.task-row').setAttribute('data-id', task.id)
         taskRow.querySelector('#name').textContent = task.name;
-
+    
+        if (task.expectedTime) {
+            taskRow.querySelector('#expectedTime').textContent = task.expectedTime + ' uur';
+        } else {
+            taskRow.querySelector('#expectedTime').textContent = "-";
+        }
         if (task.deadline) {
             taskRow.querySelector('#deadline').textContent = task.deadline;
+        } else {
+            taskRow.querySelector('#deadline').textContent = "-";
         }
+
         if (task.completed) {
             taskRow.querySelector('#completed').checked = task.completed;
         }
@@ -187,8 +195,16 @@ class ProjectView {
         objectiveRow.querySelector('.objective-row').setAttribute('data-id', objective.id)
         objectiveRow.querySelector('#name').textContent = objective.name;
 
+        if (objective.expectedTime) {
+            objectiveRow.querySelector('#expectedTime').textContent = objective.expectedTime + ' uur';
+        } else {
+            objectiveRow.querySelector('#expectedTime').textContent = "-";
+        }
+
         if (objective.deadline) {
             objectiveRow.querySelector('#deadline').textContent = objective.deadline;
+        } else {
+            objectiveRow.querySelector('#deadline').textContent = "-";
         }
 
         return objectiveRow;
@@ -283,6 +299,7 @@ class ProjectView {
             form.querySelector('#name').value = task.name;
 
             if (task.description) form.querySelector('#description').value = task.description;
+            if (task.expectedTime) form.querySelector('#expectedTime').value = task.expectedTime;
             if (task.deadline) form.querySelector('#deadline').value = task.deadline;
         });
     }
@@ -303,6 +320,12 @@ class ProjectView {
                 form.querySelector('#description').textContent = task.description;
             } else {
                 form.querySelector('#description').style.display = 'none';
+            }
+
+            if (task.expectedTime) {
+                form.querySelector('#expectedTime').textContent = task.expectedTime;
+            } else {
+                form.querySelector('#expectedTime').style.display = 'none';
             }
 
             if (task.deadline) {
@@ -336,6 +359,7 @@ class ProjectView {
             form.querySelector('#name').value = objective.name;
 
             if (objective.description) form.querySelector('#description').value = objective.description;
+            if (objective.expectedTime) form.querySelector('#expectedTime').value = objective.expectedTime;
             if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
         });
     }
@@ -356,6 +380,12 @@ class ProjectView {
                 form.querySelector('#description').textContent = objective.description;
             } else {
                 form.querySelector('#description').style.display = 'none';
+            }
+
+            if (objective.expectedTime) {
+                form.querySelector('#expectedTime').textContent = objective.expectedTime;
+            } else {
+                form.querySelector('#expectedTime').style.display = 'none';
             }
 
             if (objective.deadline) {
