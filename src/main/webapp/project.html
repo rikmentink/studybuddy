@@ -93,7 +93,13 @@
                         </div>
                     </div>
                     <p class="header__description js-project-description"></p>
-                    <p><strong>Vooruitgang:</strong><input type="slider" min="0" max="100" class="header__progress js-project-progress" disabled></p>
+                    <div style="display: flex; margin: 1rem 0;">
+                        <strong>Vooruitgang:</strong>
+                        <div class="header__progress">
+                            <input type="range" min="0" max="100" class="header__progress-input js-project-progress" disabled>
+                            <span class="header__progress-value js-project-progress-value"></span>
+                        </div>
+                    </div>
                     <p><strong>Taken:</strong> <span class="js-project-tasks-completed"></span> / <span class="js-project-tasks-total"></span> voltooid</p>
                     <p><strong>Deadlines:</strong> <span class="js-project-objectives-passed"></span> / <span class="js-project-objectives-total"></span> gepasseerd</p>
                     <p><strong>Tijd resterend:</strong> <span class="js-project-time-remaining"></span></p>
@@ -128,6 +134,11 @@
             
                                 <div class="form-group">
                                     <div class="form-field">
+                                        <label class="form-field__label" for="expectedTime">Verwachte tijd in uren <sup>(optioneel)</sup></label>
+                                        <input class="form-field__input" id="expectedTime" name="expectedTime" type="number" />
+                                    </div>
+
+                                    <div class="form-field">
                                         <label class="form-field__label" for="deadline">Deadline <sup>(optioneel)</sup></label>
                                         <input class="form-field__input" id="deadline" name="deadline" type="datetime-local" />
                                     </div>
@@ -159,6 +170,11 @@
                                 </div>
             
                                 <div class="form-group">
+                                    <div class="form-field">
+                                        <label class="form-field__label" for="expectedTime">Verwachte tijd in uren <sup>(optioneel)</sup></label>
+                                        <input class="form-field__input" id="expectedTime" name="expectedTime" type="number" />
+                                    </div>
+
                                     <div class="form-field">
                                         <label class="form-field__label" for="deadline">Deadline <sup>(optioneel)</sup></label>
                                         <input class="form-field__input" id="deadline" name="deadline" type="datetime-local" />

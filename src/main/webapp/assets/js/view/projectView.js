@@ -13,33 +13,37 @@ class ProjectView {
         this.projectId = (new URL(document.location)).searchParams.get('project');
         if (this.projectId == null) window.location.href = 'projects.html';
 
-        ProjectService.getProject(this.projectId).then(project => {
+        ProjectService.getProject(this.projectId).then(async project => {
             document.title = document.title.replace('Project', project.name);
             document.querySelector('.js-project-description').textContent = project.description;
             document.querySelector('.js-project-date').textContent = project.startDate + ' t/m ' + project.endDate;
 
-            const tasks = this.getAmountOfTasks();
-            const objectives = this.getAmountOfObjectives();
+            const tasks = await this.getAmountOfTasks();
+            const objectives = await this.getAmountOfObjectives();
+            const progress = await this.computeProgress();
+            const formattedProgress = progress % 1 === 0 ? progress.toFixed(0) : progress.toFixed(1);
 
             if (tasks == null && tasks.length == 0) {
                 document.querySelector('.js-project-tasks-total').parentElement.style.display = 'none';
             } else {
-                document.querySelector('.js-project-tasks-completed').textContent = this.getAmountOfTasksCompleted();
+                document.querySelector('.js-project-tasks-completed').textContent = await this.getAmountOfTasksCompleted();
                 document.querySelector('.js-project-tasks-total').textContent = tasks;    
             }
 
             if (objectives == null && objectives.length == 0) {
                 document.querySelector('.js-project-objectives-total').parentElement.style.display = 'none';
             } else {
-                document.querySelector('.js-project-objectives-passed').textContent = this.getAmountOfObjectivesPassed();
+                document.querySelector('.js-project-objectives-passed').textContent = await this.getAmountOfObjectivesPassed();
                 document.querySelector('.js-project-objectives-total').textContent = objectives;    
             }
 
-            document.querySelector('.js-project-progress').value = this.computeProgress();
-            document.querySelector('.js-project-time-remaining').textContent = this.getRemainingTime() + ' uur';
+            document.querySelector('.js-project-progress').value = progress;
+            document.querySelector('.js-project-progress-value').textContent = `${formattedProgress} %`;
+            document.querySelector('.js-project-progress-value').style.left = `${progress}%`;
+            document.querySelector('.js-project-time-remaining').textContent = await this.getRemainingTime() + ' uur';
         }).catch(err => {
             console.error(err);
-            // window.location.href = 'projects.html';
+            window.location.href = 'projects.html';
         });
         
         this.objectiveList = document.querySelector('#objectiveList');
@@ -588,21 +592,18 @@ class ProjectView {
 
     static async computeProgress() {
         try {
-            const [totalTasks, completedTasks, objectives, passedObjectives] = await Promise.all([
-              TaskService.getAmountOfTasks(),
-              TaskService.getAmountOfTasksCompleted(),
-              ObjectiveService.getObjectives(this.projectId),
-              ObjectiveService.getObjectivesPassedDeadline(this.projectId)
+            const [totalTasks, completedTasks, totalObjectives, passedObjectives] = await Promise.all([
+              this.getAmountOfTasks(),
+              this.getAmountOfTasksCompleted(),
+              this.getAmountOfObjectives(),
+              this.getAmountOfObjectivesPassed()
             ]);
         
-            const totalObjectives = objectives.length;
-            const completedObjectives = objectives.length - passedObjectives.length;
-        
             const totalItems = totalTasks + totalObjectives;
-            const completedItems = completedTasks + completedObjectives;
+            const completedItems = completedTasks + passedObjectives;
         
             const progressPercentage = (completedItems / totalItems) * 100;
-        
+
             return progressPercentage;
         } catch (error) {
             console.error("Error while calculating project progress:", error);
@@ -612,17 +613,30 @@ class ProjectView {
 
     static async getRemainingTime() {
         try {
-            const [objectives, tasks] = await Promise.all([
-              ObjectiveService.getObjectives(this.projectId),
-              TaskService.getTasks(this.projectId)
+            const [totalTasks, completedTasks, totalObjectives, passedObjectives] = await Promise.all([
+                this.getAmountOfTasks(),
+                this.getAmountOfTasksCompleted(),
+                this.getAmountOfObjectives(),
+                this.getAmountOfObjectivesPassed()
             ]);
-        
-            const objectivesExpectedTimes = objectives.map(objective => objective.expectedTime || 0);
-            const tasksExpectedTimes = tasks.map(task => task.expectedTime || 0);
-        
-            const totalExpectedTime = objectivesExpectedTimes.concat(tasksExpectedTimes).reduce((sum, time) => sum + time, 0);
-        
-            return totalExpectedTime;
+    
+            const uncompletedTasks = totalTasks - completedTasks;
+            const futureObjectives = totalObjectives - passedObjectives;
+    
+            let remainingTime = 0;
+    
+            const tasks = await TaskService.getTasks(this.projectId);
+            const objectives = await ObjectiveService.getObjectives(this.projectId);
+    
+            for (const task of tasks.slice(completedTasks, completedTasks + uncompletedTasks)) {
+                remainingTime += task.expectedTime || 0;
+            }
+    
+            for (const objective of objectives.slice(passedObjectives, passedObjectives + futureObjectives)) {
+                remainingTime += objective.expectedTime || 0;
+            }
+    
+            return remainingTime;
         } catch (error) {
             console.error("Error while calculating total expected time:", error);
             return 0; 

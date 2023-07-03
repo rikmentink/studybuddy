@@ -1,5 +1,7 @@
 import AuthService from '../service/authService.js';
 import ProjectService from '../service/projectService.js';
+import TaskService from '../service/taskService.js';
+import ObjectiveService from '../service/objectiveService.js';
 import Project from '../model/project.js';
 import { formDataToJson } from '../utils/utils.js';
 import { URL_PREFIX } from '../config.js';
@@ -41,8 +43,8 @@ class ProjectListView {
                 if (projects.length > 0) {
                     this.clearProjectList();
 
-                    projects.forEach(project => {
-                        const projectCard = this.createProjectCard(project);
+                    projects.forEach(async project => {
+                        const projectCard = await this.createProjectCard(project);
                         this.projectList.appendChild(projectCard);
                     });
                 } else {
@@ -63,12 +65,17 @@ class ProjectListView {
      * @param {Project} project - Contains the project object to create a card for.
      * @returns {Node} The code for the card representing the project.
      */
-    static createProjectCard(project) {
+    static async createProjectCard(project) {
         const projectCard = this.projectCardTemplate.content.cloneNode(true);
+        const projectProgress = await this.computeProjectProgress(project.id);
+        const projectProgressValue = projectProgress % 1 === 0 ? projectProgress.toFixed(0) : projectProgress.toFixed(1);
 
         // projectCard.querySelector('#image').src = 
         projectCard.querySelector('#title').textContent       = project.name;
         projectCard.querySelector('#url').href = `${URL_PREFIX}/project.html?project=${project.id}`
+        projectCard.querySelector('#progress').value = projectProgress;
+        projectCard.querySelector('#progressValue').textContent = `${projectProgressValue} %`;
+        projectCard.querySelector('#progressValue').style.left = `${projectProgress}%`;
 
         if (project.description) {
             projectCard.querySelector('#description').textContent = project.description;
@@ -80,6 +87,7 @@ class ProjectListView {
         } else if (project.startDate && !project.endDate) {
             projectCard.querySelector('#date').textContent = `Sinds ${project.startDate}`;
         }
+
 
         return projectCard;
     }
@@ -115,6 +123,36 @@ class ProjectListView {
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
+        }
+    }
+
+    static async computeProjectProgress(projectId) {
+        try {
+            const [totalTasks, completedTasks, totalObjectives, passedObjectives] = await Promise.all([
+              TaskService.getTasks(projectId).then(data => data.length),
+              TaskService.getTasks(projectId)
+                .then(data => {
+                    const completedTasks = data.filter(task => task.completed);
+                    return completedTasks.length;              
+                }),
+              ObjectiveService.getObjectives(projectId).then(data => data.length),
+              ObjectiveService.getObjectives(projectId)
+                .then(data => {
+                    const today = new Date();
+                    const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
+                    return passedObjectives.length;
+                })
+            ]);
+        
+            const totalItems = totalTasks + totalObjectives;
+            const completedItems = completedTasks + passedObjectives;
+        
+            const progressPercentage = (completedItems / totalItems) * 100;
+
+            return progressPercentage;
+        } catch (error) {
+            console.error("Error while calculating project progress:", error);
+            return 0;
         }
     }
 }

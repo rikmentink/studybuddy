@@ -1,8 +1,9 @@
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     flex: 0 0 auto;
-    padding: 2rem;
+    padding: 2rem 2rem 0;
     width: 100%;
 }
 
@@ -76,4 +77,36 @@
 
 .header__description {
     margin-bottom: 0;
+}
+
+.header__progress {
+    position: relative;
+    width: 200px;
+    margin-left: .5rem;
+}
+
+.header__progress-input {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #ccc;
+    height: 2px;
+}
+
+.header__progress-input::-webkit-progress-value,
+.header__progress-input::-moz-range-progress {
+    background-color: #000;
+}
+
+.header__progress-input::-webkit-slider-thumb,
+.header__progress-input::-moz-range-thumb {
+    -webkit-appearance: none;
+    width: 0;
+    height: 0;
+}
+
+.header__progress-value {
+    position: absolute;
+    font-size: 12px;
+    transform: translateX(-50%);
 }
