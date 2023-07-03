@@ -11,15 +11,16 @@ export default class AuthService {
             }
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
-        }).catch(err => {
-            return err;
-        });
+        })
     }
 
     static register(data) {
@@ -31,15 +32,16 @@ export default class AuthService {
             }
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => {
             this.saveUserToStorage(data.token, data.userId);
             return data;
-        }).catch(err => {
-            return err;
-        });
+        })
     }
 
     static logout() {

@@ -14,7 +14,10 @@ export default class ProjectService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => {
@@ -33,7 +36,10 @@ export default class ProjectService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Project(
@@ -54,7 +60,10 @@ export default class ProjectService {
             }
         }).then(res => {
             if (res.status !== 201) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Project(
@@ -74,8 +83,11 @@ export default class ProjectService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status !== 200) {
-                throw new Error(res.status);
+            if (!res.ok) {
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Project(
@@ -94,8 +106,11 @@ export default class ProjectService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status !== 200) {
-                throw new Error(res.status);
+            if (!res.ok) {
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res;
         });

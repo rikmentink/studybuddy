@@ -17,9 +17,29 @@ class ProjectView {
             document.title = document.title.replace('Project', project.name);
             document.querySelector('.js-project-description').textContent = project.description;
             document.querySelector('.js-project-date').textContent = project.startDate + ' t/m ' + project.endDate;
+
+            const tasks = this.getAmountOfTasks();
+            const objectives = this.getAmountOfObjectives();
+
+            if (tasks == null && tasks.length == 0) {
+                document.querySelector('.js-project-tasks-total').parentElement.style.display = 'none';
+            } else {
+                document.querySelector('.js-project-tasks-completed').textContent = this.getAmountOfTasksCompleted();
+                document.querySelector('.js-project-tasks-total').textContent = tasks;    
+            }
+
+            if (objectives == null && objectives.length == 0) {
+                document.querySelector('.js-project-objectives-total').parentElement.style.display = 'none';
+            } else {
+                document.querySelector('.js-project-objectives-passed').textContent = this.getAmountOfObjectivesPassed();
+                document.querySelector('.js-project-objectives-total').textContent = objectives;    
+            }
+
+            document.querySelector('.js-project-progress').value = this.computeProgress();
+            document.querySelector('.js-project-time-remaining').textContent = this.getRemainingTime() + ' uur';
         }).catch(err => {
             console.error(err);
-            window.location.href = 'projects.html';
+            // window.location.href = 'projects.html';
         });
         
         this.objectiveList = document.querySelector('#objectiveList');
@@ -35,14 +55,14 @@ class ProjectView {
             this.updateProjectFormSubmit(form);
         });
         document.querySelector('.js-update-project').addEventListener('click', () => {
-            this.initProjectForm(this.projectId);
+            this.initProjectForm();
             document.querySelector('#updateProjectFormDialog').showModal();
         });
         document.querySelector('#closeUpdateProjectFormDialog').addEventListener('click', () => {
             document.querySelector('#updateProjectFormDialog').close();
         });
         document.querySelector('.js-delete-project').addEventListener('click', () => {
-            this.deleteProject(this.projectId);
+            this.deleteProject();
             window.location.href = 'projects.html'
         })
         
@@ -460,13 +480,11 @@ class ProjectView {
 
     /**
      * Initializes the update project form by filling in all the existing data.
-     * 
-     * @param projectId The identifier of the project to be updated.
      */
-    static initProjectForm(projectId) {
+    static initProjectForm() {
         const form = document.querySelector('#updateProjectForm');
         
-        ProjectService.getProject(projectId)
+        ProjectService.getProject(this.projectId)
         .then(project => {
             form.dataset.id = project.id;
             form.querySelector('#name').value = project.name;
@@ -508,11 +526,9 @@ class ProjectView {
 
     /**
      * Deletes an existing project when the button is pressed.
-     * 
-     * @param projectId The identifier of the project to be deleted.
      */
-    static deleteProject(projectId) {
-        ProjectService.deleteProject(projectId);
+    static deleteProject() {
+        ProjectService.deleteProject(this.projectId);
     }
 
     static handleCompleteTask(task) {
@@ -568,6 +584,74 @@ class ProjectView {
         return function() {
             this.initObjectiveDetails(objectiveId);
         }
+    }
+
+    static async computeProgress() {
+        try {
+            const [totalTasks, completedTasks, objectives, passedObjectives] = await Promise.all([
+              TaskService.getAmountOfTasks(),
+              TaskService.getAmountOfTasksCompleted(),
+              ObjectiveService.getObjectives(this.projectId),
+              ObjectiveService.getObjectivesPassedDeadline(this.projectId)
+            ]);
+        
+            const totalObjectives = objectives.length;
+            const completedObjectives = objectives.length - passedObjectives.length;
+        
+            const totalItems = totalTasks + totalObjectives;
+            const completedItems = completedTasks + completedObjectives;
+        
+            const progressPercentage = (completedItems / totalItems) * 100;
+        
+            return progressPercentage;
+        } catch (error) {
+            console.error("Error while calculating project progress:", error);
+            return 0;
+        }
+    }
+
+    static async getRemainingTime() {
+        try {
+            const [objectives, tasks] = await Promise.all([
+              ObjectiveService.getObjectives(this.projectId),
+              TaskService.getTasks(this.projectId)
+            ]);
+        
+            const objectivesExpectedTimes = objectives.map(objective => objective.expectedTime || 0);
+            const tasksExpectedTimes = tasks.map(task => task.expectedTime || 0);
+        
+            const totalExpectedTime = objectivesExpectedTimes.concat(tasksExpectedTimes).reduce((sum, time) => sum + time, 0);
+        
+            return totalExpectedTime;
+        } catch (error) {
+            console.error("Error while calculating total expected time:", error);
+            return 0; 
+        }     
+    }
+
+    static getAmountOfTasks() {
+        return TaskService.getTasks(this.projectId).then(data => data.length);
+    }
+
+    static getAmountOfTasksCompleted() {
+        return TaskService.getTasks(this.projectId)
+                .then(data => {
+                    const completedTasks = data.filter(task => task.completed);
+                    return completedTasks.length;              
+                });
+    }
+
+    static getAmountOfObjectives() {
+        return ObjectiveService.getObjectives(this.projectId).then(data => data.length);
+    }
+
+    static getAmountOfObjectivesPassed() {
+        return ObjectiveService.getObjectives(this.projectId)
+                .then(data => {
+                    const today = new Date();
+                    const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
+                    return passedObjectives.length;
+                });
     }
 }
 

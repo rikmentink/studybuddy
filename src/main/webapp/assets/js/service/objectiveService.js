@@ -14,7 +14,10 @@ export default class ObjectiveService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => {
@@ -25,8 +28,6 @@ export default class ObjectiveService {
                 objectiveData.expectedTime,
                 objectiveData.deadline
             ));
-        }).catch(err => {
-            return err;
         });
     }
 
@@ -41,7 +42,10 @@ export default class ObjectiveService {
             method: 'GET',
         }).then(res => {
             if (!res.ok) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Objective(
@@ -50,9 +54,7 @@ export default class ObjectiveService {
             data.description,
             data.expectedTime,
             data.deadline
-        )).catch(err => {
-            return err;
-        });
+        ));
     }
 
     static addObjective(projectId, objective) {
@@ -64,7 +66,10 @@ export default class ObjectiveService {
             }
         }).then(res => {
             if (res.status !== 201) {
-                throw new Error(res.status);
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Objective(
@@ -73,9 +78,7 @@ export default class ObjectiveService {
             data.description,
             data.expectedTime,
             data.deadline
-        )).catch(err => {
-            return err;
-        });
+        ));
     }
 
     static updateObjective(objectiveId, objective) {
@@ -86,8 +89,11 @@ export default class ObjectiveService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status !== 200) {
-                throw new Error(res.status);
+            if (!res.ok) {
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
             return res.json();
         }).then(data => new Objective(
@@ -96,9 +102,7 @@ export default class ObjectiveService {
             data.description,
             data.expectedTime,
             data.deadline
-        )).catch(err => {
-            return err;
-        });
+        ));
     }
 
     static deleteObjective(objectiveId) {
@@ -108,13 +112,14 @@ export default class ObjectiveService {
                 'Content-Type': 'application/json'
             }
         }).then(res => {
-            if (res.status !== 200) {
-                throw new Error(res.status);
+            if (!res.ok) {
+                return res.json().then(err => {
+                    err.status = res.status;
+                    throw err;
+                });
             }
 
             return res;
-        }).catch(err => {
-            return err;
         });
     }
 }

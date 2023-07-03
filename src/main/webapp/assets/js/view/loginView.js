@@ -21,10 +21,10 @@ class LoginView {
                 console.log(`Student with id ${res.userId} logged in.`);
                 window.location.href = `${URL_PREFIX}/`;
             })
-            .catch(e => {
-                console.error(`Student login failed: ${e}`)
+            .catch(err => {
+                console.error(`Student login failed: ${err}`)
                 message.classList.add('error');
-                message.textContent = 'Something went wrong!';
+                message.textContent = err.message;
             })
         } else {
             message.classList.add('error');

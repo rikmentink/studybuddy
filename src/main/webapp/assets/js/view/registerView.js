@@ -21,10 +21,10 @@ class RegisterView {
                 console.log(`Student with id ${res.userId} was registered.`);
                 window.location.href = `${URL_PREFIX}/`;
             })
-            .catch(e => {
-                console.error(`Student register failed: ${e}`)
+            .catch(err => {
+                console.error(err);
                 message.classList.add('error');
-                message.textContent = 'Something went wrong!';
+                message.textContent = err.message;
             })
         } else {
             message.classList.add('error');

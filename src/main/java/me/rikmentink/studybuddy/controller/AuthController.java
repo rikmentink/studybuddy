@@ -48,7 +48,7 @@ public class AuthController {
             return Response.ok(response).build();
         }
 
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.status(Response.Status.UNAUTHORIZED).entity(new SimpleEntry<>("message", "The username or password is incorrect!")).build();
     }
 
     /**
