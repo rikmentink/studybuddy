@@ -1,7 +1,7 @@
 :root {
-    --theme-color-primary: #EF7C53;
-    --theme-color-primary-rgb: 239, 124, 83;
-    --theme-color-secondary: #46859A;
-    --theme-color-secondary-rgb: 70, 133, 154;
-    --theme-color-text: #111111;
+  --theme-color-primary: #ef7c53;
+  --theme-color-primary-rgb: 239, 124, 83;
+  --theme-color-secondary: #46859a;
+  --theme-color-secondary-rgb: 70, 133, 154;
+  --theme-color-text: #111111;
 }

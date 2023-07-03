@@ -21,7 +21,7 @@ import me.rikmentink.studybuddy.model.Student;
 public class FileHandler {
     private static String DATA_URL = "/home/data.json";
     private static final ObjectMapper objectMapper;
-    
+
     static {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -47,7 +47,8 @@ public class FileHandler {
     public static List<Student> readData() {
         try {
             InputStream inputStream = new FileInputStream(new File(DATA_URL));
-            return objectMapper.readValue(inputStream, new TypeReference<List<Student>>(){});
+            return objectMapper.readValue(inputStream, new TypeReference<List<Student>>() {
+            });
         } catch (IOException e) {
             logError("Failed to read data: ", e);
         }
@@ -62,7 +63,7 @@ public class FileHandler {
      * @return True if the data was successfully written, false otherwise.
      */
     public static boolean writeData(List<Student> students) {
-        try (Writer writer = new FileWriter(DATA_URL)) { 
+        try (Writer writer = new FileWriter(DATA_URL)) {
             objectMapper.writeValue(writer, students);
             return true;
         } catch (IOException e) {
@@ -72,7 +73,7 @@ public class FileHandler {
         return false;
     }
 
-    /** 
+    /**
      * Logs errors to the console, including the exception message.
      * 
      * @param message The error message to log.

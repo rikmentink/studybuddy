@@ -21,27 +21,24 @@ public class TaskTest {
     @BeforeEach
     public void init() {
         student = new Student(
-            "Test", 
-            "Student",  
-            "test@test.nl",
-            "12345",
-            new ArrayList<>()
-        );
+                "Test",
+                "Student",
+                "test@test.nl",
+                "12345",
+                new ArrayList<>());
         project = new Project(
-            "Test", 
-            "This is a project meant for testing.",
-            LocalDate.parse("2023-06-08"),
-            LocalDate.parse("2023-06-15"),
-            new ArrayList<>(),
-            new ArrayList<>()
-        );
+                "Test",
+                "This is a project meant for testing.",
+                LocalDate.parse("2023-06-08"),
+                LocalDate.parse("2023-06-15"),
+                new ArrayList<>(),
+                new ArrayList<>());
         task = new Task(
-            "Test", 
-            "This is a task meant for testing.",
-            1,
-            LocalDateTime.parse("2023-06-15 09:00"),
-            false
-        );
+                "Test",
+                "This is a task meant for testing.",
+                1,
+                LocalDateTime.parse("2023-06-15 09:00"),
+                false);
     }
 
     @Test
@@ -55,6 +52,6 @@ public class TaskTest {
         boolean match = Task.getAllTasks().stream()
                 .anyMatch(foundTask -> foundTask.getId() == task.getId());
 
-        assertFalse(match);    
+        assertFalse(match);
     }
 }

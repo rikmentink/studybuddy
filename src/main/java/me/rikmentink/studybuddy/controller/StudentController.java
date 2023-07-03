@@ -21,7 +21,7 @@ import me.rikmentink.studybuddy.model.Student;
 
 @Path("/students")
 public class StudentController {
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudents() {
@@ -55,14 +55,15 @@ public class StudentController {
     public Response addStudent(@Context UriInfo uri, Student student) {
         if (Student.addStudent(student) == -1) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(new SimpleEntry<>("message", "Student with ID " + student.getId() + " couldn't be created."))
+                    .entity(new SimpleEntry<>("message",
+                            "Student with ID " + student.getId() + " couldn't be created."))
                     .build();
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())
-            .path("students")
-            .path(String.valueOf(student.getId()))
-            .build();
+                .path("students")
+                .path(String.valueOf(student.getId()))
+                .build();
         return Response.created(location).entity(student).build();
     }
 
@@ -78,7 +79,7 @@ public class StudentController {
 
         return Response.ok(projects).build();
     }
-    
+
     @POST
     @Path("/{studentId}/projects")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -91,11 +92,11 @@ public class StudentController {
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())
-            .path("students")
-            .path(String.valueOf(studentId))
-            .path("projects")
-            .path(String.valueOf(project.getId()))
-            .build();
+                .path("students")
+                .path(String.valueOf(studentId))
+                .path("projects")
+                .path(String.valueOf(project.getId()))
+                .build();
         return Response.created(location).entity(project).build();
     }
 }

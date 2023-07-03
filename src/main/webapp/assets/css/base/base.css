@@ -1,53 +1,53 @@
 *,
 *:before,
 *:after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
 }
 
 a {
-    color: var(--theme-color-primary);
-    text-decoration: none;
-    transition: color .3s ease;
+  color: var(--theme-color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover,
 a:focus {
-    border-bottom-color: var(--theme-color-primary);
+  border-bottom-color: var(--theme-color-primary);
 }
 
 a:not([class]) {
-    border: 1px solid transparent;
-    transition: border-color .3s ease;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
 }
 
 a:not([class]) {
-    border-bottom-color: var(--theme-color-primary);
+  border-bottom-color: var(--theme-color-primary);
 }
 
 .wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  min-height: 100vh;
 }
 
 .wrapper > .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
-    flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  flex: 1 1 auto;
 }
 
 .content {
-    flex: 1 1 auto;
-    padding: 0 2rem;
+  flex: 1 1 auto;
+  padding: 0 2rem;
 }

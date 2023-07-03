@@ -17,7 +17,7 @@ import me.rikmentink.studybuddy.model.Task;
 
 @Path("/tasks")
 public class TaskController {
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTasks() {

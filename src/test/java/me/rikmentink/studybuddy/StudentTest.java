@@ -15,12 +15,11 @@ public class StudentTest {
     @BeforeEach
     public void init() {
         student = new Student(
-            "Test", 
-            "Student",  
-            "test@test.nl",
-            "12345",
-            new ArrayList<>()
-        );
+                "Test",
+                "Student",
+                "test@test.nl",
+                "12345",
+                new ArrayList<>());
     }
 
     @Test
@@ -32,6 +31,6 @@ public class StudentTest {
         boolean match = Student.getAllStudents().stream()
                 .anyMatch(foundStudent -> foundStudent.getId() == student.getId());
 
-        assertFalse(match);    
+        assertFalse(match);
     }
 }

@@ -16,7 +16,7 @@ public class Objective {
     private String description;
     private int expectedTime;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime deadline;
 
     public Objective(String name, String description, int expectedTime, LocalDateTime deadline) {
@@ -26,11 +26,11 @@ public class Objective {
         this.deadline = deadline;
     }
 
-    public Objective(@JsonProperty("id") int id, 
-                     @JsonProperty("name") String name, 
-                     @JsonProperty("description") String description, 
-                     @JsonProperty("expectedTime") int expectedTime, 
-                     @JsonProperty("deadline") LocalDateTime deadline) {
+    public Objective(@JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("expectedTime") int expectedTime,
+            @JsonProperty("deadline") LocalDateTime deadline) {
         this(name, description, expectedTime, deadline);
         this.id = id;
     }
@@ -91,7 +91,7 @@ public class Objective {
      * Retrieves a specific objective based on its identifier.
      * 
      * @param objectiveId The ID of the objective to retrieve.
-     * @return The Objective object matching the provided ID, or null if not 
+     * @return The Objective object matching the provided ID, or null if not
      *         found.
      */
     public static Objective getObjective(int objectiveId) {
@@ -111,7 +111,7 @@ public class Objective {
      */
     public static boolean addObjective(int projectId, Objective objective) {
         objective.setId(generateNewObjectiveId());
-        
+
         List<Student> students = Student.getAllStudents();
         Optional<Student> optionalStudent = students.stream()
                 .filter(student -> student.getProjects().stream()
@@ -132,60 +132,74 @@ public class Objective {
                 return FileHandler.writeData(students);
             }
         }
-        
+
         return false;
     }
 
     /**
-     * TODO: Document function.
+     * Updates an objective with the given objectiveId in a list of students'
+     * projects and
+     * returns whether the data was successfully written to a file.
      * 
-     * @param objectiveId
-     * @param updatedObjective
-     * @return
+     * @param objectiveId      The unique identifier
+     *                         of the objective that needs to be updated.
+     * @param updatedObjective The updated information for the objective that needs
+     *                         to be updated.
+     * @return Whether the objective was succesfully updated or not.
      */
     public static boolean updateObjective(int objectiveId, Objective updatedObjective) {
         List<Student> students = Student.getAllStudents();
-        
+
         students.stream()
-            .flatMap(student -> student.getProjects().stream())
-            .filter(project -> project.getObjectives().stream()
-                    .anyMatch(objective -> objective.getId() == objectiveId))
-            .findFirst()
-            .ifPresent(project -> {
-                List<Objective> objectives = project.getObjectives();
-                objectives.stream()
-                    .filter(objective -> objective.getId() == objectiveId)
-                    .findFirst()
-                    .ifPresent(objective -> {
-                        objective.setName(updatedObjective.getName());
-                        objective.setDescription(updatedObjective.getDescription());
-                        objective.setExpectedTime(updatedObjective.getExpectedTime());
-                        objective.setDeadline(updatedObjective.getDeadline());
-                    });
-            });
+                .flatMap(student -> student.getProjects().stream())
+                .filter(project -> project.getObjectives().stream()
+                        .anyMatch(objective -> objective.getId() == objectiveId))
+                .findFirst()
+                .ifPresent(project -> {
+                    List<Objective> objectives = project.getObjectives();
+                    objectives.stream()
+                            .filter(objective -> objective.getId() == objectiveId)
+                            .findFirst()
+                            .ifPresent(objective -> {
+                                objective.setName(updatedObjective.getName());
+                                objective.setDescription(updatedObjective.getDescription());
+                                objective.setExpectedTime(updatedObjective.getExpectedTime());
+                                objective.setDeadline(updatedObjective.getDeadline());
+                            });
+                });
 
         return FileHandler.writeData(students);
-    } 
+    }
 
     /**
-     * TODO: Document function.
+     * Deletes an objective with a specific ID from all projects of all students and
+     * returns whether the data was successfully written.
      * 
-     * @param objectiveId
-     * @return
+     * @param objectiveId The unique identifier
+     *                    of the objective that needs to be deleted.
+     * @return Whether the objective was successfully deleted or not.
      */
     public static boolean deleteObjective(int objectiveId) {
         List<Student> students = Student.getAllStudents();
-        
-        students.forEach(student -> student.getProjects().forEach(project ->
-                project.getObjectives().removeIf(objective -> objective.getId() == objectiveId)));
+
+        students.forEach(student -> student.getProjects()
+                .forEach(project -> project.getObjectives().removeIf(objective -> objective.getId() == objectiveId)));
 
         return FileHandler.writeData(students);
-    } 
+    }
 
+    /**
+     * Generates a new objective ID by finding the maximum ID from a list of
+     * objectives
+     * and incrementing it by 1.
+     * 
+     * @return The generated new objective ID.
+     */
     public static int generateNewObjectiveId() {
         List<Objective> objectiveList = getAllObjectives();
-        
-        if (objectiveList.isEmpty()) return 1;
+
+        if (objectiveList.isEmpty())
+            return 1;
         int maxId = objectiveList.stream()
                 .mapToInt(Objective::getId)
                 .max()

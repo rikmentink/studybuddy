@@ -26,12 +26,12 @@ public class Student implements Serializable {
     }
 
     @JsonCreator
-    public Student(@JsonProperty("id")int id, 
-                   @JsonProperty("firstName") String firstName, 
-                   @JsonProperty("lastName") String lastName, 
-                   @JsonProperty("email") String email, 
-                   @JsonProperty("password") String password, 
-                   @JsonProperty("projects") List<Project> projects) {
+    public Student(@JsonProperty("id") int id,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("email") String email,
+            @JsonProperty("password") String password,
+            @JsonProperty("projects") List<Project> projects) {
         this(firstName, lastName, email, password, projects);
         this.id = id;
     }
@@ -109,26 +109,34 @@ public class Student implements Serializable {
      * Adds a new student to the list of students.
      * 
      * @param student The Student object to add.
-     * @return The unique identifier if the student was successfully added, -1 
-     * otherwise.
+     * @return The unique identifier if the student was successfully added, -1
+     *         otherwise.
      */
     public static int addStudent(Student student) {
         student.setId(generateNewStudentId());
 
         List<Student> students = getAllStudents();
         students.add(student);
-        
+
         if (FileHandler.writeData(students)) {
             return student.getId();
         } else {
             return -1;
         }
     }
-    
+
+    /**
+     * Generates a new student ID by finding the maximum ID from a list of students
+     * and
+     * incrementing it by 1.
+     * 
+     * @return The generated new student ID.
+     */
     private static int generateNewStudentId() {
         List<Student> students = getAllStudents();
-        
-        if (students.isEmpty()) return 1;
+
+        if (students.isEmpty())
+            return 1;
         int maxId = students.stream()
                 .mapToInt(Student::getId)
                 .max()
@@ -136,14 +144,23 @@ public class Student implements Serializable {
         return maxId + 1;
     }
 
+    /**
+     * Checks if two Student objects have the same id, firstName, and lastName.
+     * 
+     * @param obj An object that is being compared to the current object for
+     *            equality.
+     * @return Whether the 2 objects are equal.
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
 
         Student student = (Student) obj;
         return this.id == student.id &&
-               this.firstName.equals(student.getFirstName()) &&
-               this.lastName.equals(student.getLastName());
+                this.firstName.equals(student.getFirstName()) &&
+                this.lastName.equals(student.getLastName());
     }
-}  
+}

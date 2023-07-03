@@ -3,7 +3,7 @@ import { formDataToJson } from '../utils/utils.js';
 import { URL_PREFIX } from '../config.js';
 
 class RegisterView {
-    
+
     static init() {
         document.querySelector('#registerFormSubmit').addEventListener('click', () => {
             const form = document.querySelector('#registerForm')
@@ -17,15 +17,15 @@ class RegisterView {
 
         if (data.firstname && data.lastname && data.email && data.password) {
             AuthService.register(data)
-            .then(res => {
-                console.log(`Student with id ${res.userId} was registered.`);
-                window.location.href = `${URL_PREFIX}/`;
-            })
-            .catch(err => {
-                console.error(err);
-                message.classList.add('error');
-                message.textContent = err.message;
-            })
+                .then(res => {
+                    console.log(`Student with id ${res.userId} was registered.`);
+                    window.location.href = `${URL_PREFIX}/`;
+                })
+                .catch(err => {
+                    console.error(err);
+                    message.classList.add('error');
+                    message.textContent = err.message;
+                })
         } else {
             message.classList.add('error');
             message.textContent = 'Please fill all fields correctly!';

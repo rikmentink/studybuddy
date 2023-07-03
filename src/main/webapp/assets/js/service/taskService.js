@@ -52,12 +52,12 @@ export default class TaskService {
             }
             return res.json();
         }).then(data => new Task(
-                data.id,
-                data.name,
-                data.description,
-                data.expectedTime,
-                data.deadline,
-                data.completed
+            data.id,
+            data.name,
+            data.description,
+            data.expectedTime,
+            data.deadline,
+            data.completed
         )).catch(err => {
             return err;
         });

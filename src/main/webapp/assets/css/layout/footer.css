@@ -1,5 +1,5 @@
 .footer {
-    flex: 0 0 auto;
-    padding: .5rem 2rem;
-    background-color: rgba(var(--theme-color-secondary-rgb), .1);
+  flex: 0 0 auto;
+  padding: 0.5rem 2rem;
+  background-color: rgba(var(--theme-color-secondary-rgb), 0.1);
 }

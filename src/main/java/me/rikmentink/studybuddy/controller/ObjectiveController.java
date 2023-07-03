@@ -17,11 +17,19 @@ import me.rikmentink.studybuddy.model.Objective;
 
 @Path("/objectives")
 public class ObjectiveController {
-    
+
+    /**
+     * This function retrieves a list of objectives and returns them as a JSON
+     * response.
+     * 
+     * @return A Response object containing all objectives, or status 201 (Created)
+     *         if none
+     *         are found.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getObjectives() {
-        List< Objective> objectives = Objective.getAllObjectives();
+        List<Objective> objectives = Objective.getAllObjectives();
 
         if (objectives.size() == 0) {
             return Response.status(Response.Status.NO_CONTENT).entity(objectives).build();
@@ -30,6 +38,15 @@ public class ObjectiveController {
         return Response.ok(objectives).build();
     }
 
+    /**
+     * The function retrieves an Objective object based on the provided objectiveId
+     * and returns it as a JSON response.
+     * 
+     * @param objectiveId The ID of the objective that we want to
+     *                    retrieve. It is passed as a path parameter in the URL.
+     * @return A Response object containing the objective found, or status 404 (Not
+     *         Found) whether no objective was found with this ID.
+     */
     @GET
     @Path("/{objectiveId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +62,19 @@ public class ObjectiveController {
         return Response.ok(objective).build();
     }
 
+    /**
+     * Updates an objective with the given ID and returns a response indicating the
+     * success or failure of the update.
+     * 
+     * @param objectiveId The ID of the
+     *                    objective that needs to be updated.
+     * @param objective   The updated objective that will be used to update the
+     *                    existing objective with the specified
+     *                    objectiveId.
+     * @return A Response object containing the updated objective object, or a
+     *         status 404 whether no objective was found, or a status 417 if the
+     *         objective couldn't be updated.
+     */
     @PUT
     @Path("/{objectiveId}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -67,6 +97,16 @@ public class ObjectiveController {
         return Response.ok(objective).build();
     }
 
+    /**
+     * Deletes an objective with a given ID and returns an appropriate response
+     * based on
+     * the success or failure of the deletion.
+     * 
+     * @param objectiveId The unique identifier of the objective that needs to be
+     *                    deleted.
+     * @return A Response object containing a status 200 (OK) if the objective was
+     *         deleted, or a 404 (Not Found) if no objective was found with this ID.
+     */
     @DELETE
     @Path("/{objectiveId}")
     @Consumes(MediaType.APPLICATION_JSON)

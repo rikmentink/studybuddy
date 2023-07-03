@@ -5,6 +5,6 @@ export function formDataToJson(form) {
     formData.forEach((value, key) => {
         jsonData[key] = value
     });
-    
+
     return jsonData;
 }

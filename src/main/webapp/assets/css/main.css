@@ -1,7 +1,6 @@
 /* Global base styles */
 @import "base/variables.css";
 @import "base/base.css";
-@import "base/typography.css";
 
 /* Global layout styles */
 @import "layout/header.css";

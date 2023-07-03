@@ -16,16 +16,17 @@ public class Project {
     private int id;
     private String name;
     private String description;
-    private List<Objective> objectives; 
-    private List<Task> tasks; 
-    
-    @JsonFormat(pattern="yyyy-MM-dd")
+    private List<Objective> objectives;
+    private List<Task> tasks;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
-    public Project(String name, String description, LocalDate startDate, LocalDate endDate, List<Objective> objectives, List<Task> tasks) {
+    public Project(String name, String description, LocalDate startDate, LocalDate endDate, List<Objective> objectives,
+            List<Task> tasks) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -35,13 +36,13 @@ public class Project {
     }
 
     @JsonCreator
-    public Project(@JsonProperty("id") int id, 
-                   @JsonProperty("name") String name, 
-                   @JsonProperty("description") String description, 
-                   @JsonProperty("startDate") LocalDate startDate, 
-                   @JsonProperty("endDate") LocalDate endDate,
-                   @JsonProperty("objectives") List<Objective> objectives,
-                   @JsonProperty("tasks") List<Task> tasks) {
+    public Project(@JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("startDate") LocalDate startDate,
+            @JsonProperty("endDate") LocalDate endDate,
+            @JsonProperty("objectives") List<Objective> objectives,
+            @JsonProperty("tasks") List<Task> tasks) {
         this(name, description, startDate, endDate, objectives, tasks);
         this.id = id;
     }
@@ -106,7 +107,7 @@ public class Project {
                 .collect(Collectors.toList());
     }
 
-     /**
+    /**
      * Retrieves a specific project of a specific student.
      * 
      * @param studentId The ID of the student whose project to retrieve.
@@ -130,7 +131,7 @@ public class Project {
      */
     public static boolean addProject(int studentId, Project project) {
         project.setId(generateNewProjectId());
-        
+
         List<Student> students = Student.getAllStudents();
         Optional<Student> optionalStudent = students.stream()
                 .filter(student -> student.getId() == studentId)
@@ -142,53 +143,68 @@ public class Project {
 
             return FileHandler.writeData(students);
         }
-        
+
         return false;
     }
 
     /**
-     * TODO: Document function.
+     * Updates a project with the given project ID by modifying it and then writes
+     * the updated data to a file.
      * 
-     * @param projectId
-     * @param updatedProject
-     * @return
+     * @param projectId      The ID of the project
+     *                       that needs to be updated.
+     * @param updatedProject The updated information for a project, including the
+     *                       name, description, start date, and
+     *                       end date.
+     * @return Whether the project was succesfully updated or not.
      */
     public static boolean updateProject(int projectId, Project updatedProject) {
         List<Student> students = Student.getAllStudents();
-        
+
         students.stream()
-            .flatMap(student -> student.getProjects().stream())
-            .filter(project -> project.getId() == projectId)
-            .findFirst()
-            .ifPresent(project -> {
-                project.setName(updatedProject.getName());
-                project.setDescription(updatedProject.getDescription());
-                project.setStartDate(updatedProject.getStartDate());
-                project.setEndDate(updatedProject.getEndDate());
-            });
+                .flatMap(student -> student.getProjects().stream())
+                .filter(project -> project.getId() == projectId)
+                .findFirst()
+                .ifPresent(project -> {
+                    project.setName(updatedProject.getName());
+                    project.setDescription(updatedProject.getDescription());
+                    project.setStartDate(updatedProject.getStartDate());
+                    project.setEndDate(updatedProject.getEndDate());
+                });
 
         return FileHandler.writeData(students);
-    } 
+    }
 
     /**
-     * TODO: Document function.
+     * Deletes a project with a given projectId from the list of projects for all
+     * students
+     * and writes the updated data.
      * 
-     * @param projectId
-     * @return
+     * @param projectId The ID of the project
+     *                  that needs to be deleted.
+     * @return Whether the project was successfully deleted or not.
      */
     public static boolean deleteProject(int projectId) {
         List<Student> students = Student.getAllStudents();
-        
+
         students.forEach(student -> student.getProjects()
                 .removeIf(project -> project.getId() == projectId));
 
         return FileHandler.writeData(students);
-    } 
+    }
 
+    /**
+     * Generates a new project ID by finding the maximum ID from a list of projects
+     * and
+     * incrementing it by 1.
+     * 
+     * @return The generated new project ID.
+     */
     public static int generateNewProjectId() {
         List<Project> projects = getAllProjects();
-        
-        if (projects.isEmpty()) return 1;
+
+        if (projects.isEmpty())
+            return 1;
         int maxId = projects.stream()
                 .mapToInt(Project::getId)
                 .max()

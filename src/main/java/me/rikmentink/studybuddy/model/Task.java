@@ -17,12 +17,12 @@ public class Task extends Objective {
         this.completed = completed;
     }
 
-    public Task(@JsonProperty("id") int id, 
-                     @JsonProperty("name") String name, 
-                     @JsonProperty("description") String description, 
-                     @JsonProperty("expectedTime") int expectedTime, 
-                     @JsonProperty("deadline") LocalDateTime deadline,
-                     @JsonProperty("completed") boolean completed) {
+    public Task(@JsonProperty("id") int id,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("expectedTime") int expectedTime,
+            @JsonProperty("deadline") LocalDateTime deadline,
+            @JsonProperty("completed") boolean completed) {
         super(id, name, description, expectedTime, deadline);
         this.completed = completed;
     }
@@ -35,7 +35,7 @@ public class Task extends Objective {
         this.completed = completed;
     }
 
-        /**
+    /**
      * Retrieves all tasks from all projects from all students.
      * 
      * @return List of Task objects representing all the objectives.
@@ -65,7 +65,7 @@ public class Task extends Objective {
      * Adds a new task to the tasks of a specific project.
      * 
      * @param projectId The ID of the project to whom the task belongs.
-     * @param task   The Task object to add.
+     * @param task      The Task object to add.
      * @return True if the task was successfully added, false otherwise.
      */
     public static boolean addTask(int projectId, Task task) {
@@ -90,61 +90,71 @@ public class Task extends Objective {
                 return FileHandler.writeData(students);
             }
         }
-        
+
         return false;
     }
 
     /**
-     * TODO: Document function.
+     * Updates a task with the given taskId in a list of students' projects.
      * 
-     * @param taskId
-     * @param updatedTask
-     * @return
+     * @param taskId      The ID of the task that needs to be updated.
+     * @param updatedTask Object of type `Task` that represents the updated task
+     *                    information.
+     * @return Whether the task has successfully been updated or not.
      */
     public static boolean updateTask(int taskId, Task updatedTask) {
         List<Student> students = Student.getAllStudents();
-        
+
         students.stream()
-            .flatMap(student -> student.getProjects().stream())
-            .filter(project -> project.getTasks().stream()
-                    .anyMatch(task -> task.getId() == taskId))
-            .findFirst()
-            .ifPresent(project -> {
-                List<Task> tasks = project.getTasks();
-                tasks.stream()
-                    .filter(task -> task.getId() == taskId)
-                    .findFirst()
-                    .ifPresent(task -> {
-                        task.setName(updatedTask.getName());
-                        task.setDescription(updatedTask.getDescription());
-                        task.setExpectedTime(updatedTask.getExpectedTime());
-                        task.setDeadline(updatedTask.getDeadline());
-                        task.setCompleted(updatedTask.getCompleted());
-                    });
-            });
+                .flatMap(student -> student.getProjects().stream())
+                .filter(project -> project.getTasks().stream()
+                        .anyMatch(task -> task.getId() == taskId))
+                .findFirst()
+                .ifPresent(project -> {
+                    List<Task> tasks = project.getTasks();
+                    tasks.stream()
+                            .filter(task -> task.getId() == taskId)
+                            .findFirst()
+                            .ifPresent(task -> {
+                                task.setName(updatedTask.getName());
+                                task.setDescription(updatedTask.getDescription());
+                                task.setExpectedTime(updatedTask.getExpectedTime());
+                                task.setDeadline(updatedTask.getDeadline());
+                                task.setCompleted(updatedTask.getCompleted());
+                            });
+                });
 
         return FileHandler.writeData(students);
-    } 
+    }
 
     /**
-     * TODO: Document function.
+     * Deletes a task with a given taskId from all projects of all students and
+     * returns
+     * whether the data was successfully written.
      * 
-     * @param taskId
-     * @return
+     * @param taskId The unique identifier of the task that needs to be deleted.
+     * @return Whether the task was successfully deleted or not.
      */
     public static boolean deleteTask(int taskId) {
         List<Student> students = Student.getAllStudents();
-        
-        students.forEach(student -> student.getProjects().forEach(project ->
-                project.getTasks().removeIf(task -> task.getId() == taskId)));
+
+        students.forEach(student -> student.getProjects()
+                .forEach(project -> project.getTasks().removeIf(task -> task.getId() == taskId)));
 
         return FileHandler.writeData(students);
-    } 
+    }
 
+    /**
+     * Generates a new task ID by finding the maximum ID from a list of tasks and
+     * incrementing it by 1.
+     * 
+     * @return The new generated new task ID.
+     */
     public static int generateNewTaskId() {
         List<Task> taskList = getAllTasks();
-        
-        if (taskList.isEmpty()) return 1;
+
+        if (taskList.isEmpty())
+            return 1;
         int maxId = taskList.stream()
                 .mapToInt(Task::getId)
                 .max()

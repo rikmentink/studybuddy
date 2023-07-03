@@ -7,7 +7,7 @@ import { formDataToJson } from '../utils/utils.js';
 import { URL_PREFIX } from '../config.js';
 
 class ProjectListView {
-    
+
     /**
      * Initializes variables and adds an event listener to render projects when
      * the page is loaded.
@@ -17,7 +17,7 @@ class ProjectListView {
         this.projectCardTemplate = document.querySelector('#projectCardTemplate');
 
         window.addEventListener('DOMContentLoaded', this.renderProjects.bind(this));
-        
+
         document.querySelector('#addProjectFormSubmit').addEventListener('click', () => {
             const form = document.querySelector('#addProjectForm')
             this.addProjectFormSubmit(form);
@@ -25,7 +25,7 @@ class ProjectListView {
         document.querySelector('#showAddProjectFormDialog').addEventListener('click', () => {
             document.querySelector('#addProjectFormDialog').showModal();
         });
-        
+
         document.querySelector('#closeAddProjectFormDialog').addEventListener('click', () => {
             document.querySelector('#addProjectFormDialog').close();
         });
@@ -71,7 +71,7 @@ class ProjectListView {
         const projectProgressValue = projectProgress % 1 === 0 ? projectProgress.toFixed(0) : projectProgress.toFixed(1);
 
         // projectCard.querySelector('#image').src = 
-        projectCard.querySelector('#title').textContent       = project.name;
+        projectCard.querySelector('#title').textContent = project.name;
         projectCard.querySelector('#url').href = `${URL_PREFIX}/project.html?project=${project.id}`
         projectCard.querySelector('#progress').value = projectProgress;
         projectCard.querySelector('#progressValue').textContent = `${projectProgressValue} %`;
@@ -92,9 +92,9 @@ class ProjectListView {
         return projectCard;
     }
 
-   /**
-    * Clears the project list by removing all its child elements.
-    */
+    /**
+     * Clears the project list by removing all its child elements.
+     */
     static clearProjectList() {
         while (this.projectList.firstChild) {
             this.projectList.firstChild.remove();
@@ -113,13 +113,13 @@ class ProjectListView {
 
         if (data.name) {
             ProjectService.addProject(studentId, data)
-            .then(() => {
-                window.location.reload();
-            })
-            .catch(() => {
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch(() => {
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -129,24 +129,24 @@ class ProjectListView {
     static async computeProjectProgress(projectId) {
         try {
             const [totalTasks, completedTasks, totalObjectives, passedObjectives] = await Promise.all([
-              TaskService.getTasks(projectId).then(data => data.length),
-              TaskService.getTasks(projectId)
-                .then(data => {
-                    const completedTasks = data.filter(task => task.completed);
-                    return completedTasks.length;              
-                }),
-              ObjectiveService.getObjectives(projectId).then(data => data.length),
-              ObjectiveService.getObjectives(projectId)
-                .then(data => {
-                    const today = new Date();
-                    const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
-                    return passedObjectives.length;
-                })
+                TaskService.getTasks(projectId).then(data => data.length),
+                TaskService.getTasks(projectId)
+                    .then(data => {
+                        const completedTasks = data.filter(task => task.completed);
+                        return completedTasks.length;
+                    }),
+                ObjectiveService.getObjectives(projectId).then(data => data.length),
+                ObjectiveService.getObjectives(projectId)
+                    .then(data => {
+                        const today = new Date();
+                        const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
+                        return passedObjectives.length;
+                    })
             ]);
-        
+
             const totalItems = totalTasks + totalObjectives;
             const completedItems = completedTasks + passedObjectives;
-        
+
             const progressPercentage = (completedItems / totalItems) * 100;
 
             return progressPercentage;

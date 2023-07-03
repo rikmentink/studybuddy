@@ -29,7 +29,7 @@ public class AuthController {
      * When a request is successful, return a JSON web token in the response.
      * 
      * @param request The login request with the user data.
-     * @return A response containing a JWT and user id if succesful, otherwise 
+     * @return A response containing a JWT and user id if succesful, otherwise
      *         returns error 401.
      */
     @POST
@@ -48,7 +48,8 @@ public class AuthController {
             return Response.ok(response).build();
         }
 
-        return Response.status(Response.Status.UNAUTHORIZED).entity(new SimpleEntry<>("message", "The username or password is incorrect!")).build();
+        return Response.status(Response.Status.UNAUTHORIZED)
+                .entity(new SimpleEntry<>("message", "The username or password is incorrect!")).build();
     }
 
     /**
@@ -57,7 +58,7 @@ public class AuthController {
      * return a JSON web token and the account ID in the response.
      * 
      * @param request The register request with the user data.
-     * @return A response containing a JWT and user ID if succesful, otherwise 
+     * @return A response containing a JWT and user ID if succesful, otherwise
      *         returns error 401.
      */
     @POST
@@ -65,17 +66,21 @@ public class AuthController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(RegisterRequest request) {
-        if (request.firstname == null || request.lastname == null || request.email == null || request.password == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(new SimpleEntry<>("message", "Required information is missing.")).build();
+        if (request.firstname == null || request.lastname == null || request.email == null
+                || request.password == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(new SimpleEntry<>("message", "Required information is missing.")).build();
         }
 
         if (!isEmailUnique(request.email)) {
-            return Response.status(Response.Status.CONFLICT).entity(new SimpleEntry<>("message", "This email address is already in use.")).build();
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(new SimpleEntry<>("message", "This email address is already in use.")).build();
         }
 
         int userId = saveAccountDetails(request);
         if (userId == -1) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new SimpleEntry<>("message", "Failed to save account details.")).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new SimpleEntry<>("message", "Failed to save account details.")).build();
         }
 
         String token = generateToken(request.email);
@@ -87,10 +92,10 @@ public class AuthController {
     }
 
     /**
-     * Authenticates a user by checking if their email and password match any 
+     * Authenticates a user by checking if their email and password match any
      * of the students' email and password from the data.
      * 
-     * @param email The email address of the user trying to authenticate.
+     * @param email    The email address of the user trying to authenticate.
      * @param password The password entered by the user trying to authenticate.
      * @return Returns whether a match of email and password was found in data.
      */
@@ -98,14 +103,14 @@ public class AuthController {
         List<Student> users = Student.getAllStudents();
 
         return users.stream()
-            .filter(user -> {
-                String userEmail = user.getEmail();
-                String userPassword = user.getPassword();
-                
-                return userEmail.equals(email) && userPassword.equals(password);
-            })
-            .findFirst()
-            .orElse(null);
+                .filter(user -> {
+                    String userEmail = user.getEmail();
+                    String userPassword = user.getPassword();
+
+                    return userEmail.equals(email) && userPassword.equals(password);
+                })
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -138,25 +143,30 @@ public class AuthController {
     }
 
     /**
-     * The function creates a new student object with the details provided in the register request and
+     * The function creates a new student object with the details provided in the
+     * register request and
      * adds it to a list of students.
      * 
-     * @param request The parameter "request" is of type RegisterRequest, which is likely a custom
-     * class that contains the details of a student's registration request, such as their first name,
-     * last name, email, and password.  
-     * @return The method `saveAccountDetails` is returning an integer value which is the result of
-     * calling the static method `addStudent` of the `Student` class with the `student` object as a
-     * parameter. The integer value returned by `addStudent` is likely an identifier or index assigned
-     * to the newly created student object.
+     * @param request The parameter "request" is of type RegisterRequest, which is
+     *                likely a custom
+     *                class that contains the details of a student's registration
+     *                request, such as their first name,
+     *                last name, email, and password.
+     * @return The method `saveAccountDetails` is returning an integer value which
+     *         is the result of
+     *         calling the static method `addStudent` of the `Student` class with
+     *         the `student` object as a
+     *         parameter. The integer value returned by `addStudent` is likely an
+     *         identifier or index assigned
+     *         to the newly created student object.
      */
     private int saveAccountDetails(RegisterRequest request) {
         Student student = new Student(
-            request.firstname,
-            request.lastname,
-            request.email,
-            request.password,
-            new ArrayList<>()
-        );
+                request.firstname,
+                request.lastname,
+                request.email,
+                request.password,
+                new ArrayList<>());
         return Student.addStudent(student);
     }
 }

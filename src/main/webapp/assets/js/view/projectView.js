@@ -4,7 +4,7 @@ import TaskService from '../service/taskService.js';
 import { formDataToJson } from '../utils/utils.js';
 
 class ProjectView {
-    
+
     /**
      * Initializes variables and adds an event listener to render projects when
      * the page is loaded.
@@ -27,14 +27,14 @@ class ProjectView {
                 document.querySelector('.js-project-tasks-total').parentElement.style.display = 'none';
             } else {
                 document.querySelector('.js-project-tasks-completed').textContent = await this.getAmountOfTasksCompleted();
-                document.querySelector('.js-project-tasks-total').textContent = tasks;    
+                document.querySelector('.js-project-tasks-total').textContent = tasks;
             }
 
             if (objectives == null && objectives.length == 0) {
                 document.querySelector('.js-project-objectives-total').parentElement.style.display = 'none';
             } else {
                 document.querySelector('.js-project-objectives-passed').textContent = await this.getAmountOfObjectivesPassed();
-                document.querySelector('.js-project-objectives-total').textContent = objectives;    
+                document.querySelector('.js-project-objectives-total').textContent = objectives;
             }
 
             document.querySelector('.js-project-progress').value = progress;
@@ -45,7 +45,7 @@ class ProjectView {
             console.error(err);
             window.location.href = 'projects.html';
         });
-        
+
         this.objectiveList = document.querySelector('#objectiveList');
         this.objectiveRowTemplate = document.querySelector('#objectiveRowTemplate');
         this.taskList = document.querySelector('#taskList');
@@ -69,7 +69,7 @@ class ProjectView {
             this.deleteProject();
             window.location.href = 'projects.html'
         })
-        
+
         // Event listeners for add objective form
         document.querySelector('#addObjectiveFormSubmit').addEventListener('click', () => {
             const form = document.querySelector('#addObjectiveForm');
@@ -187,7 +187,7 @@ class ProjectView {
 
         taskRow.querySelector('.task-row').setAttribute('data-id', task.id)
         taskRow.querySelector('#name').textContent = task.name;
-    
+
         if (task.expectedTime) {
             taskRow.querySelector('#expectedTime').textContent = task.expectedTime + ' uur';
         } else {
@@ -267,14 +267,14 @@ class ProjectView {
                 data.deadline = data.deadline.split('T').join(' ');
             }
             TaskService.addTask(this.projectId, data)
-            .then(() => {
-                document.querySelector('#addTaskFormDialog').close();
-                this.renderData();
-            })
-            .catch(() => {
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    document.querySelector('#addTaskFormDialog').close();
+                    this.renderData();
+                })
+                .catch(() => {
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -295,14 +295,14 @@ class ProjectView {
                 data.deadline = data.deadline.split('T').join(' ');
             }
             ObjectiveService.addObjective(this.projectId, data)
-            .then(() => {
-                document.querySelector('#addObjectiveFormDialog').close();
-                this.renderData();
-            })
-            .catch(() => {
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    document.querySelector('#addObjectiveFormDialog').close();
+                    this.renderData();
+                })
+                .catch(() => {
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -316,16 +316,16 @@ class ProjectView {
      */
     static initTaskForm(taskId) {
         const form = document.querySelector('#updateTaskForm');
-        
-        TaskService.getTask(taskId)
-        .then(task => {
-            form.dataset.id = task.id;
-            form.querySelector('#name').value = task.name;
 
-            if (task.description) form.querySelector('#description').value = task.description;
-            if (task.expectedTime) form.querySelector('#expectedTime').value = task.expectedTime;
-            if (task.deadline) form.querySelector('#deadline').value = task.deadline;
-        });
+        TaskService.getTask(taskId)
+            .then(task => {
+                form.dataset.id = task.id;
+                form.querySelector('#name').value = task.name;
+
+                if (task.description) form.querySelector('#description').value = task.description;
+                if (task.expectedTime) form.querySelector('#expectedTime').value = task.expectedTime;
+                if (task.deadline) form.querySelector('#deadline').value = task.deadline;
+            });
     }
 
     /**
@@ -335,37 +335,37 @@ class ProjectView {
      */
     static initTaskDetails(taskId) {
         const form = document.querySelector('#taskAndObjectiveDetails');
-        
+
         TaskService.getTask(taskId)
-        .then(task => {
-            form.querySelector('#name').textContent = task.name;
+            .then(task => {
+                form.querySelector('#name').textContent = task.name;
 
-            if (task.description) {
-                form.querySelector('#description').textContent = task.description;
-            } else {
-                form.querySelector('#description').style.display = 'none';
-            }
+                if (task.description) {
+                    form.querySelector('#description').textContent = task.description;
+                } else {
+                    form.querySelector('#description').style.display = 'none';
+                }
 
-            if (task.expectedTime) {
-                form.querySelector('#expectedTime').textContent = task.expectedTime;
-            } else {
-                form.querySelector('#expectedTime').style.display = 'none';
-            }
+                if (task.expectedTime) {
+                    form.querySelector('#expectedTime').textContent = task.expectedTime;
+                } else {
+                    form.querySelector('#expectedTime').style.display = 'none';
+                }
 
-            if (task.deadline) {
-                form.querySelector('#deadline').textContent = task.deadline;
-            } else {
-                form.querySelector('#deadline').parentElement.style.display = 'none';
-            }
+                if (task.deadline) {
+                    form.querySelector('#deadline').textContent = task.deadline;
+                } else {
+                    form.querySelector('#deadline').parentElement.style.display = 'none';
+                }
 
-            if (task.completed != null) {
-                form.querySelector('#status').textContent = task.completed ? 'Voltooid' : 'Niet voltooid';
-            } else {
-                form.querySelector('#status').parentElement.style.display = 'none';
-            }
+                if (task.completed != null) {
+                    form.querySelector('#status').textContent = task.completed ? 'Voltooid' : 'Niet voltooid';
+                } else {
+                    form.querySelector('#status').parentElement.style.display = 'none';
+                }
 
-            form.style.display = 'block';
-        });
+                form.style.display = 'block';
+            });
     }
 
     /**
@@ -376,16 +376,16 @@ class ProjectView {
      */
     static initObjectiveForm(objectiveId) {
         const form = document.querySelector('#updateObjectiveForm');
-        
-        ObjectiveService.getObjective(objectiveId)
-        .then(objective => {
-            form.dataset.id = objective.id;
-            form.querySelector('#name').value = objective.name;
 
-            if (objective.description) form.querySelector('#description').value = objective.description;
-            if (objective.expectedTime) form.querySelector('#expectedTime').value = objective.expectedTime;
-            if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
-        });
+        ObjectiveService.getObjective(objectiveId)
+            .then(objective => {
+                form.dataset.id = objective.id;
+                form.querySelector('#name').value = objective.name;
+
+                if (objective.description) form.querySelector('#description').value = objective.description;
+                if (objective.expectedTime) form.querySelector('#expectedTime').value = objective.expectedTime;
+                if (objective.deadline) form.querySelector('#deadline').value = objective.deadline;
+            });
     }
 
     /**
@@ -395,32 +395,32 @@ class ProjectView {
      */
     static initObjectiveDetails(objectiveId) {
         const form = document.querySelector('#taskAndObjectiveDetails');
-        
+
         ObjectiveService.getObjective(objectiveId)
-        .then(objective => {
-            form.querySelector('#name').textContent = objective.name;
+            .then(objective => {
+                form.querySelector('#name').textContent = objective.name;
 
-            if (objective.description) {
-                form.querySelector('#description').textContent = objective.description;
-            } else {
-                form.querySelector('#description').style.display = 'none';
-            }
+                if (objective.description) {
+                    form.querySelector('#description').textContent = objective.description;
+                } else {
+                    form.querySelector('#description').style.display = 'none';
+                }
 
-            if (objective.expectedTime) {
-                form.querySelector('#expectedTime').textContent = objective.expectedTime;
-            } else {
-                form.querySelector('#expectedTime').style.display = 'none';
-            }
+                if (objective.expectedTime) {
+                    form.querySelector('#expectedTime').textContent = objective.expectedTime;
+                } else {
+                    form.querySelector('#expectedTime').style.display = 'none';
+                }
 
-            if (objective.deadline) {
-                form.querySelector('#deadline').textContent = objective.deadline;
-            } else {
-                form.querySelector('#deadline').parentElement.style.display = 'none';
-            }
+                if (objective.deadline) {
+                    form.querySelector('#deadline').textContent = objective.deadline;
+                } else {
+                    form.querySelector('#deadline').parentElement.style.display = 'none';
+                }
 
-            form.querySelector('#status').parentElement.style.display = 'none';
-            form.style.display = 'block';
-        });
+                form.querySelector('#status').parentElement.style.display = 'none';
+                form.style.display = 'block';
+            });
     }
 
     /**
@@ -438,15 +438,15 @@ class ProjectView {
                 data.deadline = data.deadline.split('T').join(' ');
             }
             TaskService.updateTask(taskId, data)
-            .then(() => {
-                document.querySelector('#updateTaskFormDialog').close();
-                this.renderData();
-            })
-            .catch(err => {
-                console.log(err)
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    document.querySelector('#updateTaskFormDialog').close();
+                    this.renderData();
+                })
+                .catch(err => {
+                    console.log(err)
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -468,14 +468,14 @@ class ProjectView {
                 data.deadline = data.deadline.split('T').join(' ');
             }
             ObjectiveService.updateObjective(objectiveId, data)
-            .then(() => {
-                document.querySelector('#updateObjectiveFormDialog').close();
-                this.renderData();
-            })
-            .catch(() => {
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    document.querySelector('#updateObjectiveFormDialog').close();
+                    this.renderData();
+                })
+                .catch(() => {
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -487,16 +487,16 @@ class ProjectView {
      */
     static initProjectForm() {
         const form = document.querySelector('#updateProjectForm');
-        
-        ProjectService.getProject(this.projectId)
-        .then(project => {
-            form.dataset.id = project.id;
-            form.querySelector('#name').value = project.name;
 
-            if (project.description) form.querySelector('#description').value = project.description;
-            if (project.startDate) form.querySelector('#startDate').value = project.startDate;
-            if (project.endDate) form.querySelector('#endDate').value = project.endDate;
-        });
+        ProjectService.getProject(this.projectId)
+            .then(project => {
+                form.dataset.id = project.id;
+                form.querySelector('#name').value = project.name;
+
+                if (project.description) form.querySelector('#description').value = project.description;
+                if (project.startDate) form.querySelector('#startDate').value = project.startDate;
+                if (project.endDate) form.querySelector('#endDate').value = project.endDate;
+            });
     }
 
     /**
@@ -514,14 +514,14 @@ class ProjectView {
                 data.deadline = data.deadline.split('T').join(' ');
             }
             ProjectService.updateProject(projectId, data)
-            .then(() => {
-                document.querySelector('#updateProjectFormDialog').close();
-                window.location.reload();
-            })
-            .catch(() => {
-                message.classList.add('error');
-                message.textContent = 'Something went wrong!';
-            });
+                .then(() => {
+                    document.querySelector('#updateProjectFormDialog').close();
+                    window.location.reload();
+                })
+                .catch(() => {
+                    message.classList.add('error');
+                    message.textContent = 'Something went wrong!';
+                });
         } else {
             message.classList.add('error');
             message = 'Please enter a valid name!';
@@ -536,21 +536,21 @@ class ProjectView {
     }
 
     static handleCompleteTask(task) {
-        return function(e) {
+        return function (e) {
             task.completed = e.currentTarget.checked;
             TaskService.updateTask(task.id, task);
         };
     }
 
     static handleUpdateTask(taskId) {
-        return function() {
+        return function () {
             this.initTaskForm(taskId);
             document.querySelector('#updateTaskFormDialog').showModal();
         };
     }
 
     static handleDeleteTask(taskId) {
-        return function() {
+        return function () {
             TaskService.deleteTask(taskId)
                 .catch(err => {
                     console.error("Error while deleting task:", err);
@@ -561,20 +561,20 @@ class ProjectView {
     }
 
     static handleViewTask(taskId) {
-        return function() {
+        return function () {
             this.initTaskDetails(taskId);
         }
     }
 
     static handleUpdateObjective(objectiveId) {
-        return function() {
+        return function () {
             this.initObjectiveForm(objectiveId);
             document.querySelector('#updateObjectiveFormDialog').showModal();
         };
     }
 
     static handleDeleteObjective(objectiveId) {
-        return function() {
+        return function () {
             ObjectiveService.deleteObjective(objectiveId)
                 .catch(err => {
                     console.error("Error while deleting objective:", err);
@@ -585,7 +585,7 @@ class ProjectView {
     }
 
     static handleViewObjective(objectiveId) {
-        return function() {
+        return function () {
             this.initObjectiveDetails(objectiveId);
         }
     }
@@ -593,15 +593,15 @@ class ProjectView {
     static async computeProgress() {
         try {
             const [totalTasks, completedTasks, totalObjectives, passedObjectives] = await Promise.all([
-              this.getAmountOfTasks(),
-              this.getAmountOfTasksCompleted(),
-              this.getAmountOfObjectives(),
-              this.getAmountOfObjectivesPassed()
+                this.getAmountOfTasks(),
+                this.getAmountOfTasksCompleted(),
+                this.getAmountOfObjectives(),
+                this.getAmountOfObjectivesPassed()
             ]);
-        
+
             const totalItems = totalTasks + totalObjectives;
             const completedItems = completedTasks + passedObjectives;
-        
+
             const progressPercentage = (completedItems / totalItems) * 100;
 
             return progressPercentage;
@@ -619,28 +619,28 @@ class ProjectView {
                 this.getAmountOfObjectives(),
                 this.getAmountOfObjectivesPassed()
             ]);
-    
+
             const uncompletedTasks = totalTasks - completedTasks;
             const futureObjectives = totalObjectives - passedObjectives;
-    
+
             let remainingTime = 0;
-    
+
             const tasks = await TaskService.getTasks(this.projectId);
             const objectives = await ObjectiveService.getObjectives(this.projectId);
-    
+
             for (const task of tasks.slice(completedTasks, completedTasks + uncompletedTasks)) {
                 remainingTime += task.expectedTime || 0;
             }
-    
+
             for (const objective of objectives.slice(passedObjectives, passedObjectives + futureObjectives)) {
                 remainingTime += objective.expectedTime || 0;
             }
-    
+
             return remainingTime;
         } catch (error) {
             console.error("Error while calculating total expected time:", error);
-            return 0; 
-        }     
+            return 0;
+        }
     }
 
     static getAmountOfTasks() {
@@ -649,10 +649,10 @@ class ProjectView {
 
     static getAmountOfTasksCompleted() {
         return TaskService.getTasks(this.projectId)
-                .then(data => {
-                    const completedTasks = data.filter(task => task.completed);
-                    return completedTasks.length;              
-                });
+            .then(data => {
+                const completedTasks = data.filter(task => task.completed);
+                return completedTasks.length;
+            });
     }
 
     static getAmountOfObjectives() {
@@ -661,11 +661,11 @@ class ProjectView {
 
     static getAmountOfObjectivesPassed() {
         return ObjectiveService.getObjectives(this.projectId)
-                .then(data => {
-                    const today = new Date();
-                    const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
-                    return passedObjectives.length;
-                });
+            .then(data => {
+                const today = new Date();
+                const passedObjectives = data.filter(objective => new Date(objective.deadline) < today)
+                return passedObjectives.length;
+            });
     }
 }
 

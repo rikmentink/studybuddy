@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="nl" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registreren | StudyBuddy</title>
-    <meta name="description" content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
-    <base href="/studybuddy-1.2.0/" target="_self">
+    <meta name="description"
+        content="Organiseer je studieleven moeiteloos met StudyBuddy, de studieplanner speciaal ontworpen voor studenten.">
+    <base href="/" target="_self">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="assets/img/favicon.ico">
@@ -22,6 +24,7 @@
     <!-- CSS & JS -->
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container">
@@ -44,16 +47,17 @@
                                 <label class="form-field__label" for="email">E-mailadres</label>
                                 <input class="form-field__input" id="email" name="email" type="email">
                             </div>
-                            
+
                             <div class="form-field">
                                 <label class="form-field__label" for="password">Wachtwoord</label>
                                 <input class="form-field__input" id="password" name="password" type="password">
                             </div>
                         </section>
-        
+
                         <section>
                             <p>
-                                <button class="btn btn--primary" type="button" id="registerFormSubmit">Registreren</button>
+                                <button class="btn btn--primary" type="button"
+                                    id="registerFormSubmit">Registreren</button>
                                 <a href="auth/login.html" title="Maak hier een account aan.">Ik heb al een account</a>
                             </p>
                             <p id="registerFormMessage"></p>
@@ -62,7 +66,9 @@
                 </div>
             </main>
             <footer class="footer">
-                <p>&copy; <script>document.write(new Date().getFullYear());</script> StudyBuddy.</p>
+                <p>&copy;
+                    <script>document.write(new Date().getFullYear());</script> StudyBuddy.
+                </p>
             </footer>
         </div>
     </div>
@@ -71,4 +77,5 @@
     <script type="module" src="assets/js/view/registerView.js"></script>
     <script type="module" src="assets/js/app.js"></script>
 </body>
+
 </html>

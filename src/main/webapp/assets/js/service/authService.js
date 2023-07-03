@@ -57,12 +57,12 @@ export default class AuthService {
     static removeUserFromStorage() {
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('user');
-    } 
+    }
 
     static requiresAuthentication() {
         const restrictedPages = [
-            `${URL_PREFIX}/auth/login.html`, 
-            `${URL_PREFIX}/auth/register.html`, 
+            `${URL_PREFIX}/auth/login.html`,
+            `${URL_PREFIX}/auth/register.html`,
             `${URL_PREFIX}/auth/forgot-password.html`
         ];
         const currentPage = window.location.pathname;

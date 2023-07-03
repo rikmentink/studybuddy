@@ -25,6 +25,13 @@ import me.rikmentink.studybuddy.model.Task;
 @Path("/projects")
 public class ProjectController {
 
+    /**
+     * Retrieves a list of projects and returns a response with the projects in JSON
+     * format.
+     * 
+     * @return A Response object containing all projects found, or status 204 (No
+     *         Content) whether none were found.
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProjects() {
@@ -37,6 +44,16 @@ public class ProjectController {
         return Response.ok(projects).build();
     }
 
+    /**
+     * Retrieves a project with a given ID and returns it as a JSON response, or
+     * returns a 404
+     * error if the project is not found.
+     * 
+     * @param projectId The ID of the project that
+     *                  we want to retrieve.
+     * @return A Response object containing the project found, or status 404 (Not
+     *         Found) whether no project was found with this ID.
+     */
     @GET
     @Path("/{projectId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,11 +143,11 @@ public class ProjectController {
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())
-            .path("projects")
-            .path(String.valueOf(projectId))
-            .path("objectives")
-            .path(String.valueOf(objective.getId()))
-            .build();
+                .path("projects")
+                .path(String.valueOf(projectId))
+                .path("objectives")
+                .path(String.valueOf(objective.getId()))
+                .build();
         return Response.created(location).entity(objective).build();
     }
 
@@ -165,11 +182,11 @@ public class ProjectController {
         }
 
         URI location = UriBuilder.fromUri(uri.getBaseUri())
-            .path("projects")
-            .path(String.valueOf(projectId))
-            .path("tasks")
-            .path(String.valueOf(task.getId()))
-            .build();
+                .path("projects")
+                .path(String.valueOf(projectId))
+                .path("tasks")
+                .path(String.valueOf(task.getId()))
+                .build();
         return Response.created(location).entity(task).build();
     }
 }
